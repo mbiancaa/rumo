@@ -13,7 +13,7 @@ import GDPR from './pages/GDPR';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/rumo">
       <div className="app">
         <Routes>
           <Route path="/" element={<Home />} />
