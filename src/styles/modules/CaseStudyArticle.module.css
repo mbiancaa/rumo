@@ -1,0 +1,153 @@
+.bgImg {
+    position: relative;
+    width: 100%;
+    min-height: 70dvh;
+    height: 70dvh;
+    max-height: 70dvh;
+    overflow: hidden;
+    background-position: center top;
+}
+
+.bgImg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: rgba(0, 0, 0, .5);
+}
+
+.category {
+    padding: 6px 14px;
+    background: var(--white);
+    border-radius: 20px;
+    color: var(--black);
+    font-weight: 500;
+    font-family: 'Kanit';
+    font-size: 14px;
+    height: 33px;
+    align-self: flex-start;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, .2);
+    transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+}
+
+.category:hover {
+    background-color: var(--blue);
+    color: var(--white);
+    box-shadow: 0 0 8px var(--blue);
+    transition: background-color 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+}
+
+.title {
+    font-size: 75px;
+    line-height: 90px;
+    margin-top: 100px;
+    margin-bottom: 60px;
+    position: relative;
+    color: var(--blue)
+}
+
+.logoContainer img {
+    width: 120px;
+    height: 120px;
+    background: var(--white);
+    border-radius: 50%;
+    padding: 0 10px 15px 10px;
+}
+
+.infoHighlight {
+    background: var(--light-blue);
+    margin-top: -160px;
+    border-radius: 120px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.textInfoContainer h2.companyName {
+    margin: 20px 0 10px 0 !important;
+    font-size: 32px;
+    line-height: 36px;
+    color: var(--green);
+}
+
+.textInfoContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.textInfo {
+    display: flex;
+    align-items: center;
+}
+
+
+.articleContent p {
+    font-size: 20px;
+    line-height: 28px;
+    margin: 15px 0
+}
+
+.articleContent h2 {
+    font-size: 26px;
+    line-height: 32px;
+    margin: 30px 0 20px;
+}
+
+.articleContent h3 {
+    font-size: 24px;
+    line-height: 30px;
+    margin: 20px 0 15px
+}
+
+.articleContent h4,
+.articleContent h5,
+.articleContent h6 {
+    font-size: 22px;
+    line-height: 30px;
+    margin: 15px 0
+}
+
+.articleContent ul {
+    margin: 25px 0
+}
+
+.articleContent ul li {
+    font-size: 20px;
+    line-height: 28px
+}
+
+.articleContent ul li:before {
+    top: 12px;
+    transform: translateY(0);
+}
+
+.articleContent a {
+    color: var(--blue);
+    text-decoration: underline;
+}
+
+.date {
+    font-size: 16px;
+    color: var(--light-grey);
+    font-weight: 500;
+    padding-right: 15px;
+    margin-right: 15px;
+    border-right: 2px solid var(--grey);
+}
+
+.bold {
+    color: var(--grey);
+    font-weight: 900;
+    font-size: 16px
+}
+
+.services {
+    font-size: 16px;
+    color: var(--light-grey);
+    font-weight: 500;
+}

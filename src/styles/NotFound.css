@@ -1,0 +1,39 @@
+.wave-container {
+    text-align: center;
+}
+
+.wave-text span {
+    display: inline-block;
+    font-size: 200px;
+    animation: wave 2s ease-in-out infinite;
+    font-family: 'Kanit';
+    letter-spacing: 10px;
+    background: -webkit-linear-gradient(var(--green), var(--blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 200px;
+}
+
+.wave-text span:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.wave-text span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.wave-text span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes wave {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-40px);
+    }
+}
