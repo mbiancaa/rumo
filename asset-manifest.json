@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/rumo/static/css/main.11e13fd3.css",
-    "main.js": "/rumo/static/js/main.db5f9120.js",
+    "main.js": "/rumo/static/js/main.803c40f4.js",
     "static/js/453.d978c9f5.chunk.js": "/rumo/static/js/453.d978c9f5.chunk.js",
     "static/media/branding.jpg": "/rumo/static/media/branding.5df5b03c23775a6eda62.jpg",
     "static/media/close-up-businesswoman-businessman-shaking-hands.jpg": "/rumo/static/media/close-up-businesswoman-businessman-shaking-hands.ef93bf5b25a255944c50.jpg",
@@ -49,11 +49,11 @@
     "index.html": "/rumo/index.html",
     "static/media/quote-icon2.svg": "/rumo/static/media/quote-icon2.1b78b402a8e152f2abfa04d5a269df67.svg",
     "main.11e13fd3.css.map": "/rumo/static/css/main.11e13fd3.css.map",
-    "main.db5f9120.js.map": "/rumo/static/js/main.db5f9120.js.map",
+    "main.803c40f4.js.map": "/rumo/static/js/main.803c40f4.js.map",
     "453.d978c9f5.chunk.js.map": "/rumo/static/js/453.d978c9f5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.11e13fd3.css",
-    "static/js/main.db5f9120.js"
+    "static/js/main.803c40f4.js"
   ]
 }
