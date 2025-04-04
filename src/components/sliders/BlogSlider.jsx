@@ -1,7 +1,8 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import BlogImage from '../../assets/team_members/team2.png';
+import BlogImage from '../../assets/agency-img1.png';
+import BlogBox from "../BlogBox";
 
 const BlogSlider = () => {
     var settings = {
@@ -20,50 +21,12 @@ const BlogSlider = () => {
     return (
         <div className="blogSlider">
             <Slider {...settings}>
-                <article className="blogBox">
-                    <img src={BlogImage} />
-                    <div className="blogContentWrapper">
-                        <span className="blogCategory">SEO Marketing</span>
-                        <h3 className="blogTitle"><a href="">How to boost your search rankings with keyword optimization</a></h3>
-                        <div className="blogFooter">
-                            <span className="blogDate">7 Mar, 2025</span>
-                            <span className="blogTime">5 min read</span>
-                        </div>
-                    </div>
-                </article>
-                <article className="blogBox">
-                    <img src={BlogImage} />
-                    <div className="blogContentWrapper">
-                        <span className="blogCategory">SEO Marketing</span>
-                        <h3 className="blogTitle"><a href="">How to boost your search rankings with keyword optimization</a></h3>
-                        <div className="blogFooter">
-                            <span className="blogDate">7 Mar, 2025</span>
-                            <span className="blogTime">5 min read</span>
-                        </div>
-                    </div>
-                </article>
-                <article className="blogBox">
-                    <img src={BlogImage} />
-                    <div className="blogContentWrapper">
-                        <span className="blogCategory">SEO Marketing</span>
-                        <h3 className="blogTitle"><a href="">How to boost your search rankings with keyword optimization</a></h3>
-                        <div className="blogFooter">
-                            <span className="blogDate">7 Mar, 2025</span>
-                            <span className="blogTime">5 min read</span>
-                        </div>
-                    </div>
-                </article>
-                <article className="blogBox">
-                    <img src={BlogImage} />
-                    <div className="blogContentWrapper">
-                        <span className="blogCategory">SEO Marketing</span>
-                        <h3 className="blogTitle"><a href="">How to boost your search rankings with keyword optimization</a></h3>
-                        <div className="blogFooter">
-                            <span className="blogDate">7 Mar, 2025</span>
-                            <span className="blogTime">5 min read</span>
-                        </div>
-                    </div>
-                </article>
+                <BlogBox />
+                <BlogBox />
+                <BlogBox />
+                <BlogBox />
+                <BlogBox />
+                <BlogBox />
             </Slider>
         </div>
     );

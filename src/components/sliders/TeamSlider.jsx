@@ -24,7 +24,7 @@ const TeamSlider = () => {
                     <div className="teamMemberImgContainer">
                         <img src={TeamMember} />
                     </div>
-                    <span className="role">CEO | Business Developer | Marketing Director</span>
+                    <span className="role">CEO | Business Developer | Growth marketing strategist</span>
                     <h3 className="teamMemberName">Monica Rusu</h3>
                 </div>
                 <div className="teamMemberContainer">

@@ -1,4 +1,5 @@
 import CaseStudiesSlider from "../components/sliders/CaseStudiesSlider";
+import { NavLink } from "react-router-dom";
 
 const CaseStudiesSection = () => {
 
@@ -23,7 +24,7 @@ const CaseStudiesSection = () => {
                         maxWidth: 390
                     }}>
                         <p style={{ marginBottom: 20 }}>De la vizibilitate la conversii! Studii de caz care demonstrează impactul strategiilor noastre digitale asupra afacerilor mici și mijlocii!</p>
-                        <a href="" className="linkCTA"><span>Vezi aici studiile de caz</span></a>
+                        <NavLink to="/studii-de-caz" className="linkCTA"><span>Vezi aici studiile de caz</span></NavLink>
                     </div>
                 </div>
                 <CaseStudiesSlider />

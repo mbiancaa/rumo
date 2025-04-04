@@ -1,4 +1,5 @@
 import BlogSlider from '../components/sliders/BlogSlider';
+import { NavLink } from 'react-router-dom';
 
 const BlogSection = () => {
 
@@ -23,7 +24,7 @@ const BlogSection = () => {
                         maxWidth: 390
                     }}>
                         <p style={{ marginBottom: 20 }}>Poți într-adevăr să-ți resetezi afacerea sau s-o duci la următorul nivel prin serviciile de marketing online? <br />Vei găsi toate răspunsurile în articolele noastre de blog. Dacă nu citești, n-ai cum să înțelegi! 😃</p>
-                        <a href="" className="linkCTA"><span>Citește articolele aici!</span></a>
+                        <NavLink to="/blog" className="linkCTA"><span>Citește articolele aici!</span></NavLink>
                     </div>
                 </div>
                 <BlogSlider />

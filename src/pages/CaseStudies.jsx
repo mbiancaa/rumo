@@ -1,9 +1,14 @@
 import '../styles/Home.css';
 import '../styles/About.css';
+import '../styles/Pagination.css';
+import '../styles/CaseStudyBox.css';
+import '../styles/Filters.css';
+
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 import HeroSection from '../sections/HeroSection';
+import CaseStudyBox from '../components/CaseStudyBox';
 
 import useInView from '../hooks/useInView';
 
@@ -34,10 +39,36 @@ const CaseStudies = () => {
                     </div>
                 </div>
             </HeroSection>
-
+            <section style={{ padding: '260px 0' }} className="darkbg layout darkbg-sm-img bg-url  imgEffect">
+                <h2 style={{ margin: 'auto', textAlign: 'center' }}>Lucrăm cu branduri mici și mijlocii care aspiră să fie mari!</h2>
+            </section >
             <section className="whitebg layout">
                 <div className="container">
-
+                    <div className="filters">
+                        <span className="active">Cele mai recente</span>
+                        <span>Advertising</span>
+                        <span>Branding</span>
+                        <span>Marketing</span>
+                        <span>SEO</span>
+                        <span>PPC</span>
+                        <span>Social Media Marketing</span>
+                        <span>Web Development</span>
+                    </div>
+                    <div className="caseStudies-container">
+                        <CaseStudyBox />
+                        <CaseStudyBox />
+                        <CaseStudyBox />
+                        <CaseStudyBox />
+                        <CaseStudyBox />
+                        <CaseStudyBox />
+                    </div>
+                    <div className="pagination">
+                        <span className="pageNr active">1</span>
+                        <span className="pageNr ">2</span>
+                        <span className="pageNr ">..</span>
+                        <span className="pageNr ">22</span>
+                        <span className="pageNr nextPage"><span className="arrow"></span></span>
+                    </div>
                 </div>
             </section>
             <Footer />

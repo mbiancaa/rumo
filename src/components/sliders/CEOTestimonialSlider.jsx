@@ -65,7 +65,7 @@ const testimonials = [
     {
         title: "Mă definesc integritatea, evoluția și pasiunea.",
         content: [
-            "Principiile mele profesionale mai includ și: o viziune strategică, comunicare eficientă, orientare spre rezultate și, mai presus de orice, focus pe oameni."
+            "Valorile mele organizationale mai includ: o viziune strategică, comunicare eficientă, orientare spre rezultate și, mai presus de orice, focus pe oameni."
         ]
     },
     {

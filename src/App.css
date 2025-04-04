@@ -361,6 +361,15 @@ header ul li:before {
   background-position: 0 0;
 }
 
+.menu-item .active {
+  opacity: 1 !important;
+}
+
+.menu-item .active .menu-item-txt {
+  color: var(--green);
+
+}
+
 .eq-columns {
   display: flex;
   gap: 60px;
@@ -416,10 +425,72 @@ header ul li:before {
   background: #fff;
   top: 50%;
   transform: translateY(-50%);
-  right: -100px;
+  right: -60px;
+}
+
+.imageRevealEffectBackwards:after {
+
+  transform: translateY(-50%) rotate(180deg);
+  left: -60px;
 }
 
 .imageRevealEffect.show:after {
   width: 0;
   transition: width 1.5s ease-in-out;
+}
+
+.text-content-container p {
+  font-size: 20px;
+  line-height: 28px;
+  margin: 15px 0
+}
+
+.text-content-container h2 {
+  font-size: 26px;
+  line-height: 32px;
+  margin: 30px 0 20px;
+}
+
+.text-content-container h3 {
+  font-size: 24px;
+  line-height: 30px;
+  margin: 35px 0 15px;
+  color: var(--green)
+}
+
+.text-content-container h4,
+.text-content-container h5,
+.text-content-container h6 {
+  font-size: 22px;
+  line-height: 30px;
+  margin: 15px 0
+}
+
+.text-content-container ul {
+  margin: 25px 0
+}
+
+.text-content-container ul li {
+  font-size: 20px;
+  line-height: 28px
+}
+
+.text-content-container ul li:before {
+  top: 12px;
+  transform: translateY(0);
+}
+
+.text-content-container a {
+  color: var(--blue);
+  text-decoration: underline;
+}
+
+.text-content-container ol li::marker {
+  color: var(--green);
+  font-weight: 700;
+  font-size: 20px;
+}
+
+.text-content-container ol li {
+  margin-left: 25px;
 }

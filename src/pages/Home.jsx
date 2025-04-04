@@ -1,4 +1,5 @@
 import '../styles/Home.css';
+import '../styles/Home2.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import MovingImages from '../components/MovingImages';
@@ -13,11 +14,14 @@ import TeamSection from '../sections/TeamSection';
 import BlogSection from '../sections/BlogSection';
 import CaseStudiesSection from '../sections/CaseStudiesSection';
 
+import { NavLink } from 'react-router-dom';
+
+import useInView from '../hooks/useInView';
 
 const Home = () => {
 
     return (
-        <>
+        <div className="Homepage">
 
             <Header />
             <HeroSection>
@@ -47,7 +51,7 @@ const Home = () => {
                             fontSize: 24,
                             letterSpacing: -1,
                         }}>Ajutăm afacerile mici și mijlocii să devină mari!</p>
-                        <a href="" className="CTA_darkbg">Contactează-ne!</a>
+                        <NavLink to="/contact" className="CTA_darkbg">Contactează-ne!</NavLink>
                         <span style={{
                             fontWeight: 'bold',
                             display: 'flex',
@@ -110,7 +114,7 @@ const Home = () => {
                 </div>
             </section >
             <Footer />
-        </>
+        </div>
     );
 }
 

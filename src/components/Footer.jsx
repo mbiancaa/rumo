@@ -9,51 +9,95 @@ import SOL from '../assets/anpc-2.png';
 import InstagramImg from '../assets/social/instagram.png';
 import FacebookImg from '../assets/social/facebook.png';
 import LinkedInImg from '../assets/social/linkedin.png';
-// import YoutubeImg from '../assets/social/youtube.png';
-// import TikTokImg from '../assets/social/tiktok.png';
 
 const Footer = () => {
     return (
-        <section className="layout whitebg">
+        <section className="layout whitebg" id="contact">
             <footer className="footer">
                 <div className="container">
                     <ContactForm />
+                    <div className="site-links">
+                        <div className="links-container" aria-labelledby="Link-uri către serviciile noastre">
+                            <span className="links-title">Servicii</span>
+                            <ul>
+                                <li><NavLink to="/servicii/web-development">Web Development</NavLink></li>
+                                <li><NavLink to="/servicii/reclame-ppc">PPC</NavLink></li>
+                                <li><NavLink to="/servicii/seo">SEO</NavLink></li>
+                                <li><NavLink to="/servicii/social-media-management">Social Media Management</NavLink></li>
+                                <li><NavLink to="/servicii/plan-strategic-de-marketing-online">Plan Strategic de Marketing Online</NavLink></li>
+                                <li><NavLink to="/servicii/branding">Branding</NavLink></li>
+                                <li><NavLink to="/servicii/email-marketing">E-mail Marketing</NavLink></li>
+                            </ul>
+                        </div>
+                        <div className="links-container" aria-labelledby="Link-uri utile">
+                            <span className="links-title">Utile</span>
+                            <ul>
+                                <li><NavLink to="/studii-de-caz">Studii de Caz</NavLink></li>
+                                <li><NavLink to="/blog">Blog</NavLink></li>
+                                <li><NavLink to="/despre-noi">Despre Noi</NavLink></li>
+                                <li><NavLink to="/contact">Contact</NavLink></li>
+                            </ul>
+                        </div>
+                        <div className="links-container" aria-labelledby="Informații de contact">
+                            <ul>
+                                <li>
+                                    <span className="links-contact-text">Sună-ne:</span>
+                                    <a className="links-contact-call" href="tel:+40740344156">+40 740 344 156</a>
+                                </li>
+                                <li>
+                                    <span className="links-contact-text">Solicitări informații generale:</span>
+                                    <a className="links-contact-call" href="mailto:monicarusu@rumodigitalpath.com">contact@rumodigitalpath.com</a>
+                                </li>
+                                <li>
+                                    <span className="links-contact-text">Solicitări oferte de preț:</span>
+                                    <a className="links-contact-call" href="mailto:monicarusu@rumodigitalpath.com">monicarusu@rumodigitalpath.com</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
                     <div className="social-icons">
-                        <a href="#">
-                            <img src={FacebookImg}
-                                alt=""
+                        <a
+                            href="https://www.facebook.com/RUMO.digitalpath"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Vizitează RUMO Digital Path pe Facebook"
+                        >
+                            <img
+                                src={FacebookImg}
+                                alt="Facebook logo către pagina RUMO Digital Path"
                                 width="46"
-                                aria-label=""
+                                height="46"
+                                loading="lazy"
                             />
                         </a>
-                        <a href="#">
-                            <img src={InstagramImg}
-                                alt=""
+                        <a
+                            href="https://www.instagram.com/rumo.digitalpath/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Vizitează RUMO Digital Path pe Instagram"
+                        >
+                            <img
+                                src={InstagramImg}
+                                alt="Siglă Instagram - RUMO Digital Path"
                                 width="46"
-                                aria-label=""
+                                height="46"
+                                loading="lazy"
                             />
                         </a>
-                        <a href="#">
-                            <img src={LinkedInImg}
-                                alt=""
+                        <a
+                            href="https://www.linkedin.com/company/rumo-digital/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Vizitează RUMO Digital pe LinkedIn"
+                        >
+                            <img
+                                src={LinkedInImg}
+                                alt="Siglă LinkedIn - RUMO Digital"
                                 width="46"
-                                aria-label=""
+                                height="46"
+                                loading="lazy"
                             />
                         </a>
-                        {/* <a href="#">
-                            <img src={YoutubeImg}
-                                alt=""
-                                width="55"
-                                aria-label=""
-                            />
-                        </a>
-                        <a href="#">
-                            <img src={TikTokImg}
-                                alt=""
-                                width="60"
-                                aria-label=""
-                            />
-                        </a> */}
                     </div>
                     <div className="logo">
                         <Logo />
@@ -65,11 +109,34 @@ const Footer = () => {
                         <NavLink to="/politica-de-utilizare-cookies">Politica de utilizare cookies</NavLink>
                     </div>
                     <div className="d-flex" style={{ marginTop: 40, gap: 10 }}>
-                        <a rel="nofollow" target="_blank" href="https://anpc.ro/ce-este-sal/">
-                            <img height="35" style={{ marginTop: 3 }} src={ANPC} />
+                        <a
+                            href="https://anpc.ro/ce-este-sal/"
+                            target="_blank"
+                            rel="nofollow noopener noreferrer"
+                            aria-label="Află mai multe despre soluționarea alternativă a litigiilor (SAL) pe site-ul ANPC"
+                        >
+                            <img
+                                src={ANPC}
+                                alt="ANPC - Soluționare Alternativă a Litigiilor (SAL)"
+                                width="auto"
+                                height="35"
+                                loading="lazy"
+                                style={{ marginTop: 3 }}
+                            />
                         </a>
-                        <a rel="nofollow" target="_blank" href="https://ec.europa.eu/consumers/odr">
-                            <img height="40" src={SOL} />
+                        <a
+                            href="https://ec.europa.eu/consumers/odr"
+                            target="_blank"
+                            rel="nofollow noopener noreferrer"
+                            aria-label="Accesează platforma de soluționare online a litigiilor (ODR) a Comisiei Europene"
+                        >
+                            <img
+                                src={SOL}
+                                alt="Platforma ODR - Soluționare online a litigiilor Comisia Europeană"
+                                width="auto"
+                                height="40"
+                                loading="lazy"
+                            />
                         </a>
                     </div>
                 </div>

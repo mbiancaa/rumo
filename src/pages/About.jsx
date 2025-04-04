@@ -14,6 +14,7 @@ import BusinessPrinciplesImg from '../assets/close-up-businesswoman-businessman-
 import ServicesList from '../components/ServicesList';
 
 import useInView from '../hooks/useInView';
+import ValueItems from '../components/ValueItems';
 
 const About = () => {
     const [textRef, textInView] = useInView(100);
@@ -37,9 +38,9 @@ const About = () => {
                         </div>
                     </div>
                     <div ref={descriptionRef} className={`eq-column slideInTextAnimation ${descriptionInView ? "show" : ""}`}>
-                        <h2>Știm câtă <span style={{ color: 'var(--green)', opacity: 0.8, fontFamily: 'Roboto' }}>muncă</span> și <span style={{ color: 'var(--blue)', opacity: 0.8, fontFamily: 'Roboto' }}>pasiune</span> ai investit <br />în afacerea ta.</h2>
-                        <p>De aceea, înainte de orice strategie, te ascultăm, analizăm și înțelegem provocările și oportunitățile pe care le ai.</p>
-                        <p>La RUMO, nu aplicăm soluții universale ci construim un plan digital personalizat, și dezvoltăm strategii care aduc vizibilitate și clienți noi.</p>
+                        <h2 style={{ color: 'var(--black)', fontFamily: 'Roboto', fontWeight: 900 }}>MISIUNE</h2>
+                        <p>Într-o eră de escaladare digitală, misiunea RUMO este aceea de a simplifica viețile dezvoltatorilor de afaceri mici si mijlocii si de a contribui la creșterea lor semnificativă.</p>
+                        <p><span style={{ color: 'var(--blue)' }}>Cum facem asta?</span> Prin soluții complete de marketing digital personalizat, implementate cu integritate și precizie.</p>
                     </div>
                 </div>
             </HeroSection>
@@ -51,7 +52,42 @@ const About = () => {
                     borderBottom: '1px solid var(--white-grey)'
                 }}
                     className="container">
+                    <div className="" style={{
+                        marginBottom: 80
+                    }}>
+                        <h2 style={{
+                            fontSize: 40,
+                            fontWeight: '900',
+                            letterSpacing: -1,
+                            lineHeight: '55px',
+                            color: 'var(--blue)'
+                        }}>În ce mod dorim să contribuim la ecosistemul antreprenorial românesc?</h2>
+                        <p style={{
+                            fontSize: 26,
+                            letterSpacing: -1,
+                            marginBottom: 30,
+                            marginTop: 40,
+                            fontWeight: 400
+                        }}
+                        >Agenția de marketing online, <span style={{ color: 'var(--green)', fontWeight: 600 }}>RUMO</span> a fost fondată de <span style={{ fontWeight: 600 }}>CEO & Founder-ul Rusu Monica</span> si este o agenție <span style={{ color: 'var(--blue)', fontWeight: 500 }}>dedicată creșterii afacerilor mici si mijlocii</span>.</p>
+                        <p style={{
+                            fontSize: 24,
+                            letterSpacing: -1,
+                            marginBottom: 30,
+                        }}>Suntem mai mult decât o agenție de marketing online — suntem parteneri de creștere pentru IMM-urile din România. Credem că impactul real vine din lucruri făcute cu integritate, cu pasiune și cu dorința de a evolua constant.</p>
 
+                        <p style={{
+                            fontSize: 24,
+                            letterSpacing: -1,
+                            marginBottom: 30
+                        }}>Fiecare campanie, fiecare strategie digitală, fiecare colaborare de lungă durată reflectă convingerea noastră că succesul clienților noștri contribuie direct la dezvoltarea economică și socială a României.</p>
+                        <p style={{
+                            fontSize: 24,
+                            letterSpacing: -1,
+                            marginBottom: 30
+                        }}>Valorile de mai jos ne ghidează în modul în care construim parteneriate durabile:</p>
+                        <ValueItems />
+                    </div>
                     <h2 style={{ fontSize: 65, fontWeight: 900, lineHeight: '130px' }}><span style={{ color: 'var(--green)' }}>RUMO</span> – <span style={{ fontFamily: 'Kanit', fontWeight: 700, color: 'var(--grey)' }}>Marketing digital</span> <br /> <span style={{ marginLeft: 200 }}>creat cu pasiune pentru afacerea ta</span></h2>
                     <p style={{
                         fontSize: 24,
@@ -130,7 +166,7 @@ const About = () => {
                         </div>
                     </div>
                 </div>
-            </section>
+            </section >
 
             <section className="whitebg layout">
                 <div ref={imageColumnRef} className={`imageColumn imageRevealEffect ${imageColumnInView ? "show" : ""}`}>
@@ -278,7 +314,7 @@ const About = () => {
                 </div>
             </section>
             <section className="darkbg layout darkbg-sm-img bg-url  imgEffect">
-                <h2>Lucrăm cu branduri mici <br />care aspiră să fie mari!</h2>
+                <h2>Lucrăm cu <br />branduri mici și mijlocii <br />care aspiră să fie mari!</h2>
             </section>
             <section className="whitebg layout">
                 <div className="container">
@@ -327,6 +363,34 @@ const About = () => {
                         fontFamily: 'Kanit',
                         marginTop: 80
                     }}>La RUMO, <br />transformăm <span style={{ color: 'var(--grey)' }}>incertitudinea</span> în <span style={{ color: 'var(--blue)' }}>strategie</span> <br />și <span style={{ color: 'var(--grey)' }}>oportunitățile</span> în <span style={{ color: 'var(--green)' }}>rezultate</span>.</h2>
+                    <div style={{ marginTop: 100 }} className="text-content-container">
+                        <h3>Dacă în această pagină este prea multă informație, citește aici sinteza a tot ceea ne reprezintă:</h3>
+                        <p>Noi suntem RUMO Digital Path, o agenție de marketing online cu o echipă de specialiști entuziaști și dedicați. Ne place să ne provocăm continuu și să oferim clienților noștri metode de creștere a afacerii prin marketing, bazate pe strategii testate și un know-how solid. Iubim să vedem cum brandurile cresc și se dezvoltă, ajungând la nivelul visului lor.</p>
+                        <h3>Misiunea noastră</h3>
+                        <p>Ne concentrăm pe impactul pe care îl putem aduce în dezvoltarea ecosistemului antreprenoriatului românesc. Credem că fiecare afacere are nevoie de susținere strategică, de creativitate și de o abordare integrată pentru a se extinde cu succes. Prin urmare, ne dorim să fim acea agenție de marketing digital care vă ajută să navigați sigur și eficient prin piața competitivă.</p>
+                        <h3>De ce RUMO Digital?</h3>
+                        <ul>
+                            <li><b>Flexibilitate</b>: ne-am dezvoltat abilitatea de a implementa diverse campanii de promovare online în multiple industrii, datorită proiectelor reușite pe care le-am desfășurat.</li>
+                            <li><b>Expertiză</b>: echipa noastră de specialiști se perfecționează constant în strategii SEO, campanii PPC, creare branding și alte tactici moderne de marketing.</li>
+                            <li><b>Rezultate</b>: avem o abordare orientată spre performanță, astfel încât investiția voastră să genereze profit și o creștere sustenabilă.</li>
+                        </ul>
+                        <h3>Ce oferim</h3>
+                        <ul>
+                            <li><b>Servicii de creare website și optimizare pentru conversii</b></li>
+                            <li><b>Servicii SEO</b> pentru a atrage trafic organic de calitate</li>
+                            <li><b>Campanii PPC</b> personalizate</li>
+                            <li><b>Creare branding</b> pentru o identitate memorabilă și unitară</li>
+                            <li><b>Strategie de conținut și campanii de promovare online</b> pentru canalele sociale</li>
+                            <li><b>Analize de cost</b>, menite să asigure un ROI pozitiv și alte servicii</li>
+                        </ul>
+                        <p>Noi credem în puterea colaborării transparente. Suntem convinși că, lucrând împreună, găsim soluții potrivite oricărei provocări de business. De la strategia inițială și până la implementarea tactică, rămânem mereu alături de voi, ajustând planul în funcție de datele reale de pe piață.</p>
+                        <h3>Hai să lucrăm împreună</h3>
+                        <p>Îți dorești să faci un pas înaintea spre realizarea obiectivului tău? <b>Contactează-ne acum</b> și vom începe să planificăm următoarea etapă de dezvoltare a brandului tău!</p>
+                        <p>Știm ce înseamnă presiunea financiară și ne asumăm responsabilitatea de a oferi cele mai bune soluții. Prin experiența acumulată ca agentie de marketing online, ne asigurăm că fiecare canal de promovare este folosit eficient, de la campanii PPC până la tactici de remarketing și optimizare SEO.</p>
+                        <p>Vrei să afli mai multe despre cum îți putem crește afacerea? <b>Programează o discuție gratuită</b> și vom găsi împreună direcțiile potrivite!</p>
+                        <p>Scopul nostru este să vă aducem mai aproape de succes, pas cu pas. Rezultatele susținute și dedicarea cu care facem lucrurile ne-au format reputația de partener de încredere.</p>
+                        <h3>Hai să ne unim forțele pentru succes! Scrie-ne chiar acum!</h3>
+                    </div>
                 </div>
             </section >
             <Footer />

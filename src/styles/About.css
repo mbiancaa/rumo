@@ -1,11 +1,18 @@
 .hero .layout.eq-columns {
-    padding: 20dvh 70px;
+    padding: 130px 70px 100px 70px;
     justify-content: center;
+    max-height: 80dvh;
+    height: 80dvh;
+    min-height: 620px;
 }
 
 .hero .eq-column {
     justify-content: center;
     position: relative;
+}
+
+.hero .eq-column:first-of-type {
+    padding-right: 60px;
 }
 
 .hero .eq-column.separator:after {

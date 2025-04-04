@@ -1,15 +1,19 @@
 section.hero {
-    max-height: 0;
-    height: 0;
-    min-height: 0;
+    max-height: 80dvh;
+    height: 80dvh;
+    min-height: 620px;
     position: relative;
     z-index: 2;
-    padding: 0 0 800px 0;
+    padding: 0 0 0 0;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(0deg, rgba(237, 244, 242, 1) 0%, rgba(255, 255, 255, 1) 15%, rgba(255, 255, 255, 1) 100%);
 }
 
 .hero .content {
     position: fixed;
-    height: 800px;
+    max-height: 80dvh;
+    height: 80dvh;
+    min-height: 620px;
     width: 100dvw;
     max-width: 1600px;
     left: 50%;
@@ -274,17 +278,6 @@ section.hero {
     z-index: -2;
 }
 
-.darkbg-ceo-img {
-    /* background-image: url('../assets/testimonial-bg.png'); */
-    /* background-color: var(--green); */
-    background-image: url('../assets/business-woman-standing-office-formal-wear.jpg');
-    padding-bottom: 0;
-    padding-left: 0;
-    background-position: right;
-    background-repeat: no-repeat;
-    background-size: contain;
-}
-
 .darkbg-sm-img {
     position: relative;
     width: 100%;
@@ -380,15 +373,20 @@ section.hero {
     width: calc(50% - 40px);
 }
 
+.cardBox.d-flex {
+    align-items: center;
+    gap: 65px;
+}
+
 .cardBox h3 span {
     color: var(--green);
     font-weight: 600;
 }
 
 .cardBox h3 {
-    font-size: 28px;
+    font-size: 22px;
     font-family: 'Kanit', sans-serif;
-    line-height: 32px;
+    line-height: 24px;
     margin-bottom: 20px;
     font-weight: 300;
     letter-spacing: 0.6px;
@@ -396,7 +394,7 @@ section.hero {
 
 .cardBox p,
 .cardBox li {
-    font-size: 15px;
+    font-size: 16px;
     line-height: 24px;
     color: var(--light-grey);
 }
@@ -570,7 +568,8 @@ section.hero {
 .caseStudyItem {
     width: 450px;
     display: flex !important;
-    background: #d9ece2;
+    background: var(--light-green);
+    text-decoration: none;
 }
 
 
@@ -614,10 +613,12 @@ section.hero {
     align-items: flex-end;
     height: calc(100% - 80px);
     transition: height .6s ease-in-out;
+
+    color: var(--black);
 }
 
 .caseStudyItem.blue {
-    background: #e0f6ff;
+    background: var(--light-blue);
 }
 
 .caseStudyItem.blue .number {
@@ -683,8 +684,8 @@ section.hero {
 }
 
 .teamMemberContainer {
-    width: 300px;
-    max-width: 300px;
+    width: 330px;
+    max-width: 330px;
     margin-right: 50px;
     overflow: hidden;
     cursor: pointer;
@@ -692,15 +693,15 @@ section.hero {
 
 .teamMemberImgContainer {
     overflow: hidden;
-    max-width: 300px;
-    width: 300px;
+    max-width: 330px;
+    width: 330px;
     position: relative;
     margin-bottom: 25px;
 }
 
 .teamMemberImgContainer img {
-    max-width: 300px;
-    width: 300px;
+    max-width: 330px;
+    width: 330px;
 }
 
 .teamMemberContainer img {
@@ -739,7 +740,7 @@ section.hero {
     color: var(--light-grey);
     font-weight: 500;
     font-family: 'Kanit';
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .blog .container {
@@ -840,8 +841,12 @@ section.hero {
     margin-top: auto;
     margin-bottom: 20px;
     font-size: 22px;
-    line-height: 28px;
+    line-height: 26px;
     color: var(--white)
+}
+
+.blogMeta {
+    margin-bottom: 15px;
 }
 
 .blogBox:hover .blogTitle a {
@@ -859,25 +864,30 @@ section.hero {
     transition: background-size 0.6s linear;
 }
 
-.darkbg-ceo-img {
-    min-height: auto;
-}
-
 .ceo {
     padding-bottom: 0;
     justify-content: left;
 }
 
 .ceoTestimonialWrapper {
-    margin-right: 40px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 100%;
+    max-width: 1400px;
+    transform: translateX(-50%);
 }
 
 .testimonialBoxContainer {
-    padding: 80px 40px 80px 60px;
-    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px 20px 40px 20px;
+    background-color: rgba(255, 255, 255, .8);
     backdrop-filter: blur(50px);
     border-top-right-radius: 20px;
     overflow: hidden;
+    border-top-left-radius: 20px;
+    position: relative;
+    max-width: 600px;
+    margin-left: auto;
 }
 
 .testimonialItem div {
@@ -889,6 +899,7 @@ section.hero {
     font-family: 'Kanit';
     line-height: 26px;
     margin-bottom: 15px;
+    color: var(--blue)
 }
 
 .testimonialBoxContainer p+p {
@@ -898,12 +909,6 @@ section.hero {
 .testimonialBoxContainer p {
     font-size: 16px;
     line-height: 26px;
-}
-
-.testimonialBoxContainer {
-    position: relative;
-    max-width: 600px;
-    margin: auto;
 }
 
 .testimonialItem {
@@ -972,9 +977,9 @@ section.hero {
     50% {
         border: 1px solid var(--blue);
         box-shadow:
-            0 0 0 4px var(--black),
+            0 0 0 4px var(--white),
             0 0 2px 5px var(--blue),
-            0 0 0 9px var(--black),
+            0 0 0 9px var(--white),
             0 0 2px 10px var(--blue);
     }
 
@@ -1003,4 +1008,50 @@ section.hero {
 
 .bottomHightlight {
     position: relative;
+}
+
+
+
+
+/* Container for the animated text */
+.animated-text {
+    display: inline-block;
+    font-size: 2rem;
+    /* Adjust the size */
+    white-space: nowrap;
+    /* Prevents wrapping of the text */
+    overflow: hidden;
+    /* Hides content initially */
+    position: relative;
+}
+
+/* Break the text into individual letters and animate each one */
+.animated-text::before {
+    content: attr(data-text);
+    /* Uses the content of the h2 */
+    visibility: hidden;
+    /* Make the text invisible initially */
+}
+
+.animated-text span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    /* Start from below */
+    animation: fadeInUp 0.6s forwards;
+    animation-delay: calc(0.1s * var(--i));
+    /* Delay each letter */
+}
+
+/* Keyframe for fade-in and move-up effect */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

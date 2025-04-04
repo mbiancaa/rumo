@@ -33,42 +33,42 @@ const CustomerSlider = () => {
 
     return (
         <Slider {...settings}>
-            <a href="">
+            <div>
                 <img className="customer_logo" src={Logo1} />
-            </a>
-            <a href="">
+            </div>
+            <div>
                 <img className="customer_logo" src={Logo2} />
-            </a>
-            <a href="">
+            </div>
+            <div>
                 <img className="customer_logo" src={Logo3} />
-            </a>
-            <a href="">
+            </div>
+            <div>
                 <img className="customer_logo" src={Logo4} />
-            </a>
-            <a href="">
+            </div>
+            <div>
                 <img className="customer_logo" src={Logo6} />
-            </a>
-            <a href="">
+            </div>
+            <div>
                 <img className="customer_logo" src={Logo7} />
-            </a>
-            <a href="">
+            </div>
+            <div>
                 <img className="customer_logo" src={Logo8} />
-            </a>
-            <a href="">
+            </div>
+            <div>
                 <img className="customer_logo" src={Logo9} />
-            </a>
-            <a href="">
+            </div>
+            <div>
                 <img className="customer_logo" src={Logo10} />
-            </a>
-            <a href="">
+            </div>
+            <div>
                 <img className="customer_logo" src={Logo11} />
-            </a>
-            <a href="">
+            </div>
+            <div>
                 <img className="customer_logo" src={Logo12} />
-            </a>
-            <a href="">
+            </div>
+            <div>
                 <img className="customer_logo" src={Logo13} />
-            </a>
+            </div>
         </Slider>
     );
 }

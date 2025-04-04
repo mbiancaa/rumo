@@ -6,57 +6,59 @@ import WebdevServiceImg from '../assets/services/webdev.jpg';
 import BrandingServiceImg from '../assets/services/branding.jpg';
 import PPCServiceImg from '../assets/services/ppc.jpg';
 
+import { NavLink } from 'react-router-dom';
+
 const ServicesList = () => {
     return (
         <div className="serviceList">
             <div className="serviceCard">
                 <span className="serviceNumber">01</span>
-                <a href="" className="serviceTitle">Creare site web</a>
+                <NavLink to="/servicii/web-development" className="serviceTitle">Creare site web</NavLink>
                 <span className="serviceText">Creăm site-uri moderne și personalizate care sunt parte integrantă din succesul afacerii tale</span>
                 <img className="serviceImg" src={WebdevServiceImg} />
-                <a href="" className="arrowCTA"><span className="arrow"></span></a>
+                <NavLink to="/servicii/web-development" className="arrowCTA"><span className="arrow"></span></NavLink>
             </div>
             <div className="serviceCard">
                 <span className="serviceNumber">02</span>
-                <a href="" className="serviceTitle">PPC</a>
+                <NavLink to="/servicii/reclame-ppc" className="serviceTitle">PPC</NavLink>
                 <span className="serviceText">Reclamele PPC transformă clickurile în clienți. Crește garantat vizibilitatea și vânzările!</span>
                 <img className="serviceImg" src={PPCServiceImg} />
-                <a href="" className="arrowCTA"><span className="arrow"></span></a>
+                <NavLink to="/servicii/reclame-ppc" className="arrowCTA"><span className="arrow"></span></NavLink>
             </div>
             <div className="serviceCard">
                 <span className="serviceNumber">03</span>
-                <a href="" className="serviceTitle">SEO</a>
+                <NavLink to="/servicii/seo" className="serviceTitle">SEO</NavLink>
                 <span className="serviceText">Fii primul în Google. Optimizăm site-ul tău pentru trafic mare și conversii multe!</span>
                 <img className="serviceImg" src={SEOServiceImg} />
-                <a href="" className="arrowCTA"><span className="arrow"></span></a>
+                <NavLink to="/servicii/seo" className="arrowCTA"><span className="arrow"></span></NavLink>
             </div>
             <div className="serviceCard">
                 <span className="serviceNumber">04</span>
-                <a href="" className="serviceTitle">Social Media Management</a>
+                <NavLink to="/servicii/social-media-marketing" className="serviceTitle">Social Media Management</NavLink>
                 <span className="serviceText">Social Media Management strategic: transformăm urmăritorii în clienți! Fii mereu în trend!</span>
                 <img className="serviceImg" src={SMMServiceImg} />
-                <a href="" className="arrowCTA"><span className="arrow"></span></a>
+                <NavLink to="/servicii/social-media-marketing" className="arrowCTA"><span className="arrow"></span></NavLink>
             </div>
             <div className="serviceCard">
                 <span className="serviceNumber">05</span>
-                <a href="" className="serviceTitle">Plan strategic de marketing online</a>
+                <NavLink to="/servicii/plan-strategic-de-marketing" className="serviceTitle">Plan strategic de marketing online</NavLink>
                 <span className="serviceText">De la invizibil la de neocolit – Plan strategic de marketing online care îți pune afacerea pe hartă!</span>
                 <img className="serviceImg" src={PlanningServiceImg} />
-                <a href="" className="arrowCTA"><span className="arrow"></span></a>
+                <NavLink to="/servicii/plan-strategic-de-marketing" className="arrowCTA"><span className="arrow"></span></NavLink>
             </div>
             <div className="serviceCard">
                 <span className="serviceNumber">06</span>
-                <a href="" className="serviceTitle">Branding</a>
+                <NavLink to="/servicii/branding" className="serviceTitle">Branding</NavLink>
                 <span className="serviceText">Logo unic, identitate vizuală coerentă, poziționare clară – branding care vinde!</span>
                 <img className="serviceImg" src={BrandingServiceImg} />
-                <a href="" className="arrowCTA"><span className="arrow"></span></a>
+                <NavLink to="/servicii/branding" className="arrowCTA"><span className="arrow"></span></NavLink>
             </div>
             <div className="serviceCard">
                 <span className="serviceNumber">07</span>
-                <a href="" className="serviceTitle">E-mail marketing</a>
+                <NavLink to="/servicii/email-marketing" className="serviceTitle">E-mail marketing</NavLink>
                 <span className="serviceText">Campanii de e-mail marketing optimizate pentru conversii, engagement și retenția clienților!</span>
                 <img className="serviceImg" src={EmailServiceImg} />
-                <a href="" className="arrowCTA"><span className="arrow"></span></a>
+                <NavLink to="/servicii/email-marketing" className="arrowCTA"><span className="arrow"></span></NavLink>
             </div>
         </div>
     );

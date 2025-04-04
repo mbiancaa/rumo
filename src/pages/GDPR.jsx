@@ -3,6 +3,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import styles from '../styles/modules/Terms.module.css';
 
+import { NavLink } from 'react-router-dom';
+
 const GDPR = () => {
 
     return (
@@ -15,7 +17,7 @@ const GDPR = () => {
                     <h1 className={styles.title}>Politica de confidențialitate</h1>
                     <p className={styles.paragraph}>
                         Prețuim dreptul la viață privată și protecția datelor personale ale fiecăruia dintre noi, astfel încât prin această politică de confidențialitate vrem să aducem la cunoștință vizitatorilor paginii web
-                        <a href="https://www.rumodigitalpath.com" className={styles.link}>www.rumodigitalpath.com</a>, în continuare Site-ul, tipurile de date personale pe care le colectăm prin Site-ul nostru și modul în care folosim, dezvăluim și protejăm aceste informații.
+                        <NavLink to="/" className={styles.link}>www.rumodigitalpath.com</NavLink>, în continuare Site-ul, tipurile de date personale pe care le colectăm prin Site-ul nostru și modul în care folosim, dezvăluim și protejăm aceste informații.
                     </p>
 
                     <h2 className={styles.subtitle}>1. Cui i se adresează această Politică de confidențialitate?</h2>
