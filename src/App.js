@@ -12,6 +12,7 @@ import CookiesPolitics from './pages/CookiesPolitics';
 import GDPR from './pages/GDPR';
 import NotFound from './pages/NotFound';
 import Service from './pages/Service';
+import Team from './pages/Team';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/despre-noi" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/echipa" element={<Team />} />
           <Route path="/studii-de-caz" element={<CaseStudies />} />
           <Route path="/termeni-si-conditii" element={<Terms />} />
           <Route path="/politica-de-utilizare-cookies" element={<CookiesPolitics />} />

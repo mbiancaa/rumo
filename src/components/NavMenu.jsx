@@ -97,6 +97,16 @@ const NavMenu = () => {
                         {!isPageActive("/contact") && <span className="arrow"></span>}
                     </NavLink>
                 </li>
+                <li
+                    className={`menu-item ${hoveredItem === "Echipa" ? "hover--" : ""} menu-item-has-children`}
+                    onMouseEnter={() => handleMouseEnter("Echipa")}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <NavLink to="/echipa">
+                        <span className="menu-item-txt">Echipa</span>
+                        {!isPageActive("/echipa") && <span className="arrow"></span>}
+                    </NavLink>
+                </li>
             </ul>
         </nav>
     );

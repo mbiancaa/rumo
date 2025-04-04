@@ -36,6 +36,7 @@ const Footer = () => {
                                 <li><NavLink to="/blog">Blog</NavLink></li>
                                 <li><NavLink to="/despre-noi">Despre Noi</NavLink></li>
                                 <li><NavLink to="/contact">Contact</NavLink></li>
+                                <li><NavLink to="/echipa">Echipă</NavLink></li>
                             </ul>
                         </div>
                         <div className="links-container" aria-labelledby="Informații de contact">
