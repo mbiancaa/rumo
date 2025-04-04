@@ -1,0 +1,47 @@
+.wrapper {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
+}
+
+.wrapper::before {
+    content: '';
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: conic-gradient(var(--green) var(--progress), transparent 0);
+    mask: radial-gradient(farthest-side, transparent 34px, black 35px);
+    -webkit-mask: radial-gradient(farthest-side, transparent 23px, black 19px);
+    pointer-events: none;
+    transition: background 0.2s ease-out;
+    z-index: 9999999;
+}
+
+.button {
+    outline: none;
+    border: 2px solid var(--white-grey);
+    background: transparent;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotate(270deg);
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+}
+
+.green,
+.green:before,
+.green:after {
+    background-color: var(--green) !important;
+}

@@ -1,3 +1,7 @@
+#root {
+  overflow-y: hidden;
+}
+
 .layout {
   padding: 35px 70px;
   min-height: 900px;

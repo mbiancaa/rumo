@@ -1,5 +1,7 @@
-import './App.css';
 import { HashRouter as Router, Route, Routes } from 'react-router-dom';
+
+import './App.css';
+
 import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
@@ -14,8 +16,15 @@ import NotFound from './pages/NotFound';
 import Service from './pages/Service';
 import Team from './pages/Team';
 
+import BackToTop from './components/BackToTop';
+import Cursor from './components/Cursor';
+
+import useLenis from './hooks/useLenis';
+
+
 
 function App() {
+  useLenis();
   return (
     <Router>
       <div className="app">
@@ -36,6 +45,8 @@ function App() {
 
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <Cursor />
+        <BackToTop />
       </div>
     </Router>
   );

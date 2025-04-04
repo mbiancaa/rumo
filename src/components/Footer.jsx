@@ -1,5 +1,7 @@
 import { NavLink } from "react-router-dom";
+
 import "../styles/Footer.css";
+
 import Logo from "./Logo";
 import ContactForm from "./ContactForm";
 
