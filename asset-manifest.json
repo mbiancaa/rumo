@@ -1,19 +1,22 @@
 {
   "files": {
-    "main.css": "/rumo/static/css/main.fda98b99.css",
-    "main.js": "/rumo/static/js/main.106d9dac.js",
+    "main.css": "/rumo/static/css/main.bbcaefc0.css",
+    "main.js": "/rumo/static/js/main.a697d78c.js",
     "static/js/453.d978c9f5.chunk.js": "/rumo/static/js/453.d978c9f5.chunk.js",
     "static/media/branding.jpg": "/rumo/static/media/branding.5df5b03c23775a6eda62.jpg",
     "static/media/close-up-businesswoman-businessman-shaking-hands.jpg": "/rumo/static/media/close-up-businesswoman-businessman-shaking-hands.ef93bf5b25a255944c50.jpg",
+    "static/media/business-woman-analyse-chalkboard.jpg": "/rumo/static/media/business-woman-analyse-chalkboard.e601b6ec0075e4d8a1c5.jpg",
     "static/media/businessmen-businesswomen-meeting-brainstorming-ideas.jpg": "/rumo/static/media/businessmen-businesswomen-meeting-brainstorming-ideas.f576a13d8cabea9e1f96.jpg",
+    "static/media/marketing-young-cute-business-lady-striped-shirt-office-creating-new-marketing-plan.jpg": "/rumo/static/media/marketing-young-cute-business-lady-striped-shirt-office-creating-new-marketing-plan.7fac115cf82b010e13fb.jpg",
     "static/media/2_logo_FLORIN_M_POP.bmp": "/rumo/static/media/2_logo_FLORIN_M_POP.a25ec82502de3a6288af.bmp",
-    "static/media/business-woman-standing-office-formal-wear.jpg": "/rumo/static/media/business-woman-standing-office-formal-wear.0a540d207b41111515d2.jpg",
     "static/media/e-mail.jpg": "/rumo/static/media/e-mail.2f2931b709f7ae4fd0a1.jpg",
     "static/media/business-people-shaking-hands-together.jpg": "/rumo/static/media/business-people-shaking-hands-together.ad1c80b6b939b51a3a12.jpg",
     "static/media/webdev.jpg": "/rumo/static/media/webdev.65009cbce1be602f6290.jpg",
     "static/media/ppc.jpg": "/rumo/static/media/ppc.9d2efcd03f2254b1ebda.jpg",
     "static/media/about2.jpg": "/rumo/static/media/about2.b919d6034e8d6620bc00.jpg",
+    "static/media/1.1._DCS.jpeg": "/rumo/static/media/1.1._DCS.9ce0ee00b98e670ba109.jpeg",
     "static/media/modern-equipped-computer-lab.jpg": "/rumo/static/media/modern-equipped-computer-lab.98a1757b810b1e6e548c.jpg",
+    "static/media/CEO.jpg": "/rumo/static/media/CEO.c2a7b424f075f44219ec.jpg",
     "static/media/business-group-meeting-discussion-strategy-working-concept.jpg": "/rumo/static/media/business-group-meeting-discussion-strategy-working-concept.926279772c79211aabdb.jpg",
     "static/media/reviews-bg.jpg": "/rumo/static/media/reviews-bg.762373650d0b4f7a8c0e.jpg",
     "static/media/planning.jpg": "/rumo/static/media/planning.16f80281434f955f5189.jpg",
@@ -45,12 +48,12 @@
     "static/media/slick.woff": "/rumo/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/rumo/index.html",
     "static/media/quote-icon2.svg": "/rumo/static/media/quote-icon2.1b78b402a8e152f2abfa04d5a269df67.svg",
-    "main.fda98b99.css.map": "/rumo/static/css/main.fda98b99.css.map",
-    "main.106d9dac.js.map": "/rumo/static/js/main.106d9dac.js.map",
+    "main.bbcaefc0.css.map": "/rumo/static/css/main.bbcaefc0.css.map",
+    "main.a697d78c.js.map": "/rumo/static/js/main.a697d78c.js.map",
     "453.d978c9f5.chunk.js.map": "/rumo/static/js/453.d978c9f5.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.fda98b99.css",
-    "static/js/main.106d9dac.js"
+    "static/css/main.bbcaefc0.css",
+    "static/js/main.a697d78c.js"
   ]
 }
