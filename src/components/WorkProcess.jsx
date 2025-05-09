@@ -1,37 +1,23 @@
 import useInView from "../hooks/useInView";
-import image1 from '../assets/business-woman-analyse-chalkboard.jpg';
-import image2 from '../assets/marketing-young-cute-business-lady-striped-shirt-office-creating-new-marketing-plan.jpg';
+import image1 from '../assets/home/4.jpg';
+import image2 from '../assets/home/5.jpg';
+import image3 from '../assets/home/6.jpg';
+import styles from '../styles/modules/WorkProcess.module.css';
 
 const WorkProcess = () => {
     const [imageColumnRef1, imageColumnInView1] = useInView(0);
     const [imageColumnRef2, imageColumnInView2] = useInView(0);
+    const [imageColumnRef3, imageColumnInView3] = useInView(0);
     return (
-        <div className="container" style={{
-            borderBottom: '1px solid var(--white-grey)'
-        }}>
+        <div className={`container ${styles.sectionBorder}`}>
             <span className="smTitle">Procesul nostru de lucru</span>
-            <div style={{ gap: 60, marginTop: 30, marginBottom: 50 }}
-                className={`d-flex`}>
-                <h2 style={{
-                    flex: 1,
-                    width: 'calc(60% - 20px)',
-                    fontSize: 42,
-                    maxWidth: 575
-                }}
-                >RUMO, Agenția de marketing online focusată pe creșterea și dezvoltarea afacerilor mici și mijlocii.</h2>
-                <p style={{
-                    width: 'calc(40% - 20px)',
-                    color: 'var(--light-grey)',
-                    fontSize: 21,
-                    fontFamily: 'Kanit',
-                    lineHeight: '28px',
-                    maxWidth: 390
-                }}
-                >Alături de Rumo, vei descoperi cât de plăcut este să îți vezi afacerea crescând.</p>
+            <div className={`d-flex ${styles.introWrapper}`}>
+                <h2 className={styles.heading}>RUMO, Agenția de marketing online focusată pe creșterea și dezvoltarea afacerilor mici și mijlocii.</h2>
+                <p className={styles.description}>Alături de Rumo, vei descoperi cât de plăcut este să îți vezi afacerea crescând.</p>
             </div>
             <div className="cardList">
-                <div className="cardBox d-flex" style={{ width: '100%' }}>
-                    <div style={{ width: '50%' }}>
+                <div className="cardBox d-flex" style={{ width: "100%" }}>
+                    <div className={styles.halfWidth}>
                         <h3><span>1.</span> Analiza pieței și a concurenței</h3>
                         <div className="cardTextContent">
                             <p>În această etapă, efectuăm o analiză complexă:</p>
@@ -43,15 +29,8 @@ const WorkProcess = () => {
                             <p>Aceasta este esențială pentru crearea unei strategii 360°.</p>
                         </div>
                     </div>
-                    <div style={{ width: '50%', position: 'relative', height: 220 }} ref={imageColumnRef1} className={`imageRevealEffect imageRevealEffectBackwards ${imageColumnInView1 ? "show" : ""}`}>
-                        <img src={image1} style={{
-                            width: '50dvw',
-                            height: 220,
-                            objectFit: 'cover',
-                            position: 'absolute',
-                            top: 0,
-                            left: 0
-                        }} />
+                    <div ref={imageColumnRef1} className={`imageRevealEffect imageRevealEffectBackwards ${imageColumnInView1 ? "show" : ""} ${styles.imageBlock} ${styles.imageBlock1}`}>
+                        <img src={image1} className={styles.image1} alt="Proces de lucru - Analiză și strategie" />
                     </div>
                 </div>
                 <div className="cardBox">
@@ -67,17 +46,10 @@ const WorkProcess = () => {
                     </div>
                 </div>
                 <div className="cardBox d-flex" style={{ width: '100%' }}>
-                    <div style={{ width: '50%', position: 'relative', height: 330 }} ref={imageColumnRef2} className={`imageRevealEffect ${imageColumnInView2 ? "show" : ""}`}>
-                        <img src={image2} style={{
-                            width: '50dvw',
-                            height: 330,
-                            objectFit: 'cover',
-                            position: 'absolute',
-                            top: 0,
-                            right: 0
-                        }} />
+                    <div ref={imageColumnRef2} className={`imageRevealEffect ${imageColumnInView2 ? "show" : ""} ${styles.imageBlock} ${styles.imageBlock2}`}>
+                        <img src={image2} className={styles.image2} alt="Proces de lucru - Dezvoltare și implementare" />
                     </div>
-                    <div style={{ width: '50%' }}>
+                    <div className={styles.halfWidth}>
                         <h3><span>4.</span> Optimizarea și monitorizarea campaniilor</h3>
                         <div className="cardTextContent">
                             <p>Monitorizăm constant performanța campaniilor și optimizăm în funcție de datele obținute. Folosim analize de date pentru a ajusta tacticile, asigurându-ne că strategia de marketing aduce rezultate optime pe termen lung.</p>
@@ -108,6 +80,9 @@ const WorkProcess = () => {
                         </ul>
                         <p>În aceste cazuri, putem reorienta bugetele, testa noi campanii, noi servicii sau adopta noi canale de promovare pentru a menține competitivitatea și eficiența campaniilor.</p>
                     </div>
+                </div>
+                <div ref={imageColumnRef3} className={`imageRevealEffect imageRevealEffectBackwards ${imageColumnInView3 ? "show" : ""} ${styles.imageBlock} ${styles.imageBlock3}`}>
+                    <img src={image3} className={styles.image3} alt="Proces de lucru - Monitorizare și optimizare" />
                 </div>
             </div>
         </div>

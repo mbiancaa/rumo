@@ -11,11 +11,11 @@ const CustomerSection = () => {
     return (
         <section className="whitebg layout">
             <div className="container customers">
-                <div className="d-flex" style={{ marginBottom: 50 }}>
+                <div className="d-flex">
                     <div ref={textRef} className={`flexBox slideInTextAnimation ${textInView ? "show" : ""}`}>
                         <h2>Ajutăm afacerile mici și mijlocii dar cu viziune îndrăzneață, să urce pe culmile succesului!</h2>
                     </div>
-                    <div className="flexBox d-flex">
+                    <div className="customerBoxInfo flexBox d-flex">
                         <div className="flexRow">
                             <span className="highlightText">+15</span>
                             <p>specialiști în toate ramurile marketingului online</p>
@@ -26,12 +26,14 @@ const CustomerSection = () => {
                         </div>
                     </div>
                 </div>
-                <CustomerSlider />
+                <div className="cursomerSliderWrapper">
+                    <CustomerSlider />
+                </div>
             </div>
-            <div className="container d-flex">
+            <div className="container d-flex customerBoxContainer">
                 <div className="left">
                     <div ref={textRef2} className={`flexBox slideInTextAnimation ${textInView2 ? "show" : ""}`}>
-                        <h2>Îți dorești mai mulți clienți pentru afacerea ta?</h2>
+                        <h2 style={{ color: 'var(--green)' }}>Îți dorești mai mulți clienți pentru afacerea ta?</h2>
                     </div>
                     <div ref={textRef3} className={`flexBox slideInTextAnimation ${textInView3 ? "show" : ""}`}>
                         <p>Transformă obiectivele afacerii tale în realitate colaborând cu noi!</p>

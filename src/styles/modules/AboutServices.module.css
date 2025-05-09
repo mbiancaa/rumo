@@ -1,0 +1,159 @@
+.containerMarginBottom {
+    margin-bottom: 80px;
+}
+
+.heading {
+    font-size: 50px;
+    max-width: calc(100% - 265px);
+    font-weight: bold;
+    font-family: 'Kanit', sans-serif;
+    letter-spacing: -1px;
+    line-height: 55px;
+    min-width: 764px;
+}
+
+.heading span {
+    font-size: 65px;
+    line-height: 80px;
+    color: var(--green)
+}
+
+.paragraph {
+    color: var(--light-grey);
+    font-weight: 400;
+    margin-left: auto;
+    max-width: 400px;
+    min-width: 400px;
+    font-family: 'Kanit', sans-serif;
+    font-size: 18px;
+    line-height: 18px;
+    letter-spacing: -1px;
+}
+
+.flexContainerGap {
+    gap: 60px;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    flex-wrap: wrap
+}
+
+.flexHeading {
+    flex: 1;
+    width: calc(60% - 20px);
+    font-size: 52px;
+    max-width: 600px;
+}
+
+.flexParagraph {
+    width: calc(40% - 20px);
+    color: var(--grey);
+    font-size: 18px;
+    font-family: 'Kanit', sans-serif;
+    line-height: 22px;
+    margin-left: 40px;
+    max-width: 390px;
+}
+
+.wrapperWhy {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 100px;
+}
+
+.imageWhyContainer {
+    min-width: calc(50% + 70px);
+    width: calc(50% + 70px);
+    max-width: 570px;
+    margin-right: 60px;
+    margin-left: -70px;
+}
+
+.imageWhy {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+}
+
+@media (max-width: 1190px) {
+    .wrapperWhy {
+        flex-wrap: wrap;
+        margin-top: 80px;
+        gap: 50px;
+    }
+
+    .imageWhyContainer {
+        min-width: 100%;
+        width: 100%;
+        max-width: 100%;
+        margin-right: 0;
+        margin-left: 0
+    }
+
+    .imageWhy {
+        height: 380px
+    }
+}
+
+@media (max-width: 850px) {
+    .containerMarginBottom {
+        margin-bottom: 40px;
+    }
+
+    .heading,
+    .paragraph {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%
+    }
+
+    .heading span {
+        font-size: 24px;
+        line-height: 30px;
+    }
+
+    .heading {
+        font-size: 24px;
+        line-height: 30px;
+        margin-top: 5px;
+    }
+
+    .paragraph {
+        font-size: 16px;
+        line-height: 20px;
+        margin-top: 10px;
+    }
+
+    .flexContainerGap {
+        gap: 10px;
+        margin: 10px 0 30px;
+    }
+
+    .flexHeading {
+        font-size: 24px;
+        line-height: 30px;
+    }
+
+    .flexParagraph {
+        font-size: 16px;
+        line-height: 20px;
+    }
+
+    .flexHeading,
+    .flexParagraph {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
+}
+
+@media (max-width: 670px) {
+    .imageWhy {
+        height: 170px
+    }
+
+    .wrapperWhy {
+        gap: 30px;
+        margin-top: 40px
+    }
+}

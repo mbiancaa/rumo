@@ -1,0 +1,146 @@
+.sectionBorder {
+    border-bottom: 1px solid var(--white-grey);
+}
+
+.introWrapper {
+    gap: 60px;
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+
+.heading {
+    flex: 1;
+    width: calc(60% - 20px);
+    font-size: 42px;
+    max-width: 575px;
+}
+
+.description {
+    width: calc(40% - 20px);
+    color: var(--light-grey);
+    font-size: 21px;
+    font-family: 'Kanit';
+    line-height: 28px;
+    max-width: 390px;
+}
+
+.imageBlock {
+    width: 50%;
+    position: relative;
+}
+
+.imageBlock1 {
+    height: 220px;
+}
+
+.image1 {
+    width: 50dvw;
+    height: 280px;
+    object-fit: cover;
+    position: absolute;
+    top: -40px;
+    left: 0;
+}
+
+.imageBlock2 {
+    height: 330px;
+}
+
+.image2 {
+    width: 50dvw;
+    height: 330px;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.imageBlock3 {
+    width: 100%;
+    max-width: 100%;
+    margin-top: 10px
+}
+
+.image3 {
+    width: 100%;
+    max-width: 100%;
+    height: 360px;
+    object-fit: cover;
+}
+
+.halfWidth {
+    width: 50%;
+}
+
+@media (max-width: 850px) {
+
+    .imageBlock1,
+    .imageBlock2 {
+        height: auto;
+    }
+
+    .introWrapper {
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 10px 0 30px;
+    }
+
+    .heading,
+    .description {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+        margin: 0;
+    }
+
+    .heading {
+        font-size: 24px;
+        line-height: 30px;
+    }
+
+    .description {
+        font-size: 16px
+    }
+
+    .halfWidth {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%;
+    }
+
+    .sectionBorder :global(.cardList),
+    .sectionBorder :global(.cardBox) {
+        flex-wrap: wrap;
+        gap: 20px
+    }
+
+    .sectionBorder :global(.cardBox) {
+        width: 100%
+    }
+
+    .imageBlock {
+        width: 100%
+    }
+
+    .image1,
+    .image2 {
+        width: 100%;
+        position: relative;
+        height: 260px;
+        top: 0;
+    }
+
+    .image1 {
+        margin-left: 30px
+    }
+
+    .image2 {
+        margin-left: -30px
+    }
+}
+
+@media (max-width: 670px) {
+    .image3 {
+        height: 200px;
+    }
+}

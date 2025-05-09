@@ -1,52 +1,47 @@
 import { useState, useEffect } from 'react';
-import AgencyImg1 from '../assets/agency-img1.png';
-import AgencyImg2 from '../assets/agency-img2.png';
+import AgencyImg1 from '../assets/home/agency-img1.jpg';
+import AgencyImg2 from '../assets/home/agency-img2.jpg';
+import styles from '../styles/modules/MovingImages.module.css';
 
 const MovingImages = () => {
-
     const [scrollOffset, setScrollOffset] = useState(0);
 
     useEffect(() => {
         const handleScroll = () => {
-            let offsY = (window.scrollY / 70) > 100 || (window.scrollY / 70) < -100 ? 40 : window.scrollY / 70;
+            let offsY =
+                window.scrollY / 70 > 100 || window.scrollY / 70 < -100
+                    ? 40
+                    : window.scrollY / 70;
             setScrollOffset(offsY);
         };
 
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     return (
         <div className="flexContainer d-flex">
-            <div className="p-relative">
+            <div className={`p-relative ${styles.imageOneContainer}`}>
                 <img
-                    style={{
-                        zIndex: 1,
-                        width: 130,
-                        height: 320,
-                        objectFit: "cover",
-                        marginRight: 60,
-                        marginTop: (-scrollOffset) * 2,
-                        transition: "transform 1s ease-in-out"
-                    }}
                     src={AgencyImg1}
+                    className={styles.imageOne}
+                    style={{ marginTop: (-scrollOffset) * 2 }}
+                    alt="RUMO Digital Path - Imagine agenție marketing digital"
+                    loading="lazy"
+                    decoding="async"
                 />
-                <span className="reversed">Your Digital Path</span>
+                <span className={styles.reversed}>Your Digital Path</span>
             </div>
             <img
-                style={{
-                    zIndex: 1,
-                    width: 130,
-                    height: 320,
-                    objectFit: "cover",
-                    marginTop: (+scrollOffset) * 2,
-                    transition: "transform 1s ease-in-out"
-                }}
                 src={AgencyImg2}
+                className={styles.imageTwo}
+                style={{ marginTop: scrollOffset * 2 }}
+                alt="RUMO Digital Path - Servicii marketing digital"
+                loading="lazy"
+                decoding="async"
             />
         </div>
     );
-
-}
+};
 
 export default MovingImages;

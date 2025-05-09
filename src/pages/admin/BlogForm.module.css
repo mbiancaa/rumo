@@ -1,0 +1,450 @@
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #1a1a1a;
+}
+
+.error {
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.formGroup label {
+  font-weight: 500;
+  color: #4b5563;
+}
+
+.formGroup input[type="text"],
+.formGroup input[type="file"],
+.formGroup textarea,
+.formGroup select {
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 0.375rem;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.formGroup input[type="text"]:focus,
+.formGroup textarea:focus,
+.formGroup select:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.formGroup textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.imagePreview {
+  position: relative;
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f3f4f6;
+  min-height: 200px;
+  max-height: 200px;
+  position: relative;
+}
+
+.imagePreview img {
+  object-fit: cover;
+  max-height: 200px;
+  width: 100%;
+}
+
+.previewImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  max-height: 300px;
+}
+
+.removeButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+}
+
+.removeButton:hover {
+  background-color: #f3f4f6;
+}
+
+.formActions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: flex-start;
+}
+
+.cancelButton {
+  padding: 8px 14px;
+  font-size: 15px;
+  border: 1px solid var(--white-grey);
+  background: var(--white-grey);
+  border-radius: 4px;
+  color: var(--black);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submitButton {
+  border: none;
+  border-radius: 4px;
+  background-color: #202124;
+  padding: 8px 14px;
+  font-size: 15px;
+  color: var(--white);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.submitButton:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  font-size: 1.125rem;
+  color: #6b7280;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .formActions {
+    flex-direction: column;
+  }
+
+  .submitButton,
+  .cancelButton {
+    width: 100%;
+  }
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.formGroup input,
+.formGroup textarea,
+.formGroup select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.formGroup textarea {
+  min-height: 200px;
+  resize: vertical;
+}
+
+/* Category selector specific styles */
+.formGroup :global(.wrapper) {
+  margin-top: 0.5rem;
+}
+
+.formGroup :global(.input) {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.formGroup :global(.tags) {
+  margin-top: 0.5rem;
+}
+
+.formGroup :global(.tag) {
+  background-color: #e9ecef;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.formGroup :global(.removeButton) {
+  margin-left: 0.5rem;
+  color: #dc3545;
+  cursor: pointer;
+}
+
+.formGroup :global(.dropdown) {
+  position: absolute;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+  z-index: 1000;
+}
+
+.formGroup :global(.category) {
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.formGroup :global(.category:hover) {
+  background-color: #f8f9fa;
+}
+
+.errorInput {
+  border-color: #dc3545 !important;
+  background-color: #fff8f8;
+}
+
+.fieldError {
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.faqsContainer {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.faqItem {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+}
+
+.faqHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.faqHeader h4 {
+  margin: 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.faqContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.addButton {
+  background-color: #202124;
+  padding: 8px 14px;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background-color 0.3s;
+  align-self: flex-start;
+  margin-top: 10px;
+}
+
+.removeButton {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 15px;
+  transition: background-color 0.3s;
+}
+
+.removeButton:hover {
+  background-color: #da190b;
+}
+
+.deleteFaqButton {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-left: auto;
+}
+
+.deleteFaqButton:hover {
+  background-color: #dc2626;
+}
+
+.deleteConfirm {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.deleteConfirm p {
+  margin: 0;
+  color: #4a5568;
+  font-size: 1rem;
+}
+
+.cancelButton {
+  padding: 0.5rem 1rem;
+  background-color: #e2e8f0;
+  color: #4a5568;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+}
+
+.cancelButton:hover {
+  background-color: #cbd5e0;
+}
+
+.cancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.deleteButton {
+  padding: 0.5rem 1rem;
+  background-color: #e53e3e;
+  color: white;
+  border: none;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background-color 0.2s;
+}
+
+.deleteButton:hover {
+  background-color: #c53030;
+}
+
+.deleteButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.passwordInputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.passwordInputContainer input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+
+.passwordToggle:hover {
+  color: var(--text-primary);
+}
+
+.passwordToggle svg {
+  width: 20px;
+  height: 20px;
+}

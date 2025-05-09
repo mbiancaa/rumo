@@ -4,71 +4,120 @@ import '../styles/Pagination.css';
 import '../styles/CaseStudyBox.css';
 import '../styles/Filters.css';
 
+import { useState, useEffect } from 'react';
+import { caseStudyService, pageService } from '../services/api';
+
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 import HeroSection from '../sections/HeroSection';
 import CaseStudyBox from '../components/CaseStudyBox';
+import MottoBgImageAnimation from '../components/MottoBgImageAnimation';
+import Pagination from '../components/Pagination';
 
 import useInView from '../hooks/useInView';
+import SEO from '../components/SEO';
 
 const CaseStudies = () => {
     const [textRef, textInView] = useInView(100);
     const [subtitleRef, subtitleInView] = useInView(600);
     const [descriptionRef, descriptionInView] = useInView(650);
     const [separatorRef, separatorInView] = useInView(350);
+    
+    const [caseStudies, setCaseStudies] = useState([]);
+    const [pageContent, setPageContent] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const [caseStudiesData, pageData] = await Promise.all([
+                    caseStudyService.getAll(currentPage, true),
+                    pageService.getBySlug('studii-de-caz')
+                ]);
+                setCaseStudies(caseStudiesData.caseStudies);
+                setTotalPages(caseStudiesData.totalPages);
+                setPageContent(pageData);
+                setError(null);
+            } catch (err) {
+                setError('A apărut o eroare la încărcarea studiilor de caz.');
+                console.error('Error fetching case studies:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [currentPage]);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
 
     return (
         <>
-
+            <SEO 
+                title={pageContent?.metaTitle || pageContent?.name || "Studii de Caz RUMO"}
+                description={pageContent?.metaDescription || "Descoperă studiile de caz RUMO și vezi cum am ajutat afaceri mici și mijlocii să-și atingă obiectivele prin strategii de marketing digital personalizate."}
+            />
             <Header />
             <HeroSection>
                 <div className="layout eq-columns">
-                    <div ref={separatorRef} className={`eq-column separator ${separatorInView ? "show" : ""}`}>
+                    <div className={`eq-column`}>
                         <div ref={textRef} className={`slideInTextAnimation ${textInView ? "show" : ""}`}>
-                            <h1 className="hero-title">Studii de caz</h1>
+                            <h1 className="hero-title">{pageContent?.name}</h1>
                         </div>
                         <div ref={subtitleRef} className={`slideInTextAnimation ${subtitleInView ? "show" : ""}`}>
                             <h2 className="hero-subtitle">Cu RUMO, afacerea ta prinde avânt!</h2>
                         </div>
                     </div>
-                    <div ref={descriptionRef} className={`eq-column slideInTextAnimation ${descriptionInView ? "show" : ""}`}>
-                        <h2>Antreprenori care iau decizii informate</h2>
-                        <p>Într-un blog profesionist de marketing vei găsi recomandări bazate pe experiență și sfaturi utile despre implementarea oricărui serviciu de marketing online.</p>
-                        <p>Când preiei informații de la specialiști, scazi considerabil riscul de a face experimente costisitoare și de a trece prin situații necunoscute și riscante pentru afacerea ta. Blogul nostru sumarizează toate actualitățile serviciilor oferite de noi din domeniul marketing digital.</p>
+                    <div ref={separatorRef} className={`eq-column separator ${separatorInView ? "show" : ""}`}>
+                        <div ref={descriptionRef} className={`slideInTextAnimation ${descriptionInView ? "show" : ""}`}>
+                            {pageContent?.upperContent && (
+                                <div dangerouslySetInnerHTML={{ __html: pageContent.upperContent }} />
+                            )}
+                        </div>
                     </div>
                 </div>
             </HeroSection>
-            <section style={{ padding: '260px 0' }} className="darkbg layout darkbg-sm-img bg-url  imgEffect">
-                <h2 style={{ margin: 'auto', textAlign: 'center' }}>Lucrăm cu branduri mici și mijlocii care aspiră să fie mari!</h2>
-            </section >
+            <MottoBgImageAnimation />
             <section className="whitebg layout">
                 <div className="container">
-                    <div className="filters">
-                        <span className="active">Cele mai recente</span>
-                        <span>Advertising</span>
-                        <span>Branding</span>
-                        <span>Marketing</span>
-                        <span>SEO</span>
-                        <span>PPC</span>
-                        <span>Social Media Marketing</span>
-                        <span>Web Development</span>
-                    </div>
+                    
                     <div className="caseStudies-container">
-                        <CaseStudyBox />
-                        <CaseStudyBox />
-                        <CaseStudyBox />
-                        <CaseStudyBox />
-                        <CaseStudyBox />
-                        <CaseStudyBox />
+                        {loading ? (
+                            <div>Se încarcă studiile de caz...</div>
+                        ) : error ? (
+                            <div>{error}</div>
+                        ) : caseStudies.length === 0 ? (
+                            <div>Nu există studii de caz disponibile.</div>
+                        ) : (
+                            caseStudies.map((caseStudy) => (
+                                <CaseStudyBox 
+                                    key={caseStudy._id}
+                                    post={caseStudy}
+                                />
+                            ))
+                        )}
                     </div>
-                    <div className="pagination">
-                        <span className="pageNr active">1</span>
-                        <span className="pageNr ">2</span>
-                        <span className="pageNr ">..</span>
-                        <span className="pageNr ">22</span>
-                        <span className="pageNr nextPage"><span className="arrow"></span></span>
-                    </div>
+                    {!loading && !error && caseStudies.length > 0 && (
+                        <Pagination 
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={handlePageChange}
+                        />
+                    )}
+
+                {pageContent?.lowerContent && (
+                    <div style={{ marginTop: 60, marginBottom: 60 }}
+                    className="text-content-container"
+                    dangerouslySetInnerHTML={{ __html: pageContent.lowerContent }}
+                    />
+                )}
                 </div>
             </section>
             <Footer />

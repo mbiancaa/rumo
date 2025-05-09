@@ -6,10 +6,10 @@
 }
 
 .filters span {
-    padding: 14px 18px;
+    padding: 12px 14px;
     background: rgba(38, 179, 255, .2);
     border-radius: 30px;
-    font-size: 20px;
+    font-size: 16px;
     font-weight: 500;
     color: var(--black);
 }
@@ -17,4 +17,29 @@
 .filters span.active {
     background: var(--blue);
     color: #fff;
+}
+
+@media(max-width: 670px) {
+    .filters {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 12px;
+        justify-content: unset;
+        overflow: scroll;
+        margin-right: -10px;
+        padding-right: 12px;
+
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+
+    .filters::-webkit-scrollbar {
+        display: none;
+    }
+
+    .filters span {
+        padding: 10px 12px;
+        font-size: 14px;
+        min-width: fit-content;
+    }
 }

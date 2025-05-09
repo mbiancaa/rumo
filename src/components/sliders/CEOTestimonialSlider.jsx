@@ -47,12 +47,17 @@ const CEOTestimonialSlider = () => {
                 ))}
             </Slider>
             <div className="testimonialNavigation">
-                <button className="testimonial_button_prev" onClick={goToPrevSlide}>
+                <button 
+                    className="testimonial_button_prev" 
+                    onClick={goToPrevSlide}
+                    aria-label="Testimonial anterior"
+                >
                     <span className="arrow"></span>
                 </button>
                 <button
                     className={`testimonial_button_next ${blink ? "blinking" : ""}`}
                     onClick={goToNextSlide}
+                    aria-label="Testimonial următor"
                 >
                     <span className="arrow"></span>
                 </button>

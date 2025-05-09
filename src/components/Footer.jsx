@@ -1,4 +1,7 @@
+import React from "react";
 import { NavLink } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { servicesService } from "../services/api";
 
 import "../styles/Footer.css";
 
@@ -13,22 +16,61 @@ import FacebookImg from '../assets/social/facebook.png';
 import LinkedInImg from '../assets/social/linkedin.png';
 
 const Footer = () => {
+    const [services, setServices] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchServices = async () => {
+            try {
+                setLoading(true);
+                const data = await servicesService.getHierarchy();
+                setServices(data || []);
+                setError(null);
+            } catch (err) {
+                console.error('Error fetching services:', err);
+                setError('Nu s-au putut prelua serviciile');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchServices();
+    }, []);
+
     return (
         <section className="layout whitebg" id="contact">
             <footer className="footer">
                 <div className="container">
                     <ContactForm />
                     <div className="site-links">
-                        <div className="links-container" aria-labelledby="Link-uri către serviciile noastre">
+                        <div className="links-container services-links" aria-labelledby="Link-uri către serviciile noastre">
                             <span className="links-title">Servicii</span>
                             <ul>
-                                <li><NavLink to="/servicii/web-development">Web Development</NavLink></li>
-                                <li><NavLink to="/servicii/reclame-ppc">PPC</NavLink></li>
-                                <li><NavLink to="/servicii/seo">SEO</NavLink></li>
-                                <li><NavLink to="/servicii/social-media-management">Social Media Management</NavLink></li>
-                                <li><NavLink to="/servicii/plan-strategic-de-marketing-online">Plan Strategic de Marketing Online</NavLink></li>
-                                <li><NavLink to="/servicii/branding">Branding</NavLink></li>
-                                <li><NavLink to="/servicii/email-marketing">E-mail Marketing</NavLink></li>
+                                {loading ? (
+                                    <li>Se încarcă serviciile...</li>
+                                ) : error ? (
+                                    <li>Nu s-au putut prelua serviciile</li>
+                                ) : services.length === 0 ? (
+                                    <li>Nu există servicii</li>
+                                ) : (
+                                    services.map(service => (
+                                        <React.Fragment key={service._id}>
+                                            <li className="main-service">
+                                                <NavLink to={`/servicii/${service.slug}`}>
+                                                    {service.title}
+                                                </NavLink>
+                                            </li>
+                                            {service.sub_services && service.sub_services.map(subService => (
+                                                <li key={subService._id} className="sub-service">
+                                                    <NavLink to={`/servicii/${service.slug}/${subService.slug}`}>
+                                                        {subService.title}
+                                                    </NavLink>
+                                                </li>
+                                            ))}
+                                        </React.Fragment>
+                                    ))
+                                )}
                             </ul>
                         </div>
                         <div className="links-container" aria-labelledby="Link-uri utile">
@@ -111,7 +153,7 @@ const Footer = () => {
                         <NavLink to="/termeni-si-conditii">Termeni și condiții</NavLink>
                         <NavLink to="/politica-de-utilizare-cookies">Politica de utilizare cookies</NavLink>
                     </div>
-                    <div className="d-flex" style={{ marginTop: 40, gap: 10 }}>
+                    <div className="d-flex anpc-links">
                         <a
                             href="https://anpc.ro/ce-este-sal/"
                             target="_blank"
@@ -145,7 +187,6 @@ const Footer = () => {
                 </div>
             </footer>
         </section>
-
     );
 };
 

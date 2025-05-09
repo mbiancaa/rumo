@@ -5,7 +5,9 @@ import Logo from './Logo';
 const Header = ({ type }) => {
     return (
         <header>
-            <Logo />
+            <div className="headerLogo">
+                <Logo />
+            </div>
             <BurgerMenu />
             <NavMenu />
         </header>

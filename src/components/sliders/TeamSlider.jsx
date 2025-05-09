@@ -1,9 +1,41 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import TeamMember from '../../assets/team_members/team2.png';
+import { useState, useEffect } from 'react';
+import { teamMemberService } from '../../services/api';
 
 const TeamSlider = () => {
+    const [teamMembers, setTeamMembers] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchTeamMembers = async () => {
+            try {
+                setLoading(true);
+                const members = await teamMemberService.getAll();
+                setTeamMembers(members);
+                setError(null);
+            } catch (err) {
+                console.error('Error fetching team members:', err);
+                setError('Failed to load team members');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchTeamMembers();
+    }, []);
+
+    // Helper function to get the full image URL
+    const getImageUrl = (imagePath) => {
+        if (!imagePath) return '';
+        if (imagePath.startsWith('http') || imagePath.startsWith('data:')) {
+            return imagePath;
+        }
+        return `${process.env.REACT_APP_URL || 'http://localhost:5002'}${imagePath}`;
+    };
+
     var settings = {
         variableWidth: true,
         slidesToScroll: 1,
@@ -17,51 +49,35 @@ const TeamSlider = () => {
         pauseOnFocus: false,
     };
 
+    if (loading) {
+        return <div>Loading team members...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
+
+    if (teamMembers.length === 0) {
+        return <div>No team members found</div>;
+    }
+
     return (
         <div className="teamContainer">
             <Slider {...settings}>
-                <div className="teamMemberContainer">
-                    <div className="teamMemberImgContainer">
-                        <img src={TeamMember} />
+                {teamMembers.map((member) => (
+                    <div key={member._id} className="teamMemberContainer">
+                        <div className="teamMemberImgContainer">
+                            <img 
+                                src={getImageUrl(member.image)} 
+                                alt={member.name} 
+                                loading="lazy"
+                                decoding="async"
+                            />
+                        </div>
+                        <span className="role">{member.title}</span>
+                        <h3 className="teamMemberName">{member.name}</h3>
                     </div>
-                    <span className="role">CEO | Business Developer | Growth marketing strategist</span>
-                    <h3 className="teamMemberName">Monica Rusu</h3>
-                </div>
-                <div className="teamMemberContainer">
-                    <div className="teamMemberImgContainer">
-                        <img src={TeamMember} />
-                    </div>
-                    <span className="role">Full-Stack Developer | Web Development</span>
-                    <h3 className="teamMemberName">Bianca D.</h3>
-                </div>
-                <div className="teamMemberContainer">
-                    <div className="teamMemberImgContainer">
-                        <img src={TeamMember} />
-                    </div>
-                    <span className="role">SEO Strategist</span>
-                    <h3 className="teamMemberName">Nicoleta T.</h3>
-                </div>
-                <div className="teamMemberContainer">
-                    <div className="teamMemberImgContainer">
-                        <img src={TeamMember} />
-                    </div>
-                    <span className="role">PPC Strategist</span>
-                    <h3 className="teamMemberName">Bogdan P.</h3>
-                </div>
-                <div className="teamMemberContainer">
-                    <div className="teamMemberImgContainer">
-                        <img src={TeamMember} />
-                    </div>
-                    <span className="role">Social Media Expert</span>
-                    <h3 className="teamMemberName">Stefana I.</h3>
-                </div>
-                <div className="teamMemberContainer">
-                    <div className="teamMemberImgContainer">
-                        <img src={TeamMember} />
-                    </div>
-                    <span className="role">Brand Manager</span>
-                    <h3 className="teamMemberName">Nicoleta M.</h3>
-                </div>
+                ))}
             </Slider>
         </div>
     );

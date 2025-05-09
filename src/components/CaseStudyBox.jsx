@@ -1,19 +1,38 @@
+import { Link } from 'react-router-dom';
 
-import CaseStudyImage from '../assets/agency-img1.png';
-const CaseStudyBox = () => {
+const CaseStudyBox = ({ post }) => {
+
+    const formattedDate = new Date(post.date).toLocaleDateString('ro-RO', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric'
+    });
+   
+    const imageUrl = post.featuredImage ? (
+        post.featuredImage.startsWith('http') || post.featuredImage.startsWith('data:') ?
+            post.featuredImage :
+            `${process.env.REACT_APP_URL || 'http://localhost:5002'}${post.featuredImage}`
+    ) : null;
+    
 
     return (
-        <article className="caseStudy-box">
-            <img src={CaseStudyImage} />
-            <div className="caseStudyContentWrapper">
-                <h3 className="caseStudyTitle">De la cabinet stomatologic mic la clinică de top - stomatologie</h3>
-                <p className="caseStudyMeta">Cele mai bune formate de Instagram Ads pentru creșterea vânzărilor în 2025 Într-o lume în continuă transformare digitală, Instagram rămâne…</p>
-                <div className="caseStudyFooter">
-                    <span className="caseStudyDate">7 Mar, 2025</span>
-                    <span className="caseStudyTime">5 min read</span>
+        <Link to={`/studii-de-caz/${post.slug}`} className="caseStudy-box">
+            <article>
+                <img 
+                    src={imageUrl} 
+                    alt={post.title} 
+                    loading="lazy"
+                    decoding="async"
+                />
+                <div className="caseStudyContentWrapper">
+                    <h3 className="caseStudyTitle">{post.title}</h3>
+                    <p className="caseStudyMeta">{post.excerpt}</p>
+                    <div className="caseStudyFooter">
+                        <span className="caseStudyDate">{formattedDate}</span>
+                    </div>
                 </div>
-            </div>
-        </article>
+            </article>
+        </Link>
     );
 }
 

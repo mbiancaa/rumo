@@ -1,60 +1,93 @@
+import { useState, useEffect } from "react";
+import { useParams, Navigate, useNavigate } from "react-router-dom";
 import ArticleLayout from "../components/ArticleLayout";
-import BusinessImage from '../assets/1.1._DCS.jpeg';
+import { caseStudyService } from "../services/api";
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import SEO from '../components/SEO';
 
 const CaseStudy = () => {
-    const services = [
-        'Social Media Marketing',
-        'Creare website',
-        'SEO',
-        'Branding',
-        'Strategie de marketing online'
-    ];
+    const { slug } = useParams();
+    const navigate = useNavigate();
+    const [caseStudy, setCaseStudy] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchCaseStudy = async () => {
+            try {
+                setLoading(true);
+                const data = await caseStudyService.getBySlug(slug);
+                if (!data) {
+                    navigate('/404');
+                    return;
+                }
+                setCaseStudy(data);
+            } catch (err) {
+                console.error("Error fetching case study:", err);
+                navigate('/404');
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (slug) {
+            fetchCaseStudy();
+        }
+    }, [slug, navigate]);
+
+    if (!caseStudy) {
+        return <div>Loading...</div>;
+    }
+
+    return (
+        <>
+            <SEO 
+                title={caseStudy.metaTitle || caseStudy.title}
+                description={caseStudy.metaDescription || caseStudy.excerpt}
+            />
+            <Header />
+            {loading ? (
+                <section className="whitebg layout">
+                    <div className={`container`} style={{ paddingTop: 20 }}>
+                        Studiul de caz se încarcă...
+                    </div>
+                </section>
+            ) : (
+                <ArticleLayout
+                    title={caseStudy.title}
+                    category={caseStudy.industry}
+                    type="caseStudy"
+                    date={caseStudy.perioada}
+                    services={caseStudy.services}
+                    image={caseStudy.featuredImage}
+                >
+                    <div className={`text-content-container`}>
+                        <div dangerouslySetInnerHTML={{ __html: caseStudy.content }} />
+                    </div>
+                </ArticleLayout>
+            )}
+            <Footer />
+        </>
+    );
+
+    // Parse services from string to array if needed
+    const servicesArray = typeof caseStudy.services === 'string' 
+        ? caseStudy.services.split(',').map(service => service.trim()) 
+        : caseStudy.services || [];
 
     return (
         <ArticleLayout
-            title="De la cabinet stomatologic mic la clinică de top - stomatologie"
-            category="Medicala"
+            title={caseStudy.title}
+            category={caseStudy.industry}
             type="caseStudy"
-            date="2020 - 2024"
-            services={services}
-            image={BusinessImage}
-            company="DentalCare Sîrbu"
+            date={caseStudy.perioada}
+            services={servicesArray}
+            image={caseStudy.featuredImage}
+            company={caseStudy.client || ""}
         >
-            <div>
-                <p>La RUMO Digital Path ne mândrim cu rezultatele pe care le obținem pentru clienții noștri, iar colaborarea cu <strong>DentalCare Sîrbu</strong> este unul dintre cele mai reprezentative exemple din portofoliul nostru.</p>
-
-                <h2>De la un cabinet mic la o clinică de renume</h2>
-                <p>Când am întâlnit echipa DentalCare Sîrbu într-un cabinet micuț situat în centrul Clujului, aveau doar câțiva pacienți pe săptămână...</p>
-
-                <h2>Dezvoltarea afacerii prin strategie de marketing online</h2>
-                <p>În lumea digitală de astăzi, este absolut esențial să îți dezvolți afacerea pe baza unei strategii profesionale de marketing online...</p>
-
-                <h3>Primii pași:</h3>
-                <ul>
-                    <li><strong>Social media marketing</strong></li>
-                    <li><strong>Crearea unui website profesional</strong></li>
-                    <li><strong>SEO: De la vizibilitate scăzută la notorietate</strong></li>
-                    <li><strong>Managementul website-ului și articolele de blog</strong></li>
-                    <li><strong>Graphic design pentru un branding memorabil</strong></li>
-                </ul>
-
-                <h2>Rezultate remarcabile</h2>
-                <p>După doar doi ani de colaborare, rezultatele au fost evidente. DentalCare Sîrbu a trecut de la un cabinet mic la o clinică modernă...</p>
-
-                <h2>Ce am învățat: Marketing în domeniul medical</h2>
-                <p>Prin această colaborare, am început să ne dezvoltăm competențe solide în marketingul medical...</p>
-
-                <h3>Pilonii succesului nostru</h3>
-                <ul>
-                    <li><strong>Analiza și implementare strategică</strong> – Am investit timp pentru a analiza afacerea...</li>
-                    <li><strong>Implicarea clientului</strong> – Comunicarea constantă și colaborarea strânsă...</li>
-                </ul>
-
-
-            </div>
+            <div className="text-content-container" dangerouslySetInnerHTML={{ __html: caseStudy.content }} />
         </ArticleLayout>
     );
-
 }
 
 export default CaseStudy;

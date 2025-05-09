@@ -69,3 +69,48 @@
         left: calc(100% * 3);
     }
 }
+
+@keyframes moveBottomToTop {
+    0% {
+        bottom: -50px;
+    }
+
+    100% {
+        bottom: calc(100% * 3);
+    }
+}
+
+@media (max-width: 850px) {
+    .title {
+        font-size: 20px;
+    }
+
+    .text {
+        line-height: 16px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 670px) {
+    .item {
+        min-width: 100%;
+        width: 100%;
+        max-width: 100%;
+        padding: 15px 10px 15px 30px;
+    }
+
+    .container:before {
+        width: 1.5px;
+        height: 100%;
+    }
+
+    .container:after {
+        height: 80px;
+        width: 1.5px;
+        left: 0;
+        bottom: -50px;
+        transform: unset;
+        top: unset;
+        animation: moveBottomToTop 8s linear infinite;
+    }
+}

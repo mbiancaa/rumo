@@ -30,7 +30,11 @@ const BackToTop = () => {
                     className={style.wrapper}
                     style={{ '--progress': `${scrollProgress}deg` }}
                 >
-                    <button className={style.button} onClick={handleClick}>
+                    <button 
+                        className={style.button} 
+                        onClick={handleClick}
+                        aria-label="Întoarce-te la începutul paginii"
+                    >
                         <span className={`arrow ${style.green}`}></span>
                     </button>
                 </div>

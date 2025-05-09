@@ -19,7 +19,7 @@ const CustomerSlider = () => {
     var settings = {
         dots: false,
         infinite: true,
-        slidesToShow: 4,
+        variableWidth: true,
         slidesToScroll: 1,
         autoplay: true,
         speed: 5000,
@@ -34,40 +34,40 @@ const CustomerSlider = () => {
     return (
         <Slider {...settings}>
             <div>
-                <img className="customer_logo" src={Logo1} />
+                <img className="customer_logo" src={Logo1} alt="Logo client 1" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo2} />
+                <img className="customer_logo" src={Logo2} alt="Logo client 2" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo3} />
+                <img className="customer_logo" src={Logo3} alt="Logo client 3" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo4} />
+                <img className="customer_logo" src={Logo4} alt="Logo client 4" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo6} />
+                <img className="customer_logo" src={Logo6} alt="Logo client 6" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo7} />
+                <img className="customer_logo" src={Logo7} alt="Logo client 7" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo8} />
+                <img className="customer_logo" src={Logo8} alt="Logo client 8" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo9} />
+                <img className="customer_logo" src={Logo9} alt="Logo client 9" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo10} />
+                <img className="customer_logo" src={Logo10} alt="Logo client 10" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo11} />
+                <img className="customer_logo" src={Logo11} alt="Logo client 11" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo12} />
+                <img className="customer_logo" src={Logo12} alt="Logo client 12" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo13} />
+                <img className="customer_logo" src={Logo13} alt="Logo client 13" />
             </div>
         </Slider>
     );

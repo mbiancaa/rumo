@@ -1,11 +1,11 @@
 import '../styles/Home.css';
 import '../styles/Home2.css';
+import styles from'../styles/modules/HomeEndTextSection.module.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import MovingImages from '../components/MovingImages';
 import Services from '../components/Services';
 import WorkProcess from '../components/WorkProcess';
-
+import SEO from '../components/SEO';
 
 import HeroSection from '../sections/HeroSection';
 import CustomerSection from '../sections/CustomerSection';
@@ -13,106 +13,79 @@ import CeoSection from '../sections/CeoSection';
 import TeamSection from '../sections/TeamSection';
 import BlogSection from '../sections/BlogSection';
 import CaseStudiesSection from '../sections/CaseStudiesSection';
+import HeroContactSection from '../sections/HeroContactSection';
 
-import { NavLink } from 'react-router-dom';
-
-import useInView from '../hooks/useInView';
+import homeVideo from '../assets/home/video/home_rumo_digital_video.mp4';
+import homeVideoFallback from '../assets/home/video/video_fallback.jpg';
+import bgSectionImg from '../assets/home/14.jpg';
 
 const Home = () => {
-
+    
     return (
         <div className="Homepage">
-
+            <SEO 
+                title="RUMO - Your Digital Path"
+                description="Agenție de marketing digital dedicată creșterii afacerilor mici și mijlocii. Oferim servicii de SEO, PPC, branding, social media și creare website-uri."
+            />
             <Header />
             <HeroSection>
-                <div className="hero-text">
-                    <span style={{
-                        fontSize: 40,
-                    }}>Ajutăm afacerile mici și mijlocii să crească <b className="highlight">până dincolo de nori</b>.</span>
-                    <span style={{
-                        fontSize: 25,
-                        marginTop: 15,
-                        fontWeight: 'bold'
-                    }}>Cu RUMO, afacerea ta prinde avânt!</span>
+                <div className="d-flex p-relative j-center full-height">
+                    <div className="hero-text">
+                        <span>Ajutăm afacerile mici și mijlocii să crească <b>până dincolo de nori</b>.</span>
+                        <span>Cu RUMO, afacerea ta prinde avânt!</span>
+                    </div>
+                    <video
+                        className="home-background-video"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="auto"
+                        poster={homeVideoFallback}
+                    >
+                        <source src={homeVideo} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
                 </div>
+
             </HeroSection>
             <CustomerSection />
-            <section className="darkbg layout darkbg-img imgEffect" style={{ minHeight: 630 }}>
-                <div style={{ justifyContent: 'space-around', gap: 60, paddingBottom: 0 }}
-                    className="content container d-flex">
-                    <MovingImages />
-                    <div style={{
-                        width: 'calc(100% - 400px)',
-                        maxWidth: 800
-                    }}
-                        className="flexContainer p-relative">
-                        <h2 style={{ fontSize: 50 }}>Dezvoltarea afacerii tale prin marketing online strategic.</h2>
-                        <p style={{
-                            fontSize: 24,
-                            letterSpacing: -1,
-                        }}>Ajutăm afacerile mici și mijlocii să devină mari!</p>
-                        <NavLink to="/contact" className="CTA_darkbg">Contactează-ne!</NavLink>
-                        <span style={{
-                            fontWeight: 'bold',
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: 130,
-                            position: 'absolute',
-                            bottom: 0,
-                            right: 0,
-                            fontFamily: 'Kanit'
-                        }}
-                        ><span className="highlightedBorder">+5</span> ani experiență</span>
-                    </div>
-                </div>
-            </section>
+            <HeroContactSection />
             <section className="whitebg layout">
                 <WorkProcess />
                 <Services />
             </section>
-            <section className="darkbg layout darkbg-sm-img bg-sm-url imgEffect">
-                <h2>Cu RUMO,<br /> afacerea ta prinde avânt!</h2>
+            <section className="darkbg layout darkbg-sm-img imgEffect" style={{ backgroundImage: `url(${bgSectionImg})` }}>
+                <h2>Cu RUMO,<br /> afacerea ta <br /> prinde avânt!</h2>
             </section>
             <CaseStudiesSection />
             <CeoSection />
             <TeamSection />
             <BlogSection />
-            <section className="whitebg layout" style={{ minHeight: 500 }}>
-                <div className="container" style={{ padding: 0 }}>
 
-
-                    <h2 className="bottomHightlight" style={{
-                        fontSize: 58,
-                        fontFamily: 'Kanit',
-                        marginBottom: 80
-                    }}>Marketing cu suflet pentru afaceri cu viziune</h2>
-                    <div className="d-flex">
-                        <div className="left">
-                            <p>Succesul unui IMM nu depinde doar de un produs bun, ci și de vizibilitate, strategie și conexiune autentică cu publicul.</p>
+            <section className={`whitebg layout ${styles.section}`}>
+                <div className='container'>
+                    <div className={`${styles.container}`}>
+                        <h2 className={styles.heading}>
+                            Marketing <b>cu suflet</b> pentru <span className={styles.blue}>afaceri cu viziune</span>
+                        </h2>
+                        <div className={`d-flex ${styles.flexContainer}`}>
+                            <div className={`left ${styles.left}`}>
+                                <p className={styles.blue}>Succesul unui IMM nu depinde doar de un produs bun, ci și de vizibilitate, strategie și conexiune autentică cu publicul.</p>
+                            </div>
+                            <div className={`right ${styles.right}`}>
+                                <p className={styles.paragraph}>La RUMO, nu oferim doar servicii de SEO, PPC, branding, social media și creare website-uri ci construim povești care inspiră și vând.</p>
+                                <p className={styles.paragraph}>Credem în marketingul făcut din empatie, adaptat realității antreprenorilor români.</p>
+                                <p>Dacă vrei să-ți lansezi afacerea sau să o scalezi, suntem aici să îți oferim soluții eficiente și măsurabile.</p>
+                            </div>
                         </div>
-                        <div style={{
-                            fontSize: 16,
-                            lineHeight: '26px',
-                            marginLeft: 80,
-                            fontFamily: 'Kanit',
-                            fontWeight: 300
-                        }} className="right">
-                            <p style={{ marginBottom: 10 }}>La RUMO, nu oferim doar servicii de SEO, PPC, branding, social media și creare website-uri ci construim povești care inspiră și vând.</p>
-                            <p style={{ marginBottom: 10 }}>Credem în marketingul făcut din empatie, adaptat realității antreprenorilor români.</p>
-                            <p>Dacă vrei să-ți lansezi afacerea sau să o scalezi, suntem aici să îți oferim soluții eficiente și măsurabile.</p>
-                        </div>
+                        <h2 className={styles.bottomHeading}>
+                            Hai să dăm <b className={styles.green}>împreună</b> avânt business-ului tău!
+                        </h2>
                     </div>
-                    <h2 style={{
-                        fontSize: 58,
-                        fontFamily: 'Kanit',
-                        marginTop: 80,
-                        marginBottom: 100,
-                        color: 'var(--light-grey)'
-                    }}>Hai să dăm împreună avânt business-ului tău!</h2>
                 </div>
-            </section >
+            </section>
+            
             <Footer />
         </div>
     );

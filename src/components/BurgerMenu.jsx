@@ -37,6 +37,8 @@ const BurgerMenu = () => {
             className={`burger-menu ${isOpen ? "open--" : ""}`}
             title="Menu"
             onClick={toggleMenu}
+            aria-label={isOpen ? "Închide meniul" : "Deschide meniul"}
+            aria-expanded={isOpen}
         >
             <span></span>
             <span className="close"></span>

@@ -11,8 +11,8 @@
     position: relative;
 }
 
-.hero .eq-column:first-of-type {
-    padding-right: 60px;
+.hero .eq-column:nth-of-type(2) {
+    padding-left: 60px;
 }
 
 .hero .eq-column.separator:after {
@@ -21,7 +21,7 @@
     width: 1px;
     background-color: var(--light-grey);
     position: absolute;
-    right: 0;
+    left: 0;
     top: 0;
 }
 
@@ -104,6 +104,29 @@
     max-width: 40%;
 }
 
+@media (max-width: 670px) {
+    .imageColumn {
+        flex-wrap: wrap;
+        gap: 20px;
+        min-width: calc(100%);
+        margin-left: 0px;
+    }
+
+    .imageColumn .imageRow {
+        min-width: 100%;
+        width: 100%;
+        height: 200px;
+    }
+
+    .imageRow:first-of-type {
+        margin-left: -12px;
+    }
+
+    .imageRow:last-of-type {
+        margin-left: 12px;
+    }
+}
+
 .reviews-bg:after {
     content: '';
     background: var(--blue);
@@ -154,6 +177,32 @@
     line-height: 32px;
 }
 
+.testimonialSliderTitle {
+    position: relative;
+    margin-left: auto;
+    margin-right: 0;
+    max-width: 750px;
+    text-align: center;
+    font-size: 52px;
+    margin-bottom: 50px;
+    color: var(--white);
+    text-shadow: 0px 0px 10px rgba(0, 0, 0, .2);
+}
+
+@media (max-width: 850px) {
+    .testimonialSliderTitle {
+        font-size: 24px;
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 670px) {
+    .testimonialBoxContainer.clientTestimonial p {
+        font-size: 15px;
+        line-height: 24px;
+    }
+}
+
 .list-item-checkmark {
     padding-left: 25px;
 }
@@ -175,12 +224,154 @@
 }
 
 .heroAfter-img {
-    background-image: url('../assets/business-group-meeting-discussion-strategy-working-concept.jpg');
-    /* margin: 0 60px; */
     max-height: 700px;
     min-height: 700px;
 }
 
-.bg-url {
-    background-image: url('../assets/modern-equipped-computer-lab.jpg');
+.hero .eq-column:nth-of-type(2) h2 {
+    color: var(--black);
+    font-family: 'Roboto';
+    font-weight: 900;
+    font-size: 30px
+}
+
+
+.mottoText {
+    font-size: 65px;
+    font-weight: 900;
+    line-height: 130px;
+}
+
+.mottoText span {
+    font-weight: 600;
+}
+
+.mottoText span b {
+    font-weight: 900;
+}
+
+.mottoText span:nth-child(3) {
+    display: block;
+    margin-left: 200px;
+}
+
+
+
+@media (max-width: 1190px) {
+    .hero .layout.eq-columns {
+        flex-wrap: wrap;
+        width: 100%;
+        max-width: 100%;
+        min-width: 100%;
+        padding: 80px 25px;
+    }
+
+    .mottoText {
+        font-size: 36px;
+        line-height: 70px;
+    }
+
+    .mottoText span:nth-child(3) {
+        margin-left: 60px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .hero .layout.eq-columns {
+        padding: 120px 15px 80px;
+        align-items: center;
+        align-content: center;
+        justify-content: unset;
+        gap: 50px;
+    }
+
+    .hero .eq-column {
+        min-width: 100%;
+        width: 100%;
+        max-width: 100%;
+        flex: unset;
+        max-height: fit-content;
+    }
+
+    .hero .eq-column:nth-of-type(2) {
+        padding-left: 25px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+
+    .eq-column p {
+        font-size: 15px;
+        line-height: 20px;
+        margin-top: 10px;
+    }
+}
+
+.mediumHeadline {
+    font-size: 50px;
+    font-family: 'Kanit';
+    margin-top: 80;
+    margin-bottom: 80
+}
+
+@media (max-width: 850px) {
+    .mediumHeadline {
+        font-size: 30px;
+        margin-top: 45px;
+        margin-bottom: 45px
+    }
+
+    .boxContainer.box-6 {
+        gap: 50px 30px;
+    }
+
+    .box-6 .box {
+        width: calc(50% - 17px);
+    }
+}
+
+@media (max-width: 670px) {
+    .hero-title {
+        font-size: 43px;
+        line-height: 50px;
+    }
+
+    .hero .hero-subtitle {
+        margin-top: 10px;
+        font-size: 20px;
+        line-height: 24px;
+    }
+
+    .hero .layout.eq-columns {
+        gap: 30px;
+    }
+
+    .hero .eq-column:nth-of-type(2) h2 {
+        font-size: 22px;
+        line-height: 26px;
+    }
+
+    .hero .eq-column:nth-of-type(2) {
+        padding-left: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    .mediumHeadline {
+        font-size: 27px;
+        margin-top: 45px;
+        margin-bottom: 45px;
+    }
+
+    .boxContainer.box-6 {
+        gap: 30px 0px;
+    }
+
+    .box-6 .box {
+        width: 100%;
+    }
+
+    .mottoText {
+        font-size: 25px;
+        line-height: 35px;
+    }
 }

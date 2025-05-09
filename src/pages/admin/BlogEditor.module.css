@@ -1,0 +1,82 @@
+.saveButton {
+  background: var(--blue);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.saveButton:hover {
+  background: var(--dark-blue);
+}
+
+.saveButton:disabled {
+  background: #e5e7eb;
+  cursor: not-allowed;
+}
+
+.publishButton {
+  background: var(--green);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.publishButton:hover {
+  background: var(--dark-green);
+}
+
+.publishButton:disabled {
+  background: #e5e7eb;
+  cursor: not-allowed;
+}
+
+.deleteButton {
+  background: #fee2e2;
+  color: #dc2626;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.deleteButton:hover {
+  background: #dc2626;
+  color: white;
+}
+
+.deleteButton:disabled {
+  background: #e5e7eb;
+  cursor: not-allowed;
+}
+
+.statusBadge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.statusBadge.published {
+  background: var(--light-green);
+  color: var(--green);
+}
+
+.statusBadge.draft {
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.statusBadge.scheduled {
+  background: #fef3c7;
+  color: #d97706;
+} 

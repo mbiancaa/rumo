@@ -1,0 +1,61 @@
+.backgroundImageContentContainer {
+    padding: 60px 0;
+    min-height: 600px;
+    max-height: 600px;
+    height: 600px
+}
+
+.backgroundImageTitle {
+    max-width: 1400px;
+    font-size: 65px;
+    font-weight: 900;
+    line-height: 130px;
+    margin: auto
+}
+
+.marginLeft {
+    margin-left: 200px
+}
+
+:global(.faqHeadline) {
+    margin-top: 100px;
+    font-size: 30px;
+    margin-bottom: 20px;
+    border-top: 1px solid #efefef;
+    padding-top: 100px;
+}
+
+@media (max-width: 850px) {
+    .backgroundImageContentContainer {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    .backgroundImageTitle {
+        line-height: 46px;
+        margin: auto;
+    }
+
+    .marginLeft {
+        margin-left: 30px;
+    }
+
+    :global(.faqHeadline) {
+        margin-top: 60px;
+        font-size: 24px;
+        padding-top: 60px;
+        margin-bottom: 10px
+    }
+}
+
+@media (max-width: 670px) {
+
+
+    .backgroundImageTitle {
+        font-size: 25px !important;
+        line-height: 30px;
+
+    }
+
+
+}

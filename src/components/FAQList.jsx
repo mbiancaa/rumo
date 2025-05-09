@@ -40,13 +40,7 @@ const FAQList = () => {
 
     return (
         <>
-            <h3 style={{
-                marginTop: 100,
-                fontSize: 30,
-                marginBottom: 20,
-                borderTop: '1px solid #efefef',
-                paddingTop: 100
-            }}>Cele mai frecvente întrebări primite de la clienții noștri:</h3>
+            <h3 className={`faqHeadline`}>Cele mai frecvente întrebări primite de la clienții noștri:</h3>
             {faqs.map((faq, index) => (
                 <FAQItem
                     key={index}

@@ -1,18 +1,17 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import AgencyImg1 from '../../assets/agency-img1.png';
-
 import { NavLink } from "react-router-dom";
 
-const CaseStudiesSlider = () => {
+const CaseStudiesSlider = ({ caseStudies }) => {
+
     var settings = {
         variableWidth: true,
         slidesToScroll: 1,
-        infinite: true,
-        autoplay: true,
-        autoplaySpeed: 3000,
-        speed: 1500,
+        infinite: caseStudies.length > 1,
+        autoplay: caseStudies.length > 1,
+        autoplaySpeed: 8000,
+        speed: 4000,
         dots: false,
         arrows: false,
         pauseOnHover: false,
@@ -22,66 +21,34 @@ const CaseStudiesSlider = () => {
     return (
         <div className="caseStudiesCarousel">
             <Slider {...settings}>
-                <NavLink to="/studiu" className="caseStudyItem">
-                    <div className="left">
-                        <span className="number">01</span>
-                        <h3>De la cabinet stomatologic mic la clinică de top - stomatologie</h3>
-                        <div className="arrowCTA"><span className="arrow"></span></div>
-                    </div>
-                    <div className="right">
-                        <img src={AgencyImg1} />
-                    </div>
-                </NavLink>
-                <NavLink to="/studiu" className="caseStudyItem blue">
-                    <div className="left">
-                        <span className="number">02</span>
-                        <h3>De la 800 followers la 10.000, în doar un an - consultanță afaceri</h3>
-                        <div className="arrowCTA"><span className="arrow"></span></div>
-                    </div>
-                    <div className="right">
-                        <img src={AgencyImg1} />
-                    </div>
-                </NavLink>
-                <NavLink to="/studiu" className="caseStudyItem">
-                    <div className="left">
-                        <span className="number">03</span>
-                        <h3>Crearea unei prezențe online puternice de la zero - chirurgie generală</h3>
-                        <div className="arrowCTA"><span className="arrow"></span></div>
-                    </div>
-                    <div className="right">
-                        <img src={AgencyImg1} />
-                    </div>
-                </NavLink>
-                <NavLink to="/studiu" className="caseStudyItem blue">
-                    <div className="left">
-                        <span className="number">04</span>
-                        <h3>Creșterea unei cafenele prin social media marketing - HoReCa</h3>
-                        <div className="arrowCTA"><span className="arrow"></span></div>
-                    </div>
-                    <div className="right">
-                        <img src={AgencyImg1} />
-                    </div>
-                </NavLink>
-                <NavLink to="/studiu" className="caseStudyItem">
-                    <div className="left">
-                        <span className="number">05</span>
-                        <h3>De la reticență la notorietate - medic specialist chirurgie plastică</h3>
-                        <div className="arrowCTA"><span className="arrow"></span></div>
-                    </div>
-                    <div className="right">
-                        <img src={AgencyImg1} />
-                    </div>
-                </NavLink>
-                <NavLink to="/studiu" className="caseStudyItem blue">
-                    <div className="left">
-                        <span className="number">06</span>
-                        <h3>Ce a decis Dr. Mihai-Ștefan Mureșan pe parcursul colaborării cu RUMO?</h3>
-                        <div className="arrowCTA"><span className="arrow"></span></div>
-                    </div>
-                    <div className="right">
-                        <img src={AgencyImg1} />
-                    </div>
-                </NavLink>
+                {caseStudies.map((study, index) => (
+                        <NavLink 
+                            key={study._id} 
+                            to={`/studii-de-caz/${study.slug}`} 
+                            className={`caseStudyItem ${index % 2 === 1 ? 'blue' : ''}`}
+                        >
+                            <div className="left">
+                                <span className="number">{String(index + 1).padStart(2, '0')}</span>
+                                <h3>{study.title}</h3>
+                                <div className="arrowCTA"><span className="arrow"></span></div>
+                            </div>
+                            <div className="right">
+                                <img 
+                                    src={study.featuredImage ? 
+                                        (study.featuredImage.startsWith('http') ? 
+                                            study.featuredImage : 
+                                            `${process.env.REACT_APP_URL || 'http://localhost:5002'}${study.featuredImage}`
+                                        ) : 
+                                        '/placeholder.jpg'
+                                    } 
+                                    alt={study.title} 
+                                    loading="lazy"
+                                    decoding="async"
+                                />
+                            </div>
+                        </NavLink>
+                    ))
+                }
             </Slider>
         </div>
     );

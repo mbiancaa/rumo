@@ -1,60 +1,92 @@
 import '../styles/Home.css';
 import '../styles/About.css';
+import { useState, useEffect } from 'react';
+import { pageService } from '../services/api';
+
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-
 import HeroSection from '../sections/HeroSection';
 import FAQList from '../components/FAQList';
-
 import useInView from '../hooks/useInView';
+import SEO from '../components/SEO';
+
+import contactVideo from '../assets/video/contact_rumo_digital_video.mp4';
+import contactVideoFallback from '../assets/video/video_fallback.jpg';
+import MottoBgImageAnimation from '../components/MottoBgImageAnimation';
 
 const Contact = () => {
-
     const [textRef, textInView] = useInView(100);
     const [subtitleRef, subtitleInView] = useInView(600);
     const [descriptionRef, descriptionInView] = useInView(650);
     const [separatorRef, separatorInView] = useInView(350);
+    const [pageContent, setPageContent] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPageContent = async () => {
+            try {
+                const data = await pageService.getBySlug('contact');
+                setPageContent(data);
+            } catch (err) {
+                console.error('Error fetching page content:', err);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPageContent();
+    }, []);
 
     return (
         <>
-
+            <SEO 
+                title={pageContent?.metaTitle || pageContent?.name || "Contact RUMO"}
+                description={pageContent?.metaDescription || "Contactează echipa RUMO pentru soluții personalizate de marketing digital. Suntem aici să te ajutăm să-ți crești afacerea."}
+            />
             <Header />
             <HeroSection>
                 <div className="layout eq-columns">
-                    <div ref={separatorRef} className={`eq-column separator ${separatorInView ? "show" : ""}`}>
+                    <div className={`eq-column`}>
                         <div ref={textRef} className={`slideInTextAnimation ${textInView ? "show" : ""}`}>
-                            <h1 className="hero-title">Contact</h1>
+                            <h1 className="hero-title">{pageContent?.name}</h1>
                         </div>
                         <div ref={subtitleRef} className={`slideInTextAnimation ${subtitleInView ? "show" : ""}`}>
                             <h2 className="hero-subtitle">Cu RUMO, afacerea ta prinde avânt!</h2>
                         </div>
                     </div>
-                    <div ref={descriptionRef} className={`eq-column slideInTextAnimation ${descriptionInView ? "show" : ""}`}>
-                        <h2>Ești pregătit să-ți <span style={{ color: 'var(--blue)' }}>accelerezi</span> creșterea pe piață?</h2>
-                        <p>Îți dorești un partener de marketing online care să înțeleagă exact provocările tale de business? Accesează secțiunea Contact și hai să ne cunoaștem! </p>
-                        <p>La RUMO, ne concentrăm pe rezolvarea problemelor specifice afacerilor mici și mijlocii, oferind tactici personalizate, analize clare și îndrumare pas cu pas spre un ROI excelent.</p>
+                    <div ref={separatorRef} className={`eq-column separator ${separatorInView ? "show" : ""}`}>
+                        <div ref={descriptionRef} className={`slideInTextAnimation ${descriptionInView ? "show" : ""}`}>
+                            {pageContent?.upperContent && (
+                                <div dangerouslySetInnerHTML={{ __html: pageContent.upperContent }} />
+                            )}
+                        </div>
                     </div>
                 </div>
             </HeroSection>
-            <section style={{ padding: '60px 0', minHeight: 600, maxHeight: 600, height: 600 }} className="darkbg layout darkbg-sm-img bg-url  imgEffect">
-                <h2 style={{ maxWidth: 1400, fontSize: 65, fontWeight: 900, lineHeight: '130px', margin: 'auto', }}>
-                    <span style={{ color: 'var(--green)' }}>RUMO</span> – <span style={{ fontFamily: 'Kanit', fontWeight: 700 }}>Marketing digital</span> <br /> <span style={{ marginLeft: 200 }}>creat cu pasiune pentru afacerea ta</span>
-                </h2>
+            <section className={`video-section layout whitebg`}>
+                <video
+                    className="background-video"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    poster={contactVideoFallback}
+                >
+                    <source src={contactVideo} type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
             </section >
             <section className="whitebg layout">
                 <div className="container">
-                    <p style={{
-                        fontSize: 34,
-                        lineHeight: '42px',
-                        letterSpacing: -1,
-                    }}>
+                    <p className="bigParagraph">
                         Știm cât de mult ai muncit pentru visul tău și cât de important este să-l vezi crescând. De aceea, ca soluție la provocările afacerii tale, creăm <b>strategii personalizate</b>, adaptate exact nevoilor tale.
                     </p>
                     <div className="text-content-container">
                         <h3>Cum lucrăm?</h3>
                         <p>Suntem o agenție de marketing digital cu rădăcini în România, dar cu viziune și ambiție globală. Am pornit la drum cu un nucleu de specialiști pasionați de marketing, business growth, design, copywriting, analiză de date și altele; ne dorim sa ne aducem aportul în ecosistemul antreprenorial din România.</p>
                         <p>În timp, am crescut organic, am adăugat membri noi și am îmbunătățit constant procesele interne, rămânând, totuși, aceeași echipă de oameni cu inimă și energie pozitivă.</p>
-                        <p>Filosofia noastră este simplă: <b>ascultăm, planificăm, construim și scalăm</b>. Înțelegem că fiecare afacere are propriile obiective și provocări, motiv pentru care nu credem în „rețete” generale. Fiecare proiect primește atenția noastră completă și personalizată, astfel încât să creăm soluții originale și strategii bine ancorate în realitatea ta de business.</p>
+                        <p>Filosofia noastră este simplă: <b>ascultăm, planificăm, construim și scalăm</b>. Înțelegem că fiecare afacere are propriile obiective și provocări, motiv pentru care nu credem în "rețete" generale. Fiecare proiect primește atenția noastră completă și personalizată, astfel încât să creăm soluții originale și strategii bine ancorate în realitatea ta de business.</p>
                         <h3>De ce suntem o alegere potrivită:</h3>
                         <ul>
                             <li>Dispunem de expertiză atât în <b>campanii PPC</b>, cât și în <b>optimizarea SEO</b></li>
@@ -64,36 +96,23 @@ const Contact = () => {
                             <li>Ne place să dăm viață brandurilor prin <b>creare branding</b> și să le facem memorabile pentru public</li>
                         </ul>
                     </div>
-                    <h3 style={{
-                        fontSize: 40,
-                        marginBottom: 15,
-                        marginTop: 80,
-                        color: 'var(--blue)'
-                    }}>Serviciile noastre și importanța lor în creșterea afacerii</h3>
-                    <p style={{
-                        fontSize: 24,
-                        letterSpacing: -1
-                    }}>
+                    <h3 className="headlineH3">Serviciile noastre și importanța lor în creșterea afacerii</h3>
+                    <p className="mediumParagraph">
                         Fiecare serviciu din portofoliul nostru este atent construit pentru a răspunde nevoilor curente ale pieței, dar și pentru a-ți pregăti afacerea pentru viitor.<br /><br />Iată o scurtă prezentare a principalelor servicii:
                     </p>
-                    <h4 style={{ fontSize: 20, fontWeight: 400, marginTop: 20, color: 'var(--grey)' }}><b style={{ color: 'var(--blue)' }}>Creare website –</b> Transformă-ți viziunea în realitate digitală și atrage mai mulți clienți. Oferim soluții moderne de web development (creare website) cu funcționalități intuitive și bine optimizate SEO, care generează conversii pe termen lung.</h4>
-                    <h4 style={{ fontSize: 20, fontWeight: 400, marginTop: 20, color: 'var(--grey)' }}><b style={{ color: 'var(--blue)' }}>Campanii PPC –</b> Câștigă vizibilitate instantă și atrage publicul potrivit cu strategii PPC bine calibrate. Ajustăm bugetul și conținutul anunțurilor pentru a maximiza fiecare click și a crește profitul.</h4>
-                    <h4 style={{ fontSize: 20, fontWeight: 400, marginTop: 20, color: 'var(--grey)' }}><b style={{ color: 'var(--blue)' }}>SEO –</b> Evidențiază-te în motoarele de căutare cu tehnici SEO avansate și conținut relevant. Creștem traficul organic, sporim notorietatea brandului și îți asigurăm o poziție solidă pe piață.</h4>
-                    <h4 style={{ fontSize: 20, fontWeight: 400, marginTop: 20, color: 'var(--grey)' }}><b style={{ color: 'var(--blue)' }}>Social Media Management –</b> Conectează-te cu audiența ta prin postări creative și campanii interactive. Gestionăm eficient canalele sociale pentru a-ți mări comunitatea și a o menține activă și fidelă și pentru a-ți consolida imaginea.</h4>
-                    <h4 style={{ fontSize: 20, fontWeight: 400, marginTop: 20, color: 'var(--grey)' }}><b style={{ color: 'var(--blue)' }}>Plan strategic de marketing –</b> Fii mereu cu un pas înaintea concurenței. Analizăm piața, definim obiective clare și dezvoltăm un plan flexibil, care să te susțină în fiecare etapă a creșterii afacerii tale.</h4>
-                    <h4 style={{ fontSize: 20, fontWeight: 400, marginTop: 20, color: 'var(--grey)' }}><b style={{ color: 'var(--blue)' }}>Branding –</b> Creăm o identitate puternică ce reflectă valorile și personalitatea afacerii tale. Diferențiază-te de competiție cu un concept vizual coerent și mesaje care inspiră încredere.</h4>
-                    <h4 style={{ fontSize: 20, fontWeight: 400, marginTop: 20, color: 'var(--grey)' }}><b style={{ color: 'var(--blue)' }}>Campanii de E-mail marketing –</b> Concepem mesaje puternice și bine segmentate, care să-ți aducă vânzări remarcabile nu doar pe termen scurt, ci și pe termen lung. Cu abordări personalizate și funnel-uri optimizate, maximizăm retenția și loialitatea clienților</h4>
+                    <h4 className="basicH4"><b style={{ color: 'var(--blue)' }}>Creare website –</b> Transformă-ți viziunea în realitate digitală și atrage mai mulți clienți. Oferim soluții moderne de web development (creare website) cu funcționalități intuitive și bine optimizate SEO, care generează conversii pe termen lung.</h4>
+                    <h4 className="basicH4"><b style={{ color: 'var(--blue)' }}>Campanii PPC –</b> Câștigă vizibilitate instantă și atrage publicul potrivit cu strategii PPC bine calibrate. Ajustăm bugetul și conținutul anunțurilor pentru a maximiza fiecare click și a crește profitul.</h4>
+                    <h4 className="basicH4"><b style={{ color: 'var(--blue)' }}>SEO –</b> Evidențiază-te în motoarele de căutare cu tehnici SEO avansate și conținut relevant. Creștem traficul organic, sporim notorietatea brandului și îți asigurăm o poziție solidă pe piață.</h4>
+                    <h4 className="basicH4"><b style={{ color: 'var(--blue)' }}>Social Media Management –</b> Conectează-te cu audiența ta prin postări creative și campanii interactive. Gestionăm eficient canalele sociale pentru a-ți mări comunitatea și a o menține activă și fidelă și pentru a-ți consolida imaginea.</h4>
+                    <h4 className="basicH4"><b style={{ color: 'var(--blue)' }}>Plan strategic de marketing –</b> Fii mereu cu un pas înaintea concurenței. Analizăm piața, definim obiective clare și dezvoltăm un plan flexibil, care să te susțină în fiecare etapă a creșterii afacerii tale.</h4>
+                    <h4 className="basicH4"><b style={{ color: 'var(--blue)' }}>Branding –</b> Creăm o identitate puternică ce reflectă valorile și personalitatea afacerii tale. Diferențiază-te de competiție cu un concept vizual coerent și mesaje care inspiră încredere.</h4>
+                    <h4 className="basicH4"><b style={{ color: 'var(--blue)' }}>Campanii de E-mail marketing –</b> Concepem mesaje puternice și bine segmentate, care să-ți aducă vânzări remarcabile nu doar pe termen scurt, ci și pe termen lung. Cu abordări personalizate și funnel-uri optimizate, maximizăm retenția și loialitatea clienților</h4>
 
-                    <p style={{
-                        fontSize: 24,
-                        letterSpacing: -1,
-                        marginTop: 60,
-                        marginBottom: 40
-                    }}>
+                    <p className="mediumParagraph">
                         Fie că ai nevoie de un website profesional, sa vinzi mai mult pe Google sau de o strategie de marketing completă, suntem aici să îți transformăm ambiția în succes real.
                     </p>
-                    <p style={{ fontSize: 45, fontWeight: 900, lineHeight: '70px', color: 'var(--green)' }}>
-                        Succesul tău este și succesul nostru!
+                    <p className="headlineH3" style={{ color: 'var(--green)', marginTop: 20 }}>
+                        <b style={{ fontWeight: 900 }}>Succesul tău</b> este și succesul nostru!
                     </p>
                     <div className="text-content-container">
                         <h3>Ești pregătit să crești?</h3>
@@ -123,7 +142,18 @@ const Contact = () => {
                             </li>
                         </ol>
                     </div>
+                </div>
+            </section >
+            <MottoBgImageAnimation />
+            <section className="whitebg layout">
+                <div className="container">
                     <FAQList />
+                    {pageContent?.lowerContent && (
+                        <div 
+                        className="text-content-container"
+                        dangerouslySetInnerHTML={{ __html: pageContent.lowerContent }}
+                        />
+                    )}
                     <div className="text-content-container">
                         <h3>Acum e momentul potrivit să decizi</h3>
                         <p>Antreprenorii dedicați afacerii lor caută constant metode de creștere a afacerii prin marketing. Noi lucrăm umăr la umăr cu tine, ne sincronizăm cu valorile și viziunea ta, pentru ca rezultatele să reflecte cu adevărat esența brandului tău.</p>

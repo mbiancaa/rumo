@@ -15,7 +15,7 @@ const BusinessTargets = () => {
             {items.map((item, index) => (
                 <div key={index} className={styles.item}>
                     <span className={styles.number}>{item.number}</span>
-                    <h4 className={styles.title}>{item.title}</h4>
+                    <h3 className={styles.title}>{item.title}</h3>
                     <p className={styles.text}>{item.text}</p>
                 </div>
             ))}

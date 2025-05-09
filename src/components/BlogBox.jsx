@@ -1,26 +1,52 @@
-
-import BlogImage from '../assets/agency-img1.png';
 import { NavLink } from 'react-router-dom';
-const BlogBox = () => {
+
+
+const BlogBox = ({ post }) => {
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('ro-RO', {
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric'
+        });
+    };
+
+    const imageUrl = post.featuredImage ? (
+        post.featuredImage.startsWith('http') || post.featuredImage.startsWith('data:') ?
+            post.featuredImage :
+            `${process.env.REACT_APP_URL || 'http://localhost:5002'}${post.featuredImage}`
+    ) : null;
 
     return (
-
         <article className="blogBox">
-            <NavLink to="/articol">
-                <img src={BlogImage} />
+            <NavLink to={`/blog/${post.slug}`}>
+
+                {imageUrl && <img
+                    src={imageUrl}
+                    alt={post.title}
+                    loading="lazy"
+                    decoding="async"
+                />}
+
                 <div className="blogContentWrapper">
-                    <span className="blogCategory">SEO Marketing</span>
-                    <h3 className="blogTitle"><NavLink to="/articol" >Cum să creezi campanii de succes pe Pinterest Ads pentru a-ți crește afacerea?</NavLink></h3>
-                    <p className="blogMeta">Cum să creezi campanii de succes pe Pinterest Ads pentru a-ți crește afacerea? Pinterest nu este doar o platformă…</p>
-                    <div className="blogFooter">
-                        <span className="blogDate">7 Mar, 2025</span>
-                        <span className="blogTime">5 min read</span>
+                    <div className="blogCategories">
+                        {post.categories && post.categories.length > 0 ? (
+                            post.categories.map((category, index) => (
+                                <span key={index} className="blogCategory">{category}</span>
+                            ))
+                        ) : (
+                            <span className="blogCategory">General</span>
+                        )}
                     </div>
+                    <h3 className="blogTitle">{post.title}</h3>
+                    <p className="blogMeta">{post.excerpt}</p>
+                    <div className="blogFooter">
+                        <span className="blogDate">{formatDate(post.createdAt)}</span>
+                    </div>
+
                 </div>
             </NavLink>
         </article>
-
-
     );
 }
 

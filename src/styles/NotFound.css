@@ -37,3 +37,14 @@
         transform: translateY(-40px);
     }
 }
+
+.wave-container {
+    margin-top: 60px
+}
+
+@media (max-width: 850px) {
+    .wave-text span {
+        font-size: 100px;
+        line-height: 100px
+    }
+}

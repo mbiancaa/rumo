@@ -33,38 +33,48 @@ const ClientTestimonialSlider = () => {
     };
 
     return (
-        <div className="testimonialBoxContainer clientTestimonial">
-            <Slider ref={(slider) => (sliderRef.current = slider)} {...settings}>
-                {testimonials.map((testimonial, index) => (
-                    <div className="testimonialItem" key={index}>
-                        <QuoteIcon width="54" height="42" loading="lazy" />
-                        <div>
-                            {testimonial.content.map((paragraph, idx) => (
-                                <p key={idx}>{paragraph}</p>
-                            ))}
+        <>
+            <h2 className="testimonialSliderTitle">
+                Ce spun clienții noștri
+            </h2>
+            <div className="testimonialBoxContainer clientTestimonial">
+                <Slider ref={(slider) => (sliderRef.current = slider)} {...settings}>
+                    {testimonials.map((testimonial, index) => (
+                        <div className="testimonialItem" key={index}>
+                            <QuoteIcon width="54" height="42" loading="lazy" />
+                            <div>
+                                {testimonial.content.map((paragraph, idx) => (
+                                    <p key={idx}>{paragraph}</p>
+                                ))}
+                            </div>
+                            <div style={{
+                                paddingTop: 30,
+                                borderTop: '1px solid #c3c3c3'
+                            }}>
+                                <b style={{ display: 'block', fontSize: 20, fontWeight: 500 }}>{testimonial.name}</b>
+                                <b style={{ color: 'var(--light-grey)', fontFamily: 'Kanit', fontSize: 16, fontWeight: 500 }}>{testimonial.title}</b>
+                            </div>
                         </div>
-                        <div style={{
-                            paddingTop: 30,
-                            borderTop: '1px solid #c3c3c3'
-                        }}>
-                            <b style={{ display: 'block', fontSize: 20, fontWeight: 500 }}>{testimonial.name}</b>
-                            <b style={{ color: 'var(--light-grey)', fontFamily: 'Kanit', fontSize: 16, fontWeight: 500 }}>{testimonial.title}</b>
-                        </div>
-                    </div>
-                ))}
-            </Slider>
-            <div className="testimonialNavigation">
-                <button className="testimonial_button_prev" onClick={goToPrevSlide}>
-                    <span className="arrow"></span>
-                </button>
-                <button
-                    className={`testimonial_button_next`}
-                    onClick={goToNextSlide}
-                >
-                    <span className="arrow"></span>
-                </button>
+                    ))}
+                </Slider>
+                <div className="testimonialNavigation">
+                    <button 
+                        className="testimonial_button_prev" 
+                        onClick={goToPrevSlide}
+                        aria-label="Testimonial anterior"
+                    >
+                        <span className="arrow"></span>
+                    </button>
+                    <button
+                        className={`testimonial_button_next`}
+                        onClick={goToNextSlide}
+                        aria-label="Testimonial următor"
+                    >
+                        <span className="arrow"></span>
+                    </button>
+                </div>
             </div>
-        </div>
+        </>
     );
 };
 

@@ -50,6 +50,14 @@ code {
   position: relative;
 }
 
+.j-center {
+  justify-content: center;
+}
+
+.full-height {
+  height: 100%
+}
+
 ul li {
   position: relative;
   padding-left: 20px;
@@ -70,4 +78,11 @@ ul li:before {
 
 ul {
   list-style-type: none;
+}
+
+.ql-editor ul li:before {
+  background: transparent;
+  top: unset;
+  transform: unset;
+  left: unset;
 }

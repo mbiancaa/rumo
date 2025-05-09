@@ -18,9 +18,30 @@
     color: var(--light-grey);
     font-weight: 900;
     font-size: 20px;
+    cursor: pointer;
 }
 
 .pageNr.active {
     background: var(--blue);
     color: #fff;
+}
+
+.pageNr.prevPage .arrow {
+    transform: rotate(-180deg);
+}
+
+@media (max-width: 670px) {
+    .pagination {
+        gap: 12px;
+    }
+
+    .pageNr {
+        width: 35px;
+        height: 35px;
+        font-size: 13px;
+    }
+
+    .pageNr .arrow {
+        transform: scale(0.7);
+    }
 }

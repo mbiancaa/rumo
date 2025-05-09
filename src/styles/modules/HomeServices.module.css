@@ -1,0 +1,43 @@
+.title {
+    font-size: 50px;
+    max-width: calc(100% - 265px);
+    font-weight: bold;
+    font-family: 'Kanit';
+    letter-spacing: -1px;
+    line-height: 55px;
+    min-width: 764px;
+}
+
+.description {
+    color: var(--light-grey);
+    font-weight: 400;
+    margin-left: auto;
+    max-width: 400px;
+    min-width: 400px;
+    font-family: 'Kanit';
+    font-size: 18px;
+    line-height: 18px;
+    letter-spacing: -1px
+}
+
+@media (max-width: 850px) {
+
+    .title,
+    .description {
+        width: 100%;
+        min-width: 100%;
+        max-width: 100%
+    }
+
+    .title {
+        font-size: 24px;
+        line-height: 30px;
+        margin-top: 5px;
+    }
+
+    .description {
+        font-size: 16px;
+        line-height: 20px;
+        margin-top: 10px;
+    }
+}

@@ -7,7 +7,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 99999;
+    z-index: 96;
 }
 
 .wrapper::before {
@@ -17,11 +17,11 @@
     height: 50px;
     border-radius: 50%;
     background: conic-gradient(var(--green) var(--progress), transparent 0);
-    mask: radial-gradient(farthest-side, transparent 34px, black 35px);
+    mask: radial-gradient(farthest-side, transparent 23px, black 19px);
     -webkit-mask: radial-gradient(farthest-side, transparent 23px, black 19px);
     pointer-events: none;
     transition: background 0.2s ease-out;
-    z-index: 9999999;
+    z-index: 97;
 }
 
 .button {
@@ -44,4 +44,23 @@
 .green:before,
 .green:after {
     background-color: var(--green) !important;
+}
+
+@media (max-width: 670px) {
+
+    .button,
+    .wrapper,
+    .wrapper:before {
+        width: 36px;
+        height: 36px
+    }
+
+    .button :global(.arrow) {
+        transform: scale(0.8);
+    }
+
+    .wrapper::before {
+        mask: radial-gradient(farthest-side, transparent 16px, black 14px);
+        -webkit-mask: radial-gradient(farthest-side, transparent 16px, black 14px);
+    }
 }

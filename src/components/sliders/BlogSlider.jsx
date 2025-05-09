@@ -1,15 +1,14 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import BlogImage from '../../assets/agency-img1.png';
 import BlogBox from "../BlogBox";
 
-const BlogSlider = () => {
+const BlogSlider = ({ posts }) => {
     var settings = {
         variableWidth: true,
         slidesToScroll: 1,
-        infinite: true,
-        autoplay: true,
+        infinite: posts.length > 1,
+        autoplay: posts.length > 1,
         autoplaySpeed: 8000,
         speed: 4000,
         dots: false,
@@ -21,12 +20,9 @@ const BlogSlider = () => {
     return (
         <div className="blogSlider">
             <Slider {...settings}>
-                <BlogBox />
-                <BlogBox />
-                <BlogBox />
-                <BlogBox />
-                <BlogBox />
-                <BlogBox />
+                {posts.map((post) => (
+                    <BlogBox key={post._id} post={post} />
+                ))}
             </Slider>
         </div>
     );
