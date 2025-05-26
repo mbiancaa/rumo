@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import styles from './ContactSubmissions.module.css';
 import '../../styles/Pagination.css';
 import Pagination from '../../components/Pagination';
+import { formatDate } from '../../utils/dateUtils';
 
 const ContactSubmissions = () => {
   const { user } = useAuth();
@@ -18,12 +19,14 @@ const ContactSubmissions = () => {
   const fetchSubmissions = useCallback(async () => {
     try {
       setLoading(true);
-      const data = await contactService.getAll(currentPage);
+      const response = await contactService.getAll(currentPage);
+      const data = response.data;
       setSubmissions(data.submissions || []);
       setTotalPages(data.totalPages || 1);
       setUnreadCount(data.submissions?.filter(s => !s.read).length || 0);
       setError(null);
     } catch (err) {
+      console.error('Error fetching submissions:', err);
       setError('Nu s-au putut prelua mesajele de contact');
     } finally {
       setLoading(false);
@@ -38,7 +41,7 @@ const ContactSubmissions = () => {
     if (window.confirm('Sunteți sigur că doriți să ștergeți acest mesaj?')) {
       try {
         await contactService.delete(id);
-        setSubmissions(submissions.filter(submission => submission._id !== id));
+        setSubmissions(submissions.filter(submission => submission.id !== id));
         if (expandedId === id) {
           setExpandedId(null);
         }
@@ -52,7 +55,7 @@ const ContactSubmissions = () => {
     try {
       await contactService.update(id, { read: !isRead });
       setSubmissions(submissions.map(submission => 
-        submission._id === id 
+        submission.id === id 
           ? { ...submission, read: !isRead }
           : submission
       ));
@@ -63,15 +66,25 @@ const ContactSubmissions = () => {
   };
 
   const handleMarkAllAsRead = async () => {
-    try {
-      const unreadSubmissions = submissions.filter(s => !s.read);
-      await Promise.all(unreadSubmissions.map(s => 
-        contactService.update(s._id, { read: true })
-      ));
+    const unreadSubmissions = submissions.filter(s => !s.read);
+    let successCount = 0;
+
+    for (const submission of unreadSubmissions) {
+      try {
+        await contactService.update(submission.id, { read: true });
+        successCount++;
+      } catch (err) {
+        console.error(`Error marking submission ${submission.id} as read:`, err);
+        // Continue with next submission even if this one fails
+      }
+    }
+
+    // Update UI based on successful updates
+    if (successCount > 0) {
       setSubmissions(submissions.map(s => ({ ...s, read: true })));
       setUnreadCount(0);
-    } catch (err) {
-      setError('Nu s-au putut marca toate mesajele ca citite');
+    } else if (unreadSubmissions.length > 0) {
+      setError('Nu s-au putut marca mesajele ca citite');
     }
   };
 
@@ -87,26 +100,6 @@ const ContactSubmissions = () => {
     setCurrentPage(page);
     setExpandedId(null);
   };
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffMs = now - date;
-  
-    const diffMinutes = Math.floor(diffMs / (1000 * 60));
-    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-  
-    if (diffMinutes < 2) return 'Acum un minut';
-    if (diffMinutes < 60) return `Acum ${diffMinutes} minute`;
-    if (diffHours < 2) return 'Acum o oră';
-    if (diffHours < 24) return `${diffHours} ore în urmă`;
-    if (diffDays === 1) return 'ieri';
-    if (diffDays < 7) return `${diffDays} zile în urmă`;
-    return date.toLocaleDateString('ro-RO');
-  };
-  
-  
 
   if (loading) {
     return <div className={styles.loading}>Se încarcă...</div>;
@@ -154,9 +147,9 @@ const ContactSubmissions = () => {
           <div className={styles.submissionList}>
             {submissions.map(submission => (
               
-                <div key={submission._id}
-                  className={`${styles.submissionItem} ${!submission.read ? styles.unread : ''} ${expandedId === submission._id ? styles.selected : ''}`}
-                  onClick={() => handleExpand(submission._id)}
+                <div key={submission.id}
+                  className={`${styles.submissionItem} ${!submission.read ? styles.unread : ''} ${expandedId === submission.id ? styles.selected : ''}`}
+                  onClick={() => handleExpand(submission.id)}
                 >
                   <div className={styles.submissionPreview}>
                     <div className={styles.senderInfo}>
@@ -168,14 +161,14 @@ const ContactSubmissions = () => {
                     </div>
                   </div>
                   <div className={styles.date}>
-                    {formatDate(submission.createdAt)}
+                    {formatDate(submission.created_at)}
                   </div>
                   <div className={styles.actions}>
                     <button 
                       className={styles.actionButton}
                       onClick={(e) => {
                         e.stopPropagation();
-                        handleMarkAsRead(submission._id, submission.read);
+                        handleMarkAsRead(submission.id, submission.read);
                       }}
                       title={submission.read ? 'Marchează ca necitit' : 'Marchează ca citit'}
                     >
@@ -212,7 +205,7 @@ const ContactSubmissions = () => {
                         className={styles.actionButton}
                         onClick={(e) => {
                           e.stopPropagation();
-                          handleDelete(submission._id);
+                          handleDelete(submission.id);
                         }}
                         title="Șterge"
                       >
@@ -226,14 +219,14 @@ const ContactSubmissions = () => {
                     )}
                   </div>
                 
-                {expandedId === submission._id && (
+                {expandedId === submission.id && (
                   <div className={styles.modalOverlay} onClick={() => setExpandedId(null)}>
                     <div className={styles.expandedCard} onClick={e => e.stopPropagation()}>
                       <button className={styles.closeButton} onClick={() => setExpandedId(null)} title="Închide">&times;</button>
                       <div className={styles.expandedHeader}>
                         <div className={styles.expandedSender}>{submission.nume} {submission.prenume}</div>
                         <div className={styles.expandedEmail}>{submission.email}</div>
-                        <div className={styles.expandedDate}>{new Date(submission.createdAt).toLocaleString('ro-RO', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
+                        <div className={styles.expandedDate}>{new Date(submission.created_at).toLocaleString('ro-RO', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
                       </div>
                       <div className={styles.expandedBody}>
                         <div className={styles.expandedField}>
@@ -257,7 +250,7 @@ const ContactSubmissions = () => {
                           Răspunde
                         </button>
                         {user?.role === 'admin' && (
-                          <button className={styles.actionButton} onClick={() => handleDelete(submission._id)} title="Șterge">
+                          <button className={styles.actionButton} onClick={() => handleDelete(submission.id)} title="Șterge">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                               <polyline points="3 6 5 6 21 6"></polyline>
                               <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>

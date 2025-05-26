@@ -3,6 +3,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { useState, useEffect } from 'react';
 import { teamMemberService } from '../../services/api';
+import { getImageUrl } from '../../utils/imageHelpers';
 
 const TeamSlider = () => {
     const [teamMembers, setTeamMembers] = useState([]);
@@ -27,15 +28,6 @@ const TeamSlider = () => {
         fetchTeamMembers();
     }, []);
 
-    // Helper function to get the full image URL
-    const getImageUrl = (imagePath) => {
-        if (!imagePath) return '';
-        if (imagePath.startsWith('http') || imagePath.startsWith('data:')) {
-            return imagePath;
-        }
-        return `${process.env.REACT_APP_URL || 'http://localhost:5002'}${imagePath}`;
-    };
-
     var settings = {
         variableWidth: true,
         slidesToScroll: 1,
@@ -50,22 +42,22 @@ const TeamSlider = () => {
     };
 
     if (loading) {
-        return <div>Loading team members...</div>;
+        return <div>Se încarcă membrii echipei...</div>;
     }
 
     if (error) {
-        return <div>Error: {error}</div>;
+        return <div>Eroare: {error}</div>;
     }
 
     if (teamMembers.length === 0) {
-        return <div>No team members found</div>;
+        return <div>Nu există membri în echipă</div>;
     }
 
     return (
         <div className="teamContainer">
             <Slider {...settings}>
                 {teamMembers.map((member) => (
-                    <div key={member._id} className="teamMemberContainer">
+                    <div key={member.id} className="teamMemberContainer">
                         <div className="teamMemberImgContainer">
                             <img 
                                 src={getImageUrl(member.image)} 

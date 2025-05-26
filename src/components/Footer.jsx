@@ -1,7 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { servicesService } from "../services/api";
+import { useServices } from "../contexts/ServicesContext";
 
 import "../styles/Footer.css";
 
@@ -16,27 +15,7 @@ import FacebookImg from '../assets/social/facebook.png';
 import LinkedInImg from '../assets/social/linkedin.png';
 
 const Footer = () => {
-    const [services, setServices] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-
-    useEffect(() => {
-        const fetchServices = async () => {
-            try {
-                setLoading(true);
-                const data = await servicesService.getHierarchy();
-                setServices(data || []);
-                setError(null);
-            } catch (err) {
-                console.error('Error fetching services:', err);
-                setError('Nu s-au putut prelua serviciile');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchServices();
-    }, []);
+    const { services } = useServices();
 
     return (
         <section className="layout whitebg" id="contact">
@@ -47,23 +26,19 @@ const Footer = () => {
                         <div className="links-container services-links" aria-labelledby="Link-uri către serviciile noastre">
                             <span className="links-title">Servicii</span>
                             <ul>
-                                {loading ? (
-                                    <li>Se încarcă serviciile...</li>
-                                ) : error ? (
-                                    <li>Nu s-au putut prelua serviciile</li>
-                                ) : services.length === 0 ? (
+                                {services?.length === 0 ? (
                                     <li>Nu există servicii</li>
                                 ) : (
                                     services.map(service => (
-                                        <React.Fragment key={service._id}>
+                                        <React.Fragment key={service.slug}>
                                             <li className="main-service">
                                                 <NavLink to={`/servicii/${service.slug}`}>
                                                     {service.title}
                                                 </NavLink>
                                             </li>
                                             {service.sub_services && service.sub_services.map(subService => (
-                                                <li key={subService._id} className="sub-service">
-                                                    <NavLink to={`/servicii/${service.slug}/${subService.slug}`}>
+                                                <li key={subService.slug} className="sub-service">
+                                                    <NavLink to={`/servicii/${subService.slug}`}>
                                                         {subService.title}
                                                     </NavLink>
                                                 </li>

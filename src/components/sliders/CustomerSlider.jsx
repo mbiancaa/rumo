@@ -3,9 +3,10 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 
 import Logo1 from '../../assets/customers_logos/1_logo_DCS.png';
-import Logo2 from '../../assets/customers_logos/2_logo_FLORIN_M_POP.bmp';
+import Logo2 from '../../assets/customers_logos/2_logo_FLORIN_M_POP.png';
 import Logo3 from '../../assets/customers_logos/3_logo_Primainvest-Florin _M_Pop.jpg';
 import Logo4 from '../../assets/customers_logos/4_logo_TCF.png';
+import Logo5 from '../../assets/customers_logos/5_logo_MENS_CLUB.png';
 import Logo6 from '../../assets/customers_logos/6_logo_dr_Chirila_Marius-fund-transp.png';
 import Logo7 from '../../assets/customers_logos/7_logo_COD_Protect_Medical.png';
 import Logo8 from '../../assets/customers_logos/8_logo_Dr_Mihai-Stefan_Muresan.png';
@@ -34,40 +35,43 @@ const CustomerSlider = () => {
     return (
         <Slider {...settings}>
             <div>
-                <img className="customer_logo" src={Logo1} alt="Logo client 1" />
+                <img className="customer_logo" src={Logo1} alt="DentalCare Sîrmașu" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo2} alt="Logo client 2" />
+                <img className="customer_logo" src={Logo2} alt="Florin M. Pop" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo3} alt="Logo client 3" />
+                <img className="customer_logo" src={Logo3} alt="Primainvest" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo4} alt="Logo client 4" />
+                <img className="customer_logo" src={Logo4} alt="The Coffee Factory" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo6} alt="Logo client 6" />
+                <img className="customer_logo" src={Logo5} alt="Mens Club" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo7} alt="Logo client 7" />
+                <img className="customer_logo" src={Logo6} alt="Dr. Chirila Marius" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo8} alt="Logo client 8" />
+                <img className="customer_logo" src={Logo7} alt="COD Protect Medical" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo9} alt="Logo client 9" />
+                <img className="customer_logo" src={Logo8} alt="Dr. Mihai-Stefan Muresan" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo10} alt="Logo client 10" />
+                <img className="customer_logo" src={Logo9} alt=" Dr. Calin Todoran" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo11} alt="Logo client 11" />
+                <img className="customer_logo" src={Logo10} alt="Dr. Radu Drașovean" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo12} alt="Logo client 12" />
+                <img className="customer_logo" src={Logo11} alt="Innosphere Hub" />
             </div>
             <div>
-                <img className="customer_logo" src={Logo13} alt="Logo client 13" />
+                <img className="customer_logo" src={Logo12} alt="BCR Industries" />
+            </div>
+            <div>
+                <img className="customer_logo" src={Logo13} alt="TEGRA" />
             </div>
         </Slider>
     );

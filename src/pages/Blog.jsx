@@ -7,6 +7,7 @@ import '../styles/Filters.css';
 
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { BarLoader } from 'react-spinners';
 
 import { blogService, pageService } from '../services/api';
 
@@ -44,39 +45,30 @@ const Blog = () => {
         'Web Development'
     ];
 
-    const fetchPosts = async (page, category) => {
-        try {
-            setLoading(true);
-            const response = await blogService.getAll(page, category, true);
-            setPosts(response.blogs || []);
-            setTotalPages(response.totalPages || 1);
-            setError(null);
-        } catch (err) {
-            console.error('Error fetching posts:', err);
-            setError('Nu s-a putut încărca conținutul blogului');
-        } finally {
-            setLoading(false);
-        }
-    };
-
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
+            
             try {
-                setLoading(true);
-                const [blogData, pageData] = await Promise.all([
-                    blogService.getAll(currentPage, selectedCategory, true),
-                    pageService.getBySlug('blog')
-                ]);
-                setPosts(blogData.blogs || []);
+                const blogData = await blogService.getAll(currentPage, selectedCategory, true);
+                setPosts(blogData.blogs);
                 setTotalPages(blogData.totalPages || 1);
-                setPageContent(pageData);
-                setError(null);
             } catch (err) {
-                setError('A apărut o eroare la încărcarea articolelor.');
-                console.error('Error fetching blog data:', err);
-            } finally {
-                setLoading(false);
+                console.error('Error fetching blog posts:', err);
+                setPosts([]);
+                setTotalPages(1);
+                setError("Eroare la încărcarea articolelor blog. Reîncercați mai târziu.");
             }
+
+            try {
+                const pageData = await pageService.getBySlug('blog');
+                setPageContent(pageData);
+                setLoading(false);
+            } catch (err) {
+                console.error('Error fetching page content:', err);
+                setLoading(true);
+            }
+            
         };
 
         fetchData();
@@ -108,77 +100,95 @@ const Blog = () => {
                 title={pageContent?.metaTitle || pageContent?.name || "Blog RUMO"}
                 description={pageContent?.metaDescription || "Blog RUMO - resurse și articole despre marketing digital, SEO, PPC, social media și dezvoltare web pentru IMM-uri."}
             />
+            {loading && (
+                <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 9999
+                }}>
+                    <BarLoader
+                        color="#26b3ff"
+                        width="100%"
+                        height={4}
+                        loading={loading}
+                    />
+                </div>
+            )}
             <Header />
-            <HeroSection>
-                <div className="layout eq-columns">
-                    <div className={`eq-column`}>
-                        <div ref={textRef} className={`slideInTextAnimation ${textInView ? "show" : ""}`}>
-                            <h1 className="hero-title">{pageContent?.name}</h1>
+            <>
+                <HeroSection>
+                    <div className="layout eq-columns">
+                        <div className={`eq-column`}>
+                            <div ref={textRef} className={`slideInTextAnimation ${textInView ? "show" : ""}`}>
+                                <h1 className="hero-title">{pageContent?.name}</h1>
+                            </div>
+                            <div ref={subtitleRef} className={`slideInTextAnimation ${subtitleInView ? "show" : ""}`}>
+                                <h2 className="hero-subtitle">Cu RUMO, afacerea ta prinde avânt!</h2>
+                            </div>
                         </div>
-                        <div ref={subtitleRef} className={`slideInTextAnimation ${subtitleInView ? "show" : ""}`}>
-                            <h2 className="hero-subtitle">Cu RUMO, afacerea ta prinde avânt!</h2>
+                        <div ref={separatorRef} className={`eq-column separator ${separatorInView ? "show" : ""}`}>
+                            <div ref={descriptionRef} className={`slideInTextAnimation ${descriptionInView ? "show" : ""}`}>
+                                {pageContent?.upperContent && (
+                                    <div dangerouslySetInnerHTML={{ __html: pageContent.upperContent }} />
+                                )}
+                            </div>
                         </div>
                     </div>
-                    <div ref={separatorRef} className={`eq-column separator ${separatorInView ? "show" : ""}`}>
-                        <div ref={descriptionRef} className={`slideInTextAnimation ${descriptionInView ? "show" : ""}`}>
-                            {pageContent?.upperContent && (
-                                <div dangerouslySetInnerHTML={{ __html: pageContent.upperContent }} />
+                </HeroSection>
+                <MottoBgImageAnimation />
+                <section className="whitebg layout">
+                    <div className="container">
+                        <div className="filters">
+                            <span
+                                className={`category-button ${!selectedCategory ? 'active' : ''}`}
+                                onClick={() => handleCategoryClick('')}
+                            >
+                                Toate
+                            </span>
+                            {categories.map((category) => (
+                                <span
+                                    key={category}
+                                    className={`category-button ${selectedCategory === category ? 'active' : ''}`}
+                                    onClick={() => handleCategoryClick(category)}
+                                >
+                                    {category}
+                                </span>
+                            ))}
+                        </div>
+                        <div className="blog-container">
+                            {loading ? (
+                                <div className="loading">Se încarcă...</div>
+                            ) : error ? (
+                                <div className="error">{error}</div>
+                            ) : posts.length === 0 ? (
+                                <div>Nu există articole disponibile.</div>
+                            ) : (
+                                posts.map((post) => (
+                                    <BlogBox 
+                                        key={post.id}
+                                        post={post}
+                                    />
+                                ))
                             )}
                         </div>
-                    </div>
-                </div>
-            </HeroSection>
-            <MottoBgImageAnimation />
-            <section className="whitebg layout">
-                <div className="container">
-                    <div className="filters">
-                        <span
-                            className={`category-button ${!selectedCategory ? 'active' : ''}`}
-                            onClick={() => handleCategoryClick('')}
-                        >
-                            Toate
-                        </span>
-                        {categories.map((category) => (
-                            <span
-                                key={category}
-                                className={`category-button ${selectedCategory === category ? 'active' : ''}`}
-                                onClick={() => handleCategoryClick(category)}
-                            >
-                                {category}
-                            </span>
-                        ))}
-                    </div>
-                    <div className="blog-container">
-                        {loading ? (
-                            <div className="loading">Se încarcă...</div>
-                        ) : error ? (
-                            <div className="error">{error}</div>
-                        ) : posts.length === 0 ? (
-                            <div>Nu există articole disponibile.</div>
-                        ) : (
-                            posts.map((post) => (
-                                <BlogBox 
-                                    key={post._id}
-                                    post={post}
-                                />
-                            ))
+                        {totalPages > 1 && (
+                            <Pagination 
+                                currentPage={currentPage}
+                                totalPages={totalPages}
+                                onPageChange={handlePageChange}
+                            />
+                        )}
+                        {pageContent?.lowerContent && (
+                            <div style={{ marginTop: 60, marginBottom: 60 }}
+                            className="text-content-container"
+                            dangerouslySetInnerHTML={{ __html: pageContent.lowerContent }}
+                            />
                         )}
                     </div>
-                    {totalPages > 1 && (
-                        <Pagination 
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            onPageChange={handlePageChange}
-                        />
-                    )}
-                    {pageContent?.lowerContent && (
-                        <div style={{ marginTop: 60, marginBottom: 60 }}
-                        className="text-content-container"
-                        dangerouslySetInnerHTML={{ __html: pageContent.lowerContent }}
-                        />
-                    )}
-                </div>
-            </section>
+                </section>
+            </>
             <Footer />
         </>
     );

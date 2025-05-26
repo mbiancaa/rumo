@@ -98,8 +98,11 @@ const PageForm = ({ isNew = false }) => {
   const validateForm = () => {
     const newErrors = {};
     if (!formData.name) newErrors.name = 'Numele paginii este obligatoriu';
+    if (!formData.slug) newErrors.slug = 'Slug-ul este obligatoriu';
     if (!formData.metaTitle) newErrors.metaTitle = 'Meta titlul este obligatoriu';
+    if (formData.metaTitle.length > 60) newErrors.metaTitle = 'Meta titlul nu poate depăși 60 de caractere';
     if (!formData.metaDescription) newErrors.metaDescription = 'Meta descrierea este obligatorie';
+    if (formData.metaDescription.length > 150) newErrors.metaDescription = 'Meta descrierea nu poate depăși 150 de caractere';
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -136,6 +139,8 @@ const PageForm = ({ isNew = false }) => {
         await pageService.create(formData);
       }
 
+      // Dispatch event to update the pages list in the Layout component
+      window.dispatchEvent(new CustomEvent('pagesUpdated'));
       navigate('/internal-admin-portalv1.0.1/dashboard');
     } catch (err) {
       setApiError(err.response?.data?.message || 'Failed to save page');
@@ -189,47 +194,58 @@ const PageForm = ({ isNew = false }) => {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="slug">Slug/URL (opțional)</label>
+          <label htmlFor="slug">Slug/URL *</label>
           <input
             type="text"
             id="slug"
             name="slug"
             value={formData.slug}
             onChange={handleChange}
-            placeholder="Lăsați gol pentru pagina principală"
+            className={errors.slug ? styles.errorInput : ''}
           />
-          <small className={styles.helpText}>
-            Dacă lăsați gol, pagina va fi pagina principală (homepage).
-          </small>
+          {errors.slug && <span className={styles.fieldError}>{errors.slug}</span>}
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="metaTitle">Meta Titlu *</label>
-          <input
-            type="text"
-            id="metaTitle"
-            name="metaTitle"
-            value={formData.metaTitle}
-            onChange={handleChange}
-            className={errors.metaTitle ? styles.errorInput : ''}
-          />
+          <div className={styles.inputWithCounter}>
+            <input
+              type="text"
+              id="metaTitle"
+              name="metaTitle"
+              value={formData.metaTitle}
+              onChange={handleChange}
+              className={errors.metaTitle ? styles.errorInput : ''}
+              maxLength={60}
+            />
+            <span className={styles.charCounter}>
+              {formData.metaTitle.length}/60
+            </span>
+          </div>
           {errors.metaTitle && <span className={styles.fieldError}>{errors.metaTitle}</span>}
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="metaDescription">Meta Descriere *</label>
-          <textarea
-            id="metaDescription"
-            name="metaDescription"
-            value={formData.metaDescription}
-            onChange={handleChange}
-            className={errors.metaDescription ? styles.errorInput : ''}
-          />
+          <div className={styles.inputWithCounter}>
+            <textarea
+              id="metaDescription"
+              name="metaDescription"
+              value={formData.metaDescription}
+              onChange={handleChange}
+              className={errors.metaDescription ? styles.errorInput : ''}
+              maxLength={150}
+            />
+            <span className={styles.charCounter}>
+              {formData.metaDescription.length}/150
+            </span>
+          </div>
           {errors.metaDescription && <span className={styles.fieldError}>{errors.metaDescription}</span>}
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="upperContent">Conținut Superior</label>
+          <small>Conținutul superior este afișat doar pe paginile cu hero section.</small>
           <RichTextEditor
             value={formData.upperContent}
             onChange={handleUpperContentChange}
@@ -270,7 +286,7 @@ const PageForm = ({ isNew = false }) => {
               {isDeleting ? 'Se șterge...' : 'Șterge pagina'}
             </button>
           )}
-          {!isNew && (
+       
           <button
             type="submit"
             className={styles.submitButton}
@@ -279,7 +295,6 @@ const PageForm = ({ isNew = false }) => {
           >
             {isLoading ? 'Se salvează...' : 'Salvează modificările'}
           </button>
-          )}
         </div>
       </form>
     </div>

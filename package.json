@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@studio-freight/lenis": "^1.0.42",
     "axios": "^1.6.7",
     "formik": "^2.4.6",
     "react": "^18.2.0",
@@ -13,11 +12,10 @@
     "react-router-dom": "^7.4.0",
     "react-scripts": "^5.0.1",
     "react-slick": "^0.30.3",
+    "react-spinners": "^0.17.0",
     "slick-carousel": "^1.8.1",
-    "web-vitals": "^2.1.4",
     "yup": "^1.6.1"
   },
-  "homepage": "https://mbiancaa.github.io/rumo",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -45,10 +43,7 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^7.1.0",
     "@svgr/webpack": "^8.1.0",
-    "css-minimizer-webpack-plugin": "^7.0.2",
-    "gh-pages": "^6.3.0",
-    "terser": "^5.39.0"
+    "gh-pages": "^6.3.0"
   }
 }

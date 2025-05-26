@@ -3,6 +3,7 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { servicesService } from '../../services/api';
 import RichTextEditor from '../../components/editor/RichTextEditor';
 import styles from './BlogForm.module.css';
+import { getImageUrl } from '../../utils/imageHelpers';
 
 const ServiceForm = () => {
   const navigate = useNavigate();
@@ -14,19 +15,20 @@ const ServiceForm = () => {
   const [formData, setFormData] = useState({
     title: '',
     slug: '',
-    description: '',
+    heroText: '',
+    excerpt: '',
+    heading: '',
     content: '',
     metaTitle: '',
     metaDescription: '',
     status: 'draft',
     parent_id: null,
     faqs: [],
-    image: null,
-    heroText: '',
-    excerpt: '',
-    heading: ''
+    image: null
   });
   const [fieldErrors, setFieldErrors] = useState({});
+  const [metaTitleLength, setMetaTitleLength] = useState(0);
+  const [metaDescriptionLength, setMetaDescriptionLength] = useState(0);
 
   // Check for parent_id in URL query parameters
   useEffect(() => {
@@ -44,15 +46,20 @@ const ServiceForm = () => {
   useEffect(() => {
     const fetchParentServices = async () => {
       try {
-        // Get all top-level services (those without a parent)
-        const services = await servicesService.getAll();
-        // Filter out the current service if we're editing
-        const filteredServices = id 
-          ? services.filter(service => service._id !== id)
-          : services;
+        const response = await servicesService.getAll();
+        // Filter out the current service and any services that are already children
+        const filteredServices = response.filter(service => {
+          // Don't show the current service as a potential parent
+          if (id && service.id === id) return false;
+          // Don't show services that are already children
+          if (service.parent_id) return false;
+          return true;
+        });
         setParentServices(filteredServices);
       } catch (err) {
         console.error('Error fetching parent services:', err);
+        setError('Nu s-au putut încărca serviciile părinte');
+        setParentServices([]);
       }
     };
     
@@ -65,37 +72,35 @@ const ServiceForm = () => {
         try {
           setLoading(true);
           const service = await servicesService.getById(id);
-          console.log('Fetched service data:', service);
-          console.log('FAQs in fetched service:', service.faqs);
           
-          // Ensure FAQs is properly initialized
+          if (!service) {
+            throw new Error('Serviciul nu a fost găsit');
+          }
+          
           const faqs = Array.isArray(service.faqs) 
             ? service.faqs.map(faq => ({
                 question: faq.question || '',
                 answer: faq.answer || ''
               }))
             : [];
-            
-          console.log('Processed FAQs:', faqs);
           
           setFormData({
             title: service.title || '',
             slug: service.slug || '',
-            description: service.description || '',
+            heroText: service.heroText || '',
+            excerpt: service.excerpt || '',
+            heading: service.heading || '',
             content: service.content || '',
             metaTitle: service.metaTitle || '',
             metaDescription: service.metaDescription || '',
             status: service.status || 'draft',
             parent_id: service.parent_id || null,
             faqs: faqs,
-            image: service.image || null,
-            heroText: service.heroText || '',
-            excerpt: service.excerpt || '',
-            heading: service.heading || ''
+            image: service.image || null
           });
         } catch (err) {
           console.error('Error fetching service:', err);
-          setError('Failed to load service');
+          setError('Nu s-a putut încărca serviciul');
         } finally {
           setLoading(false);
         }
@@ -104,11 +109,29 @@ const ServiceForm = () => {
     }
   }, [id]);
 
+  const generateSlug = (title) => {
+    return title
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
+      .replace(/[^a-z0-9]+/g, "-") // Replace non-alphanumeric chars with hyphens
+      .replace(/(^-|-$)+/g, ""); // Remove leading/trailing hyphens
+  };
+
+  // Update handleChange to remove slug generation
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value
+    setFormData(prev => {
+      const newData = {
+        ...prev,
+        [name]: value
+      };
+      
+      // Update meta counters
+      if (name === 'metaTitle') setMetaTitleLength(value.length);
+      if (name === 'metaDescription') setMetaDescriptionLength(value.length);
+      
+      return newData;
     });
   };
 
@@ -130,17 +153,15 @@ const ServiceForm = () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file type
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
     if (!allowedTypes.includes(file.type)) {
       setError('Tipul fișierului este invalid. Doar JPEG, PNG și GIF sunt permise.');
       return;
     }
 
-    // Validate file size (5MB max)
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 2 * 1024 * 1024;
     if (file.size > maxSize) {
-      setError('Dimensiunea fișierului este prea mare. Dimensiunea maximă este de 5MB.');
+      setError('Dimensiunea fișierului este prea mare. Dimensiunea maximă este de 2MB.');
       return;
     }
 
@@ -148,11 +169,9 @@ const ServiceForm = () => {
       setLoading(true);
       setError('');
       
-      // Create FormData for upload
       const formData = new FormData();
       formData.append('image', file);
 
-      // Upload the image
       const response = await servicesService.uploadImage(formData);
       
       if (response && response.url) {
@@ -161,7 +180,7 @@ const ServiceForm = () => {
           image: response.url
         }));
       } else {
-        throw new Error('Raspuns invalid de la server');
+        throw new Error('Răspuns invalid de la server');
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Nu s-a putut încărca imaginea. Vă rugăm să încercați din nou.');
@@ -220,7 +239,6 @@ const ServiceForm = () => {
       errors.image = 'Imaginea este obligatorie';
     }
 
-    // Validate FAQs
     formData.faqs.forEach((faq, index) => {
       if (!faq.question.trim()) {
         errors[`faq_question_${index}`] = 'Întrebarea este obligatorie';
@@ -241,41 +259,27 @@ const ServiceForm = () => {
       setError('');
       setFieldErrors({});
 
-      // Validate all required fields
+      if (!formData.slug && formData.title) {
+        setFormData(prev => ({
+          ...prev,
+          slug: generateSlug(formData.title)
+        }));
+      }
+
       if (!validateForm()) {
         setLoading(false);
-        // Find the first field with an error
-        const firstErrorField = Object.keys(fieldErrors)[0];
-        if (firstErrorField) {
-          // Get the input element
-          const inputElement = document.getElementById(firstErrorField);
-          if (inputElement) {
-            // Scroll to the input
-            inputElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            // Focus the input
-            inputElement.focus();
-          }
-        }
         return;
       }
 
       const serviceData = {
-        title: formData.title,
-        slug: formData.slug,
-        description: formData.description,
-        content: formData.content,
-        metaTitle: formData.metaTitle,
-        metaDescription: formData.metaDescription,
-        status: formData.status,
-        parent_id: formData.parent_id || null,
-        faqs: formData.faqs || [],
-        image: formData.image,
-        heroText: formData.heroText,
-        excerpt: formData.excerpt,
-        heading: formData.heading
+        ...formData,
+        parent_id: formData.parent_id || null
       };
 
-      console.log('Sending service data:', serviceData);
+      // Generate slug if empty and title exists
+      if (!serviceData.slug && serviceData.title) {
+        serviceData.slug = generateSlug(serviceData.title);
+      }
 
       if (id) {
         await servicesService.update(id, serviceData);
@@ -285,12 +289,18 @@ const ServiceForm = () => {
 
       navigate('/internal-admin-portalv1.0.1/services');
     } catch (err) {
-      console.error('Save service error:', err);
-      setError(err.response?.data?.message || 'Nu s-a putut salva serviciul');
+      console.error('Error saving service:', err);
+      setError(err.response?.data?.message || 'Nu s-a putut salva serviciul. Vă rugăm să încercați din nou.');
     } finally {
       setLoading(false);
     }
   };
+
+  // Set initial meta counters when editing
+  useEffect(() => {
+    setMetaTitleLength(formData.metaTitle.length);
+    setMetaDescriptionLength(formData.metaDescription.length);
+  }, [formData.metaTitle, formData.metaDescription]);
 
   if (loading) {
     return <div className={styles.loading}>Se încarcă...</div>;
@@ -304,7 +314,7 @@ const ServiceForm = () => {
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
-          <label htmlFor="title">Title *</label>
+          <label htmlFor="title">Titlu *</label>
           <input
             type="text"
             id="title"
@@ -317,6 +327,20 @@ const ServiceForm = () => {
         </div>
 
         <div className={styles.formGroup}>
+          <label htmlFor="slug">Slug</label>
+          <input
+            type="text"
+            id="slug"
+            name="slug"
+            value={formData.slug}
+            onChange={handleChange}
+            placeholder="Se va genera automat din titlu dacă este lăsat gol"
+            className={fieldErrors.slug ? styles.errorInput : ''}
+          />
+          {fieldErrors.slug && <div className={styles.fieldError}>{fieldErrors.slug}</div>}
+        </div>
+
+        <div className={styles.formGroup}>
           <label htmlFor="status">Status</label>
           <select
             id="status"
@@ -325,30 +349,30 @@ const ServiceForm = () => {
             onChange={handleChange}
             className={fieldErrors.status ? styles.errorInput : ''}
           >
-            <option value="draft">Ciornă</option>
+            <option value="draft">Draft</option>
             <option value="published">Publicat</option>
           </select>
           {fieldErrors.status && <div className={styles.fieldError}>{fieldErrors.status}</div>}
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="parent_service_id">Serviciu principal</label>
+          <label htmlFor="parent_id">Serviciu principal</label>
           <select
-            id="parent_service_id"
-            name="parent_service_id"
-            value={formData.parent_service_id || ''}
+            id="parent_id"
+            name="parent_id"
+            value={formData.parent_id || ''}
             onChange={handleChange}
-            className={fieldErrors.parent_service_id ? styles.errorInput : ''}
+            className={fieldErrors.parent_id ? styles.errorInput : ''}
           >
             <option value="">Niciunul (Serviciu principal)</option>
-            {parentServices.map(service => (
-              <option key={service._id} value={service._id}>
+            {Array.isArray(parentServices) && parentServices.map(service => (
+              <option key={service.id} value={service.id}>
                 {service.title}
               </option>
             ))}
           </select>
-          {fieldErrors.parent_service_id && (
-            <div className={styles.fieldError}>{fieldErrors.parent_service_id}</div>
+          {fieldErrors.parent_id && (
+            <div className={styles.fieldError}>{fieldErrors.parent_id}</div>
           )}
         </div>
 
@@ -394,13 +418,13 @@ const ServiceForm = () => {
             {formData.image ? (
               <div className={styles.imagePreview}>
                 <img 
-                  src={formData.image.startsWith('http') ? formData.image : `${process.env.REACT_APP_URL || 'http://localhost:5002'}${formData.image}`} 
+                  src={getImageUrl(formData.image)} 
                   alt="Preview" 
                   loading="lazy"
                   decoding="async"
                 />
                 <button type="button" onClick={handleRemoveImage} className={styles.removeButton}>
-                  x
+                  ✕
                 </button>
               </div>
             ) : (
@@ -481,29 +505,37 @@ const ServiceForm = () => {
 
         <div className={styles.formGroup}>
           <label htmlFor="metaTitle">Meta Titlu *</label>
-          <input
-            type="text"
-            id="metaTitle"
-            name="metaTitle"
-            value={formData.metaTitle}
-            onChange={handleChange}
-            className={fieldErrors.metaTitle ? styles.errorInput : ''}
-            placeholder="Introduceți meta titlul"
-          />
+          <div className={styles.inputWithCounter}>
+            <input
+              type="text"
+              id="metaTitle"
+              name="metaTitle"
+              value={formData.metaTitle}
+              onChange={handleChange}
+              className={fieldErrors.metaTitle ? styles.errorInput : ''}
+              placeholder="Introduceți meta titlul"
+              maxLength={60}
+            />
+            <span className={styles.charCounter}>{metaTitleLength}/60</span>
+          </div>
           {fieldErrors.metaTitle && <div className={styles.fieldError}>{fieldErrors.metaTitle}</div>}
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="metaDescription">Meta Descriere *</label>
-          <textarea
-            id="metaDescription"
-            name="metaDescription"
-            value={formData.metaDescription}
-            onChange={handleChange}
-            rows="3"
-            className={fieldErrors.metaDescription ? styles.errorInput : ''}
-            placeholder="Introduceți meta descrierea"
-          />
+          <div className={styles.inputWithCounter}>
+            <textarea
+              id="metaDescription"
+              name="metaDescription"
+              value={formData.metaDescription}
+              onChange={handleChange}
+              rows="3"
+              className={fieldErrors.metaDescription ? styles.errorInput : ''}
+              placeholder="Introduceți meta descrierea"
+              maxLength={150}
+            />
+            <span className={styles.charCounter}>{metaDescriptionLength}/150</span>
+          </div>
           {fieldErrors.metaDescription && <div className={styles.fieldError}>{fieldErrors.metaDescription}</div>}
         </div>
 

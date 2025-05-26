@@ -3,7 +3,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { teamMemberService } from '../../services/api';
 import RichTextEditor from '../../components/editor/RichTextEditor';
 import { useAuth } from '../../contexts/AuthContext';
-import styles from './BlogForm.module.css'; // Reusing the same styles
+import { getImageUrl } from '../../utils/imageHelpers';
+import styles from './BlogForm.module.css';
 
 const TeamMemberForm = () => {
   const navigate = useNavigate();
@@ -63,17 +64,15 @@ const TeamMemberForm = () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file type
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
     if (!allowedTypes.includes(file.type)) {
       setError('Tipul fișierului este invalid. Doar JPEG, PNG și GIF sunt permise.');
       return;
     }
 
-    // Validate file size (5MB max)
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 2 * 1024 * 1024; // 2MB
     if (file.size > maxSize) {
-      setError('Dimensiunea fișierului este prea mare. Dimensiunea maximă este de 5MB.');
+      setError('Dimensiunea fișierului este prea mare. Dimensiunea maximă este de 2MB.');
       return;
     }
 
@@ -81,27 +80,21 @@ const TeamMemberForm = () => {
       setLoading(true);
       setError('');
       
-      // Create a temporary URL for the image preview
       const previewUrl = URL.createObjectURL(file);
       
-      // Set the preview URL immediately
       setFormData(prev => ({
         ...prev,
         image: previewUrl
       }));
       
-      // Create FormData for upload
       const formData = new FormData();
       formData.append('image', file);
 
-      // Upload the image
       const response = await teamMemberService.uploadImage(formData);
       
       if (response && response.url) {
-        // Clean up the temporary URL
         URL.revokeObjectURL(previewUrl);
         
-        // Set the actual image URL from the server
         setFormData(prev => ({
           ...prev,
           image: response.url
@@ -112,7 +105,6 @@ const TeamMemberForm = () => {
     } catch (err) {
       setError(err.response?.data?.message || 'Nu s-a putut încărca imaginea. Vă rugăm să încercați din nou.');
       console.error('Eroare la încărcarea imaginii:', err);
-      // Remove the temporary preview if upload failed
       setFormData(prev => ({
         ...prev,
         image: ''
@@ -253,7 +245,7 @@ const TeamMemberForm = () => {
           {formData.image ? (
             <div className={styles.imagePreview}>
               <img 
-                src={formData.image} 
+                src={getImageUrl(formData.image)} 
                 alt="Previzualizare imagine membru echipă" 
                 loading="lazy"
                 decoding="async"
@@ -262,9 +254,9 @@ const TeamMemberForm = () => {
                 type="button"
                 onClick={handleRemoveImage}
                 className={styles.removeButton}
-                aria-label="Șterge imagine"
+                aria-label="Șterge imaginea"
               >
-                x
+                ✕
               </button>
             </div>
           ) : (

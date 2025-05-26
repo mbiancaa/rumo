@@ -1,8 +1,7 @@
 import '../styles/Home.css';
 import '../styles/About.css';
-
+import { getImageUrl } from '../utils/imageHelpers';
 import style from '../styles/modules/BlogArticle.module.css';
-
 
 const ArticleLayout = ({ children, title, date, type, image, category, services }) => {
     // For blog posts, category is an array of categories
@@ -13,11 +12,7 @@ const ArticleLayout = ({ children, title, date, type, image, category, services 
             : category 
         : `Industrie: ${category}`;
 
-    const imageUrl = image ? (
-        image.startsWith('http') || image.startsWith('data:') ?
-            image :
-            `${process.env.REACT_APP_URL || 'http://localhost:5002'}${image}`
-    ) : null;
+    const imageUrl = getImageUrl(image);
 
     return (
         <>

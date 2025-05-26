@@ -80,31 +80,73 @@ const ClientTestimonialSlider = () => {
 
 const testimonials = [
     {
-        name: "Alexandru Popescu",
-        title: "Director, XYZ Solutions",
+        name: "Mihai Sîrbu",
+        title: "CEO & Founder, DentalCare Sîrbu",
         content: [
-            "Colaborarea cu RUMO a fost o experiență excepțională! Profesionalismul, creativitatea și strategia lor bine pusă la punct ne-au ajutat să ne creștem vizibilitatea și să atragem mai mulți clienți. Recomand cu încredere!"
+            "Am avut o colaborare cu adevărat revelatoare cu agenția RUMO. Eu, ca medic dar și ca antreprenor, apreciez, în mod deosebit, dedicarea managerului Monica Rusu, care ne-a implementat de-a lungul a 4 ani un plan strategic de creștere foarte eficient. Această colaborare ne-a deschis noi căi și ne-a lărgit orizontul ajutându-ne să ne transformăm dintr-un cabinet stomatologic micuț  într-o clinică cu renume în Cluj-Napoca. Sunt foarte mulțumit de implicarea dedicată a echipei, de accesul la servicii complete și de rezultatele excelente obținute."
         ]
     },
     {
-        name: "Ioana Marinescu",
-        title: "CEO, Digital Vision",
+        name: "Florin M. Pop",
+        title: "Antreprenor și consultant de afaceri",
         content: [
-            "Echipa RUMO ne-a oferit soluții inovatoare și personalizate care au dus la o creștere semnificativă a conversiilor noastre online. Colaborarea a fost fluidă și eficientă, iar rezultatele au fost peste așteptări!"
+            "Colaborarea cu RUMO Digital Path a fost o experiență extraordinară. Pentru mine, RUMO înseamnă în mod special Monica Rusu – managerul agenției, un om empatic, vertical și, totodată, o adevărată profesionistă. Am fost foarte mulțumit de aportul ei și de felul în care am construit împreună o relație bazată pe încredere – atât profesională, cât și umană, ceea ce, pentru mine, ca antreprenor, este esențial. Echipa RUMO m-a ajutat să înțeleg mai bine importanța leadership-ului în mediul online. Mi-am extins plaja de urmăritori, am creat o comunitate loială și mi-am conturat un brand autentic. Această experiență m-a ajutat să îmi definesc mai clar stilul de comunicare, să fiu mai coerent și prezent în online și să-mi îmbunătățesc strategia de brand personal."
         ]
     },
     {
-        name: "Mihai Dumitrescu",
-        title: "Fondator, StartUp Hub",
+        name: "Stor Raul Bogdan",
+        title: "CEO & Founder, Men's Club",
         content: [
-            "Serviciile oferite de RUMO ne-au ajutat să ne conturăm brandul și să ne poziționăm mai bine pe piață. Expertiza lor în marketing digital a făcut o diferență majoră în evoluția afacerii noastre."
+            "Experiența cu RUMO Digital Path a fost excelentă. Sub îndrumarea Monicăi Rusu, echipa RUMO a reușit să ne extindă și să diversifice profilul urmăritorilor, ceea ce a avut un impact major asupra vizibilității Men’s Club. Ei ne-au pus brandul într-o lumină și mai favorabilă știind cum să evidențieze punctele noastre forte. Profesionalismul și dedicarea lor au fost foarte mulțumitoare în tot procesul."
         ]
     },
     {
-        name: "Andreea Ionescu",
-        title: "Manager Marketing, Elegant Home",
+        name: "Dr. Radu Drasovean",
+        title: "Medic primar chirurgie generală specializat în chirurgia minim-invazivă (laparoscopică și robotică)",
         content: [
-            "Am fost impresionați de profesionalismul și dedicarea echipei RUMO. Campaniile lor au avut un impact real asupra vânzărilor noastre, iar suportul oferit pe parcursul colaborării a fost excepțional."
+            "Ca medic, am nevoie de un brand ce reflectă profesionalism și încredere. Echipa RUMO Digital Path mi-a oferit asta și, ca urmare am creat în timp o comunitate de urmaritori loială și în continuă creștere. Apreciez disponibilitatea echipei de a filma în blocul operator, un detaliu crucial pentru imaginea unui medic. Strategia de marketing complexă mi-a sporit vizibilitatea și autoritatea în online, iar pentru mine dedicarea managerului Monica Rusu este absolut fundamentală în colaborarea noastră. Văd constant evoluția brandului meu în cifre concrete. Această colaborare a transformat major strategia mea profesională. Mulțumesc echipei RUMO!"
+        ]
+    },
+    {
+        name: "Dr. Chirila Marius",
+        title: "Medic specialist chirurgie plastică, estetică și microchirurgie reconstructivă",
+        content: [
+            "Sunt foarte multumit de cum decurge colaborarea cu echipa RUMO, deja de peste 3 ani. Ma bucur ca m-au ajutat sa imi extind si sa-mi diversifica audienta. Cresterea organica, pe care o obtin cu ajutorul lor, este esentiala pentru activitatea mea profesionala. M-au ajutat sa imi construiesc un brand solid, atragand mai mulți urmaritori si clienți. Apreciez de asemenea disponibilitatea echipei de a se deplasa la locul unde imi desfasor activitatea pentru a filma si a poza procedurile in timp real."
+        ]
+    },
+    {
+        name: "Diana Adam",
+        title: "CEO & Founder COD Protect Medical, Serviciu de ambulanță privată",
+        content: [
+            "Profesionalismul RUMO s-a remarcat prin interesul autentic în creșterea brandului nostru. Echipa este dinamică și  mereu promptă; au intervenit chiar și pe teren, venind să ne filmeze ambulanțele. Mi-au gestionat eficient profilurile de social media și le mulțumesc, în general, pentru toată implicarea."
+        ]
+    },
+    {
+        name: "Dr. Mihai-Ștefan Muresan",
+        title: "Medic primar chirurgie generală și oncologică",
+        content: [
+            "Echipa RUMO m-a ajutat să-mi creez un brand autentic și o comunitate loială de urmăritori, pe care o extindem în permanență. De peste 2 ani colaborăm și am o evoluție solidă și constantă. Recent au completat strategia de marketing și acum implementăm noi tactici pentru o creștere mai accelerată a vizibilității în online, în care am mare încredere. Fiecare etapă a procesului a fost abordată cu profesionalism. Mulțumesc pentru suportul constant și empatia pusă în acest proiect."
+        ]
+    },
+    {
+        name: "Dr. Calin Todoran",
+        title: "Medic primar ginecologie",
+        content: [
+            "Colaborarea cu RUMO a fost esențială în dezvoltarea unui brand personal autentic și în construirea unei comunități solide de urmăritori. Expertiza în branding și social media management a fost bine implementată și adaptată cerințelor mele și ale publicului meu. Această colaborare a stimulat semnificativ creșterea imaginii mele."
+        ]
+    },
+    {
+        name: "Alex Păcurar",
+        title: "CEO & Founder Innosphere Hub",
+        content: [
+            "Noi, cei de la Innosphere Hub am fost impresionați de modul profesionist în care RUMO își face treaba. Echipa lor de experți în creare de conținut și branding a contribuind semnificativ la înțelegerea importanței de a fi prezent pe toate canalele de social media. Implicarea lor dedicată ne-a făcut să simțim că lucrăm sub aceeași umbrelă. Impactul serviciilor lor se reflectă clar în creșterea unei afaceri. Experiența a fost cu adevărat valoroasă. 👍"
+        ]
+    },
+    {
+        name: "Petruț Simianu",
+        title: "CEO & Founder TEGRA (servicii complete de arhitectură, design interior și management de proiect)",
+        content: [
+            "RUMO a creat pentru TEGRA un website profesionist care ne evidențiază proiectele și oferă informații valoroase. Ce îi definește? Profesionalismul și structura clară a procesului de lucru, promptitudinea și flexibilitatea echipei dar și faptul că oferă răspunsuri precise la orice întrebare. Mi-a creat bucurie colaborarea cu voi. Mulțumesc RUMO!"
         ]
     }
 ];

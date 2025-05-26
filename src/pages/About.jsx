@@ -3,6 +3,7 @@ import '../styles/About.css';
 import servicesStyle from '../styles/modules/AboutServices.module.css';
 
 import { useState, useEffect } from 'react';
+import { BarLoader } from 'react-spinners';
 import { pageService } from '../services/api';
 import HeroSection from '../sections/HeroSection';
 
@@ -32,28 +33,48 @@ const About = () => {
     const [imageColumnRef, imageColumnInView] = useInView(10);
     const [pageContent, setPageContent] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchPageContent = async () => {
+        const fetchData = async () => {
+            setLoading(true);
+            
             try {
-                const data = await pageService.getBySlug('despre-noi');
-                setPageContent(data);
+                const pageData = await pageService.getBySlug('despre-noi');
+                setPageContent(pageData);
             } catch (err) {
                 console.error('Error fetching page content:', err);
-            } finally {
-                setLoading(false);
+                setError("Eroare la încărcarea conținutului paginii. Reîncercați mai târziu.");
             }
+
+            setLoading(false);
         };
 
-        fetchPageContent();
+        fetchData();
     }, []);
 
     return (
         <>
             <SEO 
-                title={pageContent?.metaTitle || pageContent?.name || "Despre RUMO"}
+                title={pageContent?.metaTitle || pageContent?.name || "RUMO - Your Digital Path"}
                 description={pageContent?.metaDescription || "Agenție de marketing digital dedicată creșterii afacerilor mici și mijlocii. Descoperă echipa și valorile noastre."}
             />
+            {loading && (
+                <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 9999
+                }}>
+                    <BarLoader
+                        color="#26b3ff"
+                        width="100%"
+                        height={4}
+                        loading={loading}
+                    />
+                </div>
+            )}
             <Header />
             <HeroSection>
                 <div className="layout eq-columns">
@@ -88,6 +109,10 @@ const About = () => {
                         <p className="mediumParagraph">Agenția de marketing online, <span style={{ color: 'var(--green)', fontWeight: 600 }}>RUMO</span> a fost fondată de <span style={{ fontWeight: 600 }}>CEO & Founder-ul Rusu Monica</span> si este o agenție <span style={{ color: 'var(--blue)', fontWeight: 500 }}>dedicată creșterii afacerilor mici si mijlocii</span>.</p>
                         <p className="mediumParagraph">Suntem mai mult decât o agenție de marketing online — suntem parteneri de creștere pentru IMM-urile din România. Credem că impactul real vine din lucruri făcute cu integritate, cu pasiune și cu dorința de a evolua constant.</p>
                         <p className="mediumParagraph">Fiecare campanie, fiecare strategie digitală, fiecare colaborare de lungă durată reflectă convingerea noastră că succesul clienților noștri contribuie direct la dezvoltarea economică și socială a României.</p>
+                        <h2 className="headlineH3">Principiile care ne definesc</h2>
+                        <p className="mediumParagraph"><b style={{ color: 'var(--green)' }}><u>Disponibilitate și promptitudine</u></b> - <i>Menținem un flux constant de comunicare cu clienții noștri: dialogăm telefonic sau prin e-mail, săptămânal, iar în fazele incipiente de implementare a proceselor comunicăm chiar zilnic astfel formăm parteneriate durabile.</i></p>
+                        <p className="mediumParagraph"><b style={{ color: 'var(--blue)' }}><u>Oferim soluții de marketing online complet personalizate</u></b> - <i>acestea fiind adaptate contextului actual și obiectivelor firmei tale. Indiferent de buget, concepem strategii eficiente care maximizează ROI-ul iar când obiectivele tale nu sunt încă definite, te ghidăm pas cu pas pentru a-ți clarifica nevoile … apoi noi reușim să-ți transformăm ideile în campanii de succes.</i></p>
+                        <p className="mediumParagraph"><b style={{ color: 'var(--green)' }}><u>Elaborăm și implementăm planuri de afaceri strategice și sustenabile</u></b> - <i>acestea fiind concepute pentru a performa și a se adapta pe termen lung.</i></p>
                         <p className="mediumParagraph">Valorile de mai jos ne ghidează în modul în care construim parteneriate durabile:</p>
                         <ValueItems />
                     </div>
@@ -280,11 +305,14 @@ const About = () => {
                         <p>Scopul nostru este să vă aducem mai aproape de succes, pas cu pas. Rezultatele susținute și dedicarea cu care facem lucrurile ne-au format reputația de partener de încredere.</p>
                         <h3>Hai să ne unim forțele pentru succes! Scrie-ne chiar acum!</h3>
                     </div>
-                    {pageContent?.lowerContent && (
-                        <div 
-                        className="text-content-container"
-                        dangerouslySetInnerHTML={{ __html: pageContent.lowerContent }}
-                        />
+                    {error ? (
+                        <div>{error}</div>
+                    ) : (
+                        pageContent?.lowerContent && (
+                            <div className="text-content-container"
+                                dangerouslySetInnerHTML={{ __html: pageContent.lowerContent }}
+                            />
+                        )
                     )}
                 </div>
             </section >

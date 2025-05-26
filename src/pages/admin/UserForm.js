@@ -92,15 +92,14 @@ const UserForm = () => {
 
       // Prepare the data to send
       const dataToSend = { ...formData };
+      
+      // Only include password if it's not empty
+      if (!dataToSend.password) {
+        delete dataToSend.password;
+      }
 
       if (id) {
-        // For existing user, update user data first
-        if (dataToSend.password) {
-          // If password is provided, update it separately
-          await userService.updatePassword(id, dataToSend.password);
-          delete dataToSend.password;
-        }
-        // Update other user data
+        // For existing user, update all data including password if provided
         await userService.update(id, dataToSend);
       } else {
         // For new user, use auth/register endpoint

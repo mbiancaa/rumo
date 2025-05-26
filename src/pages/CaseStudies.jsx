@@ -5,6 +5,7 @@ import '../styles/CaseStudyBox.css';
 import '../styles/Filters.css';
 
 import { useState, useEffect } from 'react';
+import { BarLoader } from 'react-spinners';
 import { caseStudyService, pageService } from '../services/api';
 
 import Header from '../components/Header';
@@ -33,22 +34,29 @@ const CaseStudies = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
+            
             try {
-                setLoading(true);
-                const [caseStudiesData, pageData] = await Promise.all([
-                    caseStudyService.getAll(currentPage, true),
-                    pageService.getBySlug('studii-de-caz')
-                ]);
+                const caseStudiesData = await caseStudyService.getAll(currentPage, '', true);
                 setCaseStudies(caseStudiesData.caseStudies);
                 setTotalPages(caseStudiesData.totalPages);
-                setPageContent(pageData);
-                setError(null);
             } catch (err) {
-                setError('A apărut o eroare la încărcarea studiilor de caz.');
                 console.error('Error fetching case studies:', err);
-            } finally {
-                setLoading(false);
+                setCaseStudies([]);
+                setTotalPages(1);
+                setError("Eroare la încărcarea studiilor de caz. Reîncercați mai târziu.");
             }
+
+            try {
+                const pageData = await pageService.getBySlug('studii-de-caz');
+                setPageContent(pageData);
+                setLoading(false);
+            } catch (err) {
+                console.error('Error fetching page content:', err);
+                setLoading(true);
+            }
+
+            setLoading(false);
         };
 
         fetchData();
@@ -64,6 +72,22 @@ const CaseStudies = () => {
                 title={pageContent?.metaTitle || pageContent?.name || "Studii de Caz RUMO"}
                 description={pageContent?.metaDescription || "Descoperă studiile de caz RUMO și vezi cum am ajutat afaceri mici și mijlocii să-și atingă obiectivele prin strategii de marketing digital personalizate."}
             />
+            {loading && (
+                <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 9999
+                }}>
+                    <BarLoader
+                        color="#26b3ff"
+                        width="100%"
+                        height={4}
+                        loading={loading}
+                    />
+                </div>
+            )}
             <Header />
             <HeroSection>
                 <div className="layout eq-columns">
@@ -98,7 +122,7 @@ const CaseStudies = () => {
                         ) : (
                             caseStudies.map((caseStudy) => (
                                 <CaseStudyBox 
-                                    key={caseStudy._id}
+                                    key={caseStudy.id}
                                     post={caseStudy}
                                 />
                             ))

@@ -7,6 +7,7 @@ import SEO from '../components/SEO';
 import '../styles/Home.css';
 import '../styles/About.css';
 import NotFound from './NotFound';
+import { BarLoader } from 'react-spinners';
 
 const Page = () => {
   const location = useLocation();
@@ -37,22 +38,6 @@ const Page = () => {
     fetchPage();
   }, [slug]);
 
-  if (loading) {
-    return (
-      <div className="loading">
-        <p>Se încarcă...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="error">
-        <p>{error}</p>
-      </div>
-    );
-  }
-
   if (!page) {
     return <NotFound />;
   }
@@ -60,20 +45,29 @@ const Page = () => {
   return (
     <>
       <SEO 
-        title={page.metaTitle || page.name}
-        description={page.metaDescription}
+        title={page?.metaTitle || page?.name || "RUMO - Your Digital Path"}
+        description={page?.metaDescription || ""}
       />
+      {loading && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 9999
+        }}>
+          <BarLoader
+            color="#26b3ff"
+            width="100%"
+            height={4}
+            loading={loading}
+          />
+        </div>
+      )}
       <Header />
       <section className="whitebg layout">
         <div className="container text-content-container">
           <h1>{page?.name}</h1>
-          {page.upperContent && (
-            <div 
-              className="text-content-container"
-              dangerouslySetInnerHTML={{ __html: page.upperContent }}
-            />
-          )}
-
           {page.lowerContent && (
             <div 
               className="text-content-container"

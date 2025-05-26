@@ -6,14 +6,30 @@ import "../styles/ContactForm.css";
 import LogoImage from '../assets/logoSM.png';
 
 const validationSchema = Yup.object({
-    nume: Yup.string().required("Numele este obligatoriu"),
-    prenume: Yup.string().required("Prenumele este obligatoriu"),
-    email: Yup.string().email("Email invalid").required("Emailul este obligatoriu"),
+    nume: Yup.string()
+        .min(2, "Numele trebuie să aibă cel puțin 2 caractere")
+        .max(100, "Numele nu poate depăși 100 de caractere")
+        .required("Numele este obligatoriu"),
+    prenume: Yup.string()
+        .min(2, "Prenumele trebuie să aibă cel puțin 2 caractere")
+        .max(100, "Prenumele nu poate depăși 100 de caractere")
+        .required("Prenumele este obligatoriu"),
+    email: Yup.string()
+        .min(2, "Email-ul trebuie să aibă cel puțin 2 caractere")
+        .max(100, "Email-ul nu poate depăși 100 de caractere")
+        .email("Email invalid")
+        .required("Emailul este obligatoriu"),
     telefon: Yup.string()
         .matches(/^\+?\d{10,15}$/, "Număr de telefon invalid")
         .required("Numărul de telefon este obligatoriu"),
-    website: Yup.string().url("URL invalid").required("Website-ul sau compania sunt obligatorii"),
-    mesaj: Yup.string().required("Mesajul este obligatoriu"),
+    website: Yup.string()
+        .min(2, "Website-ul trebuie să aibă cel puțin 2 caractere")
+        .max(100, "Website-ul nu poate depăși 100 de caractere")
+        .required("Website-ul sau compania sunt obligatorii"),
+    mesaj: Yup.string()
+        .min(10, "Mesajul este prea scurt")
+        .max(255, "Mesaj prea lung")
+        .required("Mesajul este obligatoriu"),
 });
 
 const FloatingLabelInput = ({ label, field, meta }) => {
@@ -137,8 +153,10 @@ const ContactForm = () => {
                                 {({ field, meta }) => {
                                     const textareaId = 'contact-mesaj';
                                     const hasError = meta.touched && meta.error;
+                                    const remainingChars = Math.max(0, 255 - (field.value?.length || 0));
+                                    const isFilled = field.value.length > 0;
                                     return (
-                                        <div className={`input-group ${hasError ? "error" : ""}`}>
+                                        <div className={`input-group ${hasError ? "error" : ""} ${isFilled ? "filled" : ""}`}>
                                             <label className="input-label" htmlFor={textareaId}>Mesaj</label>
                                             <textarea 
                                                 {...field} 
@@ -148,6 +166,9 @@ const ContactForm = () => {
                                                 aria-invalid={hasError}
                                                 aria-describedby={hasError ? `${textareaId}-error` : undefined}
                                             />
+                                            <div className="char-counter">
+                                                {remainingChars} caractere rămase
+                                            </div>
                                             {hasError && (
                                                 <div id={`${textareaId}-error`} className="error-message" role="alert">
                                                     {meta.error}

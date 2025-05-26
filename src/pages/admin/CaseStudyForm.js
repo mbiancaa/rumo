@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { caseStudyService } from '../../services/api';
 import RichTextEditor from '../../components/editor/RichTextEditor';
 import styles from './BlogForm.module.css';
+import { getImageUrl } from '../../utils/imageHelpers';
 
 const CaseStudyForm = () => {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ const CaseStudyForm = () => {
         metaDescription: data.metaDescription || ''
       });
     } catch (err) {
-      setError('Nu s-a putut încărca studiul de caz');
+      setError('Nu s-au putut încărca studiul de caz');
     } finally {
       setLoading(false);
     }
@@ -60,7 +61,6 @@ const CaseStudyForm = () => {
       ...prev,
       [name]: value
     }));
-    // Clear error when field is modified
     if (fieldErrors[name]) {
       setFieldErrors(prev => ({
         ...prev,
@@ -74,7 +74,6 @@ const CaseStudyForm = () => {
       ...prev,
       content
     }));
-    // Clear content error when modified
     if (fieldErrors.content) {
       setFieldErrors(prev => ({
         ...prev,
@@ -83,19 +82,24 @@ const CaseStudyForm = () => {
     }
   };
 
+  const handleRemoveImage = () => {
+    setFormData(prev => ({
+      ...prev,
+      featuredImage: ''
+    }));
+  };
+  
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file type
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
     if (!allowedTypes.includes(file.type)) {
       setError('Tipul fișierului este invalid. Doar JPEG, PNG și GIF sunt permise.');
       return;
     }
 
-    // Validate file size (5MB max)
-    const maxSize = 5 * 1024 * 1024; // 5MB
+    const maxSize = 2 * 1024 * 1024; // 2MB
     if (file.size > maxSize) {
       setError('Dimensiunea fișierului este prea mare. Dimensiunea maximă este de 5MB.');
       return;
@@ -105,30 +109,24 @@ const CaseStudyForm = () => {
       setLoading(true);
       setError('');
       
-      // Create a temporary URL for the image preview
       const previewUrl = URL.createObjectURL(file);
       
-      // Set the preview URL immediately
       setFormData(prev => ({
         ...prev,
         featuredImage: previewUrl
       }));
       
-      // Create FormData for upload
       const formData = new FormData();
       formData.append('image', file);
 
-      // Upload the image
       const response = await caseStudyService.uploadImage(formData);
       
-      if (response && response.url) {
-        // Clean up the temporary URL
+      if (response && response.filename) {
         URL.revokeObjectURL(previewUrl);
         
-        // Set the actual image URL from the server
         setFormData(prev => ({
           ...prev,
-          featuredImage: response.url
+          featuredImage: response.filename
         }));
       } else {
         throw new Error('Raspuns invalid de la server');
@@ -136,7 +134,6 @@ const CaseStudyForm = () => {
     } catch (err) {
       setError(err.response?.data?.message || 'Nu s-a putut încărca imaginea. Vă rugăm să încercați din nou.');
       console.error('Eroare la încărcarea imaginii:', err);
-      // Remove the temporary preview if upload failed
       setFormData(prev => ({
         ...prev,
         featuredImage: ''
@@ -148,7 +145,7 @@ const CaseStudyForm = () => {
 
   const validateForm = () => {
     const errors = {};
-    const requiredFields = ['title', 'slug', 'content', 'excerpt', 'industry', 'services', 'perioada', 'metaTitle', 'metaDescription'];
+    const requiredFields = ['title', 'content', 'excerpt', 'industry', 'services', 'perioada', 'metaTitle', 'metaDescription'];
     
     requiredFields.forEach(field => {
       if (!formData[field] || formData[field].trim() === '') {
@@ -156,22 +153,56 @@ const CaseStudyForm = () => {
       }
     });
 
-    // Validate slug format
-    if (formData.slug && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(formData.slug)) {
-      errors.slug = 'Slug-ul trebuie să conțină doar litere mici, cifre și cratime.';
+    // Validate metaTitle length
+    if (formData.metaTitle && formData.metaTitle.length > 60) {
+      errors.metaTitle = 'Meta titlul nu poate depăși 60 de caractere';
+    }
+
+    // Validate metaDescription length
+    if (formData.metaDescription && formData.metaDescription.length > 150) {
+      errors.metaDescription = 'Meta descrierea nu poate depăși 150 de caractere';
+    }
+
+    // Validate slug format if provided
+    if (formData.slug) {
+      // Only allow lowercase English letters, numbers, and hyphens
+      // Must start and end with a letter or number
+      // No consecutive hyphens allowed
+      const slugRegex = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+      if (!slugRegex.test(formData.slug)) {
+        errors.slug = 'Slug-ul trebuie să conțină doar litere mici (a-z), cifre și cratime. Nu sunt permise spații, caractere speciale sau litere cu diacritice.';
+      }
     }
 
     setFieldErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
+  const generateSlug = (title) => {
+    return title
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "") // Remove diacritics
+      .replace(/[^a-z0-9]+/g, "-") // Replace non-alphanumeric chars with hyphens
+      .replace(/(^-|-$)+/g, ""); // Remove leading/trailing hyphens
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     try {
       setLoading(true);
       setError(null);
       setFieldErrors({});
 
+      // Generate slug from title if empty
+    if (!formData.slug && formData.title) {
+      setFormData(prev => ({
+        ...prev,
+        slug: generateSlug(formData.title)
+      }));
+    }
+    
       // Validate form
       if (!validateForm()) {
         setLoading(false);
@@ -196,8 +227,14 @@ const CaseStudyForm = () => {
         perioada: formData.perioada || '',
         featuredImage: formData.featuredImage || '',
         metaTitle: formData.metaTitle || formData.title,
-        metaDescription: formData.metaDescription || formData.excerpt
+        metaDescription: formData.metaDescription || formData.excerpt,
+        date: new Date().toISOString()
       };
+
+       // Generate slug if empty and title exists
+      if (!submissionData.slug && submissionData.title) {
+        submissionData.slug = generateSlug(submissionData.title);
+      }
 
       if (id) {
         await caseStudyService.update(id, submissionData);
@@ -248,12 +285,25 @@ const CaseStudyForm = () => {
             value={formData.slug}
             onChange={handleChange}
             className={fieldErrors.slug ? styles.errorInput : ''}
-            placeholder="exemplu-de-slug"
+            placeholder="Lăsați gol pentru generare automată"
           />
           {fieldErrors.slug && <div className={styles.fieldError}>{fieldErrors.slug}</div>}
           <small className={styles.helpText}>
             Slug-ul trebuie să conțină doar litere mici, cifre și cratime. Ex: exemplu-de-slug
           </small>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="excerpt">Rezumat *</label>
+          <textarea
+            id="excerpt"
+            name="excerpt"
+            value={formData.excerpt}
+            onChange={handleChange}
+            className={fieldErrors.excerpt ? styles.errorInput : ''}
+            rows="3"
+          />
+          {fieldErrors.excerpt && <div className={styles.fieldError}>{fieldErrors.excerpt}</div>}
         </div>
 
         <div className={styles.formGroup}>
@@ -264,19 +314,6 @@ const CaseStudyForm = () => {
             className={fieldErrors.content ? styles.errorInput : ''}
           />
           {fieldErrors.content && <div className={styles.fieldError}>{fieldErrors.content}</div>}
-        </div>
-
-        <div className={styles.formGroup}>
-          <label htmlFor="excerpt">Rezumat *</label>
-          <textarea
-            id="excerpt"
-            name="excerpt"
-            value={formData.excerpt}
-            onChange={handleChange}
-            rows="4"
-            className={fieldErrors.excerpt ? styles.errorInput : ''}
-          />
-          {fieldErrors.excerpt && <div className={styles.fieldError}>{fieldErrors.excerpt}</div>}
         </div>
 
         <div className={styles.formGroup}>
@@ -319,30 +356,24 @@ const CaseStudyForm = () => {
         </div>
 
         <div className={styles.formGroup}>
-          <label htmlFor="status">Status</label>
+          <label htmlFor="status">Status *</label>
           <select
             id="status"
             name="status"
             value={formData.status}
             onChange={handleChange}
           >
-            <option value="draft">Ciornă</option>
+            <option value="draft">Draft</option>
             <option value="published">Publicat</option>
           </select>
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="featuredImage">Imagine principală</label>
-          <input
-            type="file"
-            id="featuredImage"
-            accept="image/*"
-            onChange={handleImageUpload}
-          />
-          {formData.featuredImage && (
+          {formData.featuredImage ? (
             <div className={styles.imagePreview}>
               <img 
-                src={formData.featuredImage} 
+                src={getImageUrl(formData.featuredImage)} 
                 alt="Previzualizare imagine studiu de caz" 
                 loading="lazy"
                 decoding="async"
@@ -350,37 +381,55 @@ const CaseStudyForm = () => {
               <button
                 type="button"
                 className={styles.removeButton}
-                onClick={() => setFormData(prev => ({ ...prev, featuredImage: '' }))}
-              >
-                ×
-              </button>
+                onClick={handleRemoveImage}
+              >✕</button>
             </div>
+          ) : (
+          <input
+            type="file"
+            id="featuredImage"
+            name="featuredImage"
+            onChange={handleImageUpload}
+            accept="image/*"
+          />
           )}
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="metaTitle">Meta Titlu *</label>
-          <input
-            type="text"
-            id="metaTitle"
-            name="metaTitle"
-            value={formData.metaTitle}
-            onChange={handleChange}
-            className={fieldErrors.metaTitle ? styles.errorInput : ''}
-          />
+          <div className={styles.inputWithCounter}>
+            <input
+              type="text"
+              id="metaTitle"
+              name="metaTitle"
+              value={formData.metaTitle}
+              onChange={handleChange}
+              className={fieldErrors.metaTitle ? styles.errorInput : ''}
+              maxLength={60}
+            />
+            <span className={styles.charCounter}>
+              {formData.metaTitle.length}/60
+            </span>
+          </div>
           {fieldErrors.metaTitle && <div className={styles.fieldError}>{fieldErrors.metaTitle}</div>}
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="metaDescription">Meta Descriere *</label>
-          <textarea
-            id="metaDescription"
-            name="metaDescription"
-            value={formData.metaDescription}
-            onChange={handleChange}
-            rows="3"
-            className={fieldErrors.metaDescription ? styles.errorInput : ''}
-          />
+          <div className={styles.inputWithCounter}>
+            <textarea
+              id="metaDescription"
+              name="metaDescription"
+              value={formData.metaDescription}
+              onChange={handleChange}
+              className={fieldErrors.metaDescription ? styles.errorInput : ''}
+              rows="3"
+              maxLength={150}
+            />
+            <span className={styles.charCounter}>
+              {formData.metaDescription.length}/150
+            </span>
+          </div>
           {fieldErrors.metaDescription && <div className={styles.fieldError}>{fieldErrors.metaDescription}</div>}
         </div>
 

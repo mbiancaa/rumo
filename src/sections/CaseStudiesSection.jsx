@@ -12,15 +12,15 @@ const CaseStudiesSection = () => {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await caseStudyService.getAll(1, true); // Get first page with publishedOnly=true
+                const response = await caseStudyService.getAll(1, '', true); // Get first page with publishedOnly=true
                 if (!response || !Array.isArray(response.caseStudies)) {
                     throw new Error('Formatul răspunsului este invalid');
                 }
                 setPosts(response.caseStudies);
                 setError(null);
             } catch (err) {
-                console.error('Error fetching posts:', err);
-                setError('Nu s-a putut încărca studiile de caz');
+                console.error('Eroare la încărcarea studiilor de caz:', err);
+                setError('Nu s-au putut încărca studiile de caz');
             } finally {
                 setLoading(false);
             }

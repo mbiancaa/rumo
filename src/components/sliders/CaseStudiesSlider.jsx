@@ -2,7 +2,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import { NavLink } from "react-router-dom";
-
+import { getImageUrl } from '../../utils/imageHelpers';
 const CaseStudiesSlider = ({ caseStudies }) => {
 
     var settings = {
@@ -23,7 +23,7 @@ const CaseStudiesSlider = ({ caseStudies }) => {
             <Slider {...settings}>
                 {caseStudies.map((study, index) => (
                         <NavLink 
-                            key={study._id} 
+                            key={study.id} 
                             to={`/studii-de-caz/${study.slug}`} 
                             className={`caseStudyItem ${index % 2 === 1 ? 'blue' : ''}`}
                         >
@@ -34,13 +34,7 @@ const CaseStudiesSlider = ({ caseStudies }) => {
                             </div>
                             <div className="right">
                                 <img 
-                                    src={study.featuredImage ? 
-                                        (study.featuredImage.startsWith('http') ? 
-                                            study.featuredImage : 
-                                            `${process.env.REACT_APP_URL || 'http://localhost:5002'}${study.featuredImage}`
-                                        ) : 
-                                        '/placeholder.jpg'
-                                    } 
+                                    src={getImageUrl(study.featuredImage)} 
                                     alt={study.title} 
                                     loading="lazy"
                                     decoding="async"

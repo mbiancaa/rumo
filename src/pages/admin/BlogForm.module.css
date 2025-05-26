@@ -185,10 +185,6 @@
   padding: 2rem;
 }
 
-.formGroup {
-  margin-bottom: 1.5rem;
-}
-
 .formGroup label {
   display: block;
   margin-bottom: 0.5rem;
@@ -447,4 +443,31 @@
 .passwordToggle svg {
   width: 20px;
   height: 20px;
+}
+
+.inputWithCounter {
+  position: relative;
+  width: 100%;
+}
+
+.charCounter {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  font-size: 12px;
+  color: #666;
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.inputWithCounter input,
+.inputWithCounter textarea {
+  width: 100%;
+  padding-right: 60px;
+}
+
+.inputWithCounter textarea {
+  min-height: 100px;
+  resize: vertical;
 }

@@ -119,16 +119,18 @@ const Layout = ({ children }) => {
         </svg>
       )
     },
-    {
-      path: '/internal-admin-portalv1.0.1/users',
-      label: 'Utilizatori',
-      icon: (
-        <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-        </svg>
-      )
-    }
+    ...(user?.role === 'admin' ? [
+      {
+        path: '/internal-admin-portalv1.0.1/users',
+        label: 'Utilizatori',
+        icon: (
+          <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
+        )
+      }
+    ] : [])
   ];
 
   return (
@@ -159,7 +161,7 @@ const Layout = ({ children }) => {
               </button>
             ) : (
               <>
-                <Link to="/admin">
+                <Link to="/internal-admin-portalv1.0.1/dashboard">
                   <img src={logo} alt="RUMO Digital Path - Panou de administrare" className={styles.logo} />
                 </Link>
                 <button 
@@ -248,10 +250,10 @@ const Layout = ({ children }) => {
                     ) : (
                       <>
                         {pages.map((page) => (
-                          <li key={page._id} className={styles.subMenuItem}>
+                          <li key={page.id} className={styles.subMenuItem}>
                             <Link
-                              to={`/internal-admin-portalv1.0.1/pages/${page._id}`}
-                              className={`${styles.subMenuLink} ${location.pathname === `/internal-admin-portalv1.0.1/pages/${page._id}` ? styles.subMenuLinkActive : ''}`}
+                              to={`/internal-admin-portalv1.0.1/pages/${page.id}`}
+                              className={`${styles.subMenuLink} ${location.pathname === `/internal-admin-portalv1.0.1/pages/${page.id}` ? styles.subMenuLinkActive : ''}`}
                             >
                               {page.name}
                             </Link>

@@ -17,7 +17,7 @@ const Pagination = ({
     currentPage, 
     totalPages, 
     onPageChange, 
-    maxVisiblePages = 5,
+    maxVisiblePages = 2,
     className = '',
     showFirstLast = true,
     showPrevNext = true

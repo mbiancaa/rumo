@@ -11,7 +11,7 @@ const ProtectedRoute = ({ children, roles = [] }) => {
   }
 
   if (roles.length > 0 && !roles.includes(user.role)) {
-    return <Navigate to="/admin" replace />;
+    return <Navigate to="/internal-admin-portalv1.0.1/dashboard" replace />;
   }
 
   return children;

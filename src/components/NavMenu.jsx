@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { caseStudyService } from "../services/api";
+import { useServices } from "../contexts/ServicesContext";
 
 const NavMenu = () => {
     const [hoveredItem, setHoveredItem] = useState(null);
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 991);
-    const location = useLocation(); // Get current route
+    const [caseStudies, setCaseStudies] = useState([]);
+    const { services } = useServices();
+    const location = useLocation();
 
     useEffect(() => {
         const handleResize = () => {
@@ -18,6 +22,20 @@ const NavMenu = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const fetchCaseStudies = async () => {
+            try {
+                const response = await caseStudyService.getHeaderCaseStudies();
+                setCaseStudies(response);
+            } catch (error) {
+                console.error('Error fetching case studies:', error);
+                setCaseStudies([]);
+            }
+        };
+
+        fetchCaseStudies();
+    }, []);
+
     const handleMouseEnter = (item) => {
         setHoveredItem(item);
     };
@@ -26,7 +44,7 @@ const NavMenu = () => {
         setHoveredItem(null);
     };
 
-    const isPageActive = (path) => location.pathname === path; // Check if current page is active
+    const isPageActive = (path) => location.pathname === path;
 
     return (
         <nav className={`c-menu ${hoveredItem ? "open--" : ""}`}>
@@ -51,13 +69,13 @@ const NavMenu = () => {
                         <span className="arrow"></span>
                     </a>
                     <ul className="sub-menu">
-                        <li><NavLink to="/servicii/web-development"><span className="menu-item-txt">Web Development</span></NavLink></li>
-                        <li><NavLink to="/servicii/reclame-ppc"><span className="menu-item-txt">PPC</span></NavLink></li>
-                        <li><NavLink to="/servicii/seo"><span className="menu-item-txt">SEO</span></NavLink></li>
-                        <li><NavLink to="/servicii/social-media-management"><span className="menu-item-txt">Social Media Management</span></NavLink></li>
-                        <li><NavLink to="/servicii/plan-strategic-de-marketing-online"><span className="menu-item-txt">Plan Strategic de Marketing Online</span></NavLink></li>
-                        <li><NavLink to="/servicii/branding"><span className="menu-item-txt">Branding</span></NavLink></li>
-                        <li><NavLink to="/servicii/email-marketing"><span className="menu-item-txt">E-mail Marketing</span></NavLink></li>
+                        {services.map(service => (
+                            <li key={service.slug}>
+                                <NavLink to={`/servicii/${service.slug}`}>
+                                    <span className="menu-item-txt">{service.title}</span>
+                                </NavLink>
+                            </li>
+                        ))}
                     </ul>
                 </li>
                 <li
@@ -70,11 +88,13 @@ const NavMenu = () => {
                         <span className="arrow"></span>
                     </NavLink>
                     <ul className="sub-menu">
-                        <li><NavLink to="/studiu"><span className="menu-item-txt">Studiul 1</span></NavLink></li>
-                        <li><NavLink to="/studiu"><span className="menu-item-txt">Studiul 1</span></NavLink></li>
-                        <li><NavLink to="/studiu"><span className="menu-item-txt">Studiul 1</span></NavLink></li>
-                        <li><NavLink to="/studiu"><span className="menu-item-txt">Studiul 1</span></NavLink></li>
-                        <li><NavLink to="/studiu"><span className="menu-item-txt">Studiul 1</span></NavLink></li>
+                        {caseStudies.map(caseStudy => (
+                            <li key={caseStudy.slug}>
+                                <NavLink to={`/studii-de-caz/${caseStudy.slug}`}>
+                                    <span className="menu-item-txt">{caseStudy.title}</span>
+                                </NavLink>
+                            </li>
+                        ))}
                     </ul>
                 </li>
                 <li

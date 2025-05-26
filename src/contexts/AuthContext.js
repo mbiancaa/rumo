@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { authService } from '../services/api';
 
 const AuthContext = createContext(null);
 
@@ -13,9 +12,9 @@ export const AuthProvider = ({ children }) => {
     
     if (token && userData) {
       try {
-        setUser(JSON.parse(userData));
+        const user = JSON.parse(userData);
+        setUser(user);
       } catch (error) {
-        console.error('Error parsing user data:', error);
         localStorage.removeItem('token');
         localStorage.removeItem('user');
       }
@@ -24,9 +23,15 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (userData, token) => {
-    localStorage.setItem('token', token);
-    localStorage.setItem('user', JSON.stringify(userData));
-    setUser(userData);
+    try {
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(userData));
+      setUser(userData);
+    } catch (error) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      throw error;
+    }
   };
 
   const logout = () => {

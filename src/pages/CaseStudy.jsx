@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { useParams, Navigate, useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { BarLoader } from 'react-spinners';
 import ArticleLayout from "../components/ArticleLayout";
 import { caseStudyService } from "../services/api";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SEO from '../components/SEO';
+import { getImageUrl } from '../utils/imageHelpers';
 
 const CaseStudy = () => {
     const { slug } = useParams();
@@ -16,7 +18,7 @@ const CaseStudy = () => {
         const fetchCaseStudy = async () => {
             try {
                 setLoading(true);
-                const data = await caseStudyService.getBySlug(slug);
+                const data = await caseStudyService.getById(slug);
                 if (!data) {
                     navigate('/404');
                     return;
@@ -35,16 +37,35 @@ const CaseStudy = () => {
         }
     }, [slug, navigate]);
 
-    if (!caseStudy) {
-        return <div>Loading...</div>;
+    const getServices = (services) => {
+        const servicesArray = typeof services === 'string' 
+                    ? services.split(',').map(service => service.trim()) 
+                    : services || [];
+        return servicesArray;
     }
 
     return (
         <>
             <SEO 
-                title={caseStudy.metaTitle || caseStudy.title}
-                description={caseStudy.metaDescription || caseStudy.excerpt}
+                title={caseStudy?.metaTitle || caseStudy?.title || 'RUMO - Your Digital Path'}
+                description={caseStudy?.metaDescription || caseStudy?.excerpt || 'Studiu de caz'}
             />
+            {loading && (
+                <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 9999
+                }}>
+                    <BarLoader
+                        color="#26b3ff"
+                        width="100%"
+                        height={4}
+                        loading={loading}
+                    />
+                </div>
+            )}
             <Header />
             {loading ? (
                 <section className="whitebg layout">
@@ -58,35 +79,15 @@ const CaseStudy = () => {
                     category={caseStudy.industry}
                     type="caseStudy"
                     date={caseStudy.perioada}
-                    services={caseStudy.services}
-                    image={caseStudy.featuredImage}
+                    services={getServices(caseStudy.services)}
+                    image={getImageUrl(caseStudy.featuredImage)}
+                    company={caseStudy.client || ""}
                 >
-                    <div className={`text-content-container`}>
-                        <div dangerouslySetInnerHTML={{ __html: caseStudy.content }} />
-                    </div>
+                    <div className="text-content-container" dangerouslySetInnerHTML={{ __html: caseStudy.content }} />
                 </ArticleLayout>
             )}
             <Footer />
         </>
-    );
-
-    // Parse services from string to array if needed
-    const servicesArray = typeof caseStudy.services === 'string' 
-        ? caseStudy.services.split(',').map(service => service.trim()) 
-        : caseStudy.services || [];
-
-    return (
-        <ArticleLayout
-            title={caseStudy.title}
-            category={caseStudy.industry}
-            type="caseStudy"
-            date={caseStudy.perioada}
-            services={servicesArray}
-            image={caseStudy.featuredImage}
-            company={caseStudy.client || ""}
-        >
-            <div className="text-content-container" dangerouslySetInnerHTML={{ __html: caseStudy.content }} />
-        </ArticleLayout>
     );
 }
 

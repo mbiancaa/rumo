@@ -4,10 +4,15 @@ import '../styles/NotFound.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { NavLink } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const NotFound = () => {
     return (
         <>
+            <SEO 
+                title={"RUMO - Your Digital Path"}
+                description={"Pagina pe care o cauți nu există sau a fost mutată."}
+            />
             <Header />
             <section className="whitebg layout" style={{ minHeight: 'auto', height: 'auto' }}>
                 <div className="container" style={{ paddingBottom: 70 }}>

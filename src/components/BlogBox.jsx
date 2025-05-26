@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom';
+import { getImageUrl } from '../utils/imageHelpers';
 
 
 const BlogBox = ({ post }) => {
@@ -11,27 +12,26 @@ const BlogBox = ({ post }) => {
         });
     };
 
-    const imageUrl = post.featuredImage ? (
-        post.featuredImage.startsWith('http') || post.featuredImage.startsWith('data:') ?
-            post.featuredImage :
-            `${process.env.REACT_APP_URL || 'http://localhost:5002'}${post.featuredImage}`
-    ) : null;
+    const imageUrl = getImageUrl(post.featuredImage);
+    
+    // Parse categories if it's a string
+    const categories = typeof post.categories === 'string' 
+        ? JSON.parse(post.categories) 
+        : post.categories;
 
     return (
         <article className="blogBox">
             <NavLink to={`/blog/${post.slug}`}>
-
                 {imageUrl && <img
                     src={imageUrl}
                     alt={post.title}
                     loading="lazy"
                     decoding="async"
                 />}
-
                 <div className="blogContentWrapper">
                     <div className="blogCategories">
-                        {post.categories && post.categories.length > 0 ? (
-                            post.categories.map((category, index) => (
+                        {categories && categories.length > 0 ? (
+                            categories.map((category, index) => (
                                 <span key={index} className="blogCategory">{category}</span>
                             ))
                         ) : (
@@ -41,9 +41,8 @@ const BlogBox = ({ post }) => {
                     <h3 className="blogTitle">{post.title}</h3>
                     <p className="blogMeta">{post.excerpt}</p>
                     <div className="blogFooter">
-                        <span className="blogDate">{formatDate(post.createdAt)}</span>
+                        <span className="blogDate">{formatDate(post.created_at)}</span>
                     </div>
-
                 </div>
             </NavLink>
         </article>

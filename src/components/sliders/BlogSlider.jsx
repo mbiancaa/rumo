@@ -21,7 +21,7 @@ const BlogSlider = ({ posts }) => {
         <div className="blogSlider">
             <Slider {...settings}>
                 {posts.map((post) => (
-                    <BlogBox key={post._id} post={post} />
+                    <BlogBox key={post.id} post={post} />
                 ))}
             </Slider>
         </div>

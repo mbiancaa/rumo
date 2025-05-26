@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { blogService, caseStudyService, servicesService, pageService, contactService } from '../../services/api';
+import { contactService } from '../../services/api';
 import { useAuth } from '../../contexts/AuthContext';
 import styles from './Dashboard.module.css';
+import { formatDate } from '../../utils/dateUtils';
 
 const Dashboard = () => {
   const { user } = useAuth();
@@ -10,72 +11,37 @@ const Dashboard = () => {
     articles: 0,
     caseStudies: 0,
     services: 0,
-    pages: 0
+    pages: 0,
+    submissions: []
   });
-  const [emails, setEmails] = useState([]);
-  const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchAll = async () => {
-      setLoading(true);
+    const fetchDashboardData = async () => {
       try {
-        // Fetch all in parallel
-        const [blogRes, caseStudyRes, servicesRes, pagesRes, emailsRes] = await Promise.all([
-          blogService.getAll(1, '', false),
-          caseStudyService.getAll(1, true),
-          servicesService.getAll(),
-          pageService.getAll(),
-          contactService.getDashboardEmails()
-        ]);
-
-        // Handle blog posts
-        const blogPosts = blogRes?.data?.posts || [];
-        const articles = blogPosts.filter(post => post.status === 'published').length;
-
-        // Handle case studies
-        const caseStudies = caseStudyRes?.data?.caseStudies || [];
-        const publishedCaseStudies = caseStudies.filter(cs => cs.status === 'published').length;
-
-        // Handle services
-        const services = servicesRes?.data?.services || [];
-        const publishedServices = services.filter(s => s.status === 'published').length;
-
-        // Handle pages
-        const pages = pagesRes?.data?.pages || [];
-        const publishedPages = pages.filter(p => p.status === 'published').length;
-
-        // Update stats with total published counts from dashboard API
-        if (emailsRes?.data) {
-          setStats({
-            articles: emailsRes.data.totalPublishedArticles || articles,
-            caseStudies: emailsRes.data.totalPublishedCaseStudies || publishedCaseStudies,
-            services: emailsRes.data.totalPublishedServices || publishedServices,
-            pages: emailsRes.data.totalPublishedPages || publishedPages
-          });
-          setEmails(emailsRes.data.latestUnreadEmails || []);
-          setUnreadCount(emailsRes.data.totalUnreadCount || 0);
-        } else {
-          setStats({
-            articles,
-            caseStudies: publishedCaseStudies,
-            services: publishedServices,
-            pages: publishedPages
-          });
-          setEmails([]);
-          setUnreadCount(0);
-        }
-      } catch (e) {
-        console.error('Error fetching dashboard data:', e);
-        setStats({ articles: 0, caseStudies: 0, services: 0, pages: 0 });
-        setEmails([]);
-        setUnreadCount(0);
+        setLoading(true);
+        const response = await contactService.getDashboard();
+        setStats(response.data);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching dashboard data:', err);
+        setError('Nu s-au putut prelua datele pentru dashboard');
       } finally {
         setLoading(false);
       }
     };
-    fetchAll();
+
+    fetchDashboardData();
   }, []);
+
+  if (error) {
+    return (
+      <div className={styles.dashboard}>
+        <div className={styles.errorMessage}>{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.dashboard}>
@@ -142,16 +108,18 @@ const Dashboard = () => {
           <div className={styles.recentEmailsBox}>
             <div className={styles.recentEmailsHeader}>
               <span>Mesaje Recente</span>
-              {unreadCount > 0 && <span className={styles.unreadBadge}>{unreadCount} new</span>}
+              {stats.submissions && stats.submissions.length > 0 && (
+                <span className={styles.unreadBadge}>{stats.submissions.length} new</span>
+              )}
             </div>
             <div className={styles.recentEmailsList}>
               {loading ? (
                 <div className={styles.noEmails}>Se încarcă...</div>
-              ) : emails.length === 0 ? (
+              ) : !stats.submissions || stats.submissions.length === 0 ? (
                 <div className={styles.noEmails}>Nu există mesaje necitite</div>
               ) : (
-                emails.map((email) => (
-                  <div key={email._id} className={styles.recentEmailItem}>
+                stats.submissions.map((email) => (
+                  <div key={email.id} className={styles.recentEmailItem}>
                     <div className={styles.emailContent}>
                       <div className={styles.emailSender}>
                         {email.nume} {email.prenume}
@@ -163,10 +131,7 @@ const Dashboard = () => {
                       </div>
                     </div>
                     <div className={styles.emailDate}>
-                      {new Date(email.createdAt).toLocaleDateString('ro-RO', {
-                        month: 'short',
-                        day: 'numeric'
-                      })}
+                      {formatDate(email.created_at)}
                     </div>
                   </div>
                 ))

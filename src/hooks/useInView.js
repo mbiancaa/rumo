@@ -1,36 +1,34 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useRef, useCallback } from "react";
 
 const useInView = (delay = 0, refresh = false, threshold = 0) => {
     const [isInView, setIsInView] = useState(false);
-    const ref = useRef(null);
     const observerRef = useRef(null);
 
-    useEffect(() => {
-        if (!ref.current) return;
+    const refCallback = useCallback((node) => {
+        // Clean up any existing observer
+        if (observerRef.current) {
+            observerRef.current.disconnect();
+        }
 
-        observerRef.current = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting) {
-                    setTimeout(() => {
-                        setIsInView(true);
-                    }, delay);
-                } else if (refresh) {
-                    setIsInView(false);
-                }
-            },
-            { threshold }
-        );
+        if (node) {
+            observerRef.current = new IntersectionObserver(
+                ([entry]) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            setIsInView(true);
+                        }, delay);
+                    } else if (refresh) {
+                        setIsInView(false);
+                    }
+                },
+                { threshold }
+            );
 
-        observerRef.current.observe(ref.current);
-
-        return () => {
-            if (observerRef.current) {
-                observerRef.current.disconnect();
-            }
-        };
+            observerRef.current.observe(node);
+        }
     }, [delay, refresh, threshold]);
 
-    return [ref, isInView];
+    return [refCallback, isInView];
 };
 
 export default useInView;

@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { userService } from '../../services/api';
+import { useAuth } from '../../contexts/AuthContext';
 import styles from './BlogList.module.css';
 import '../../styles/Pagination.css';
 import Pagination from '../../components/Pagination';
 
 const UserList = () => {
+  const { user: currentUser } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -34,7 +36,7 @@ const UserList = () => {
     if (window.confirm('Sunteți sigur că doriți să ștergeți acest utilizator?')) {
       try {
         await userService.delete(id);
-        setUsers(users.filter(user => user._id !== id));
+        setUsers(users.filter(user => user.id !== id));
       } catch (err) {
         setError('Nu s-a putut șterge utilizatorul');
       }
@@ -65,7 +67,7 @@ const UserList = () => {
       <div className={styles.header}>
         <h1 className={styles.title}>Utilizatori</h1>
         {users.length > 0 && (
-          <Link to="/admin/users/new" className={styles.addButton}>
+          <Link to="/internal-admin-portalv1.0.1/users/new" className={styles.addButton}>
             Adaugă un utilizator nou
           </Link>
         )}
@@ -74,7 +76,7 @@ const UserList = () => {
       {users.length === 0 ? (
         <div className={styles.emptyState}>
           <p>Nu exista niciun utilizator. Creează unul</p>
-          <Link to="/admin/users/new" className={styles.addButton}>
+          <Link to="/internal-admin-portalv1.0.1/users/new" className={styles.addButton}>
             Crează un utilizator
           </Link>
         </div>
@@ -92,7 +94,7 @@ const UserList = () => {
               </thead>
               <tbody>
                 {users.map(user => (
-                  <tr key={user._id}>
+                  <tr key={user.id}>
                     <td style={{fontWeight: 500, color: 'var(--blue)' }}>{user.name}</td>
                     <td>{user.email}</td>
                     <td>
@@ -102,15 +104,17 @@ const UserList = () => {
                     </td>
                     <td>
                       <div className={styles.actions}>
-                        <Link to={`/admin/users/${user._id}`} className={styles.editButton}>
+                        <Link to={`/internal-admin-portalv1.0.1/users/${user.id}`} className={styles.editButton}>
                           <svg className={styles.editIcon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                           </svg>
                         </Link>
                         <button 
-                          onClick={() => handleDelete(user._id)} 
-                          className={styles.deleteButton}
+                          onClick={() => handleDelete(user.id)} 
+                          className={`${styles.deleteButton} ${user.id === currentUser?.id ? styles.disabledButton : ''}`}
+                          disabled={user.id === currentUser?.id}
+                          title={user.id === currentUser?.id ? "Nu vă puteți șterge propriul cont" : "Șterge utilizatorul"}
                         >
                           <svg className={styles.deleteIcon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <polyline points="3 6 5 6 21 6"></polyline>

@@ -1,49 +1,52 @@
-import React, { useRef, useImperativeHandle, forwardRef } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import React, { useEffect, useRef } from 'react';
+import Quill from 'quill';
+import 'quill/dist/quill.snow.css';
 
-const RichTextEditor = forwardRef(({ value, onChange, placeholder }, ref) => {
+const RichTextEditor = ({ value, onChange, placeholder }) => {
+  const editorRef = useRef(null);
   const quillRef = useRef(null);
 
-  useImperativeHandle(ref, () => ({
-    getEditor: () => quillRef.current?.getEditor(),
-  }));
+  useEffect(() => {
+    if (editorRef.current && !quillRef.current) {
+      const toolbarOptions = [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        ['bold', 'italic', 'underline', 'strike'],
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],
+        [{ 'indent': '-1'}, { 'indent': '+1' }],
+        [{ 'color': [] }, { 'background': [] }],
+        ['link', 'image'],
+        ['clean']
+      ];
 
-  const modules = {
-    toolbar: [
-      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-      ['bold', 'italic', 'underline', 'strike'],
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-      [{ 'indent': '-1'}, { 'indent': '+1' }],
-      ['link', 'image'],
-      ['clean']
-    ],
-    clipboard: {
-      matchVisual: false,
+      const quill = new Quill(editorRef.current, {
+        modules: {
+          toolbar: toolbarOptions
+        },
+        placeholder: placeholder || 'Introduceți conținutul...',
+        theme: 'snow'
+      });
+
+      quill.on('text-change', () => {
+        const content = quill.root.innerHTML;
+        onChange(content);
+      });
+
+      quillRef.current = quill;
     }
-  };
+  }, [onChange, placeholder]);
 
-  const formats = [
-    'header',
-    'bold', 'italic', 'underline', 'strike',
-    'list', 'bullet', 'indent',
-    'link', 'image'
-  ];
+  useEffect(() => {
+    if (quillRef.current && value !== quillRef.current.root.innerHTML) {
+      quillRef.current.root.innerHTML = value || '';
+    }
+  }, [value]);
 
   return (
     <div className="rich-text-editor">
-      <ReactQuill
-        ref={quillRef}
-        value={value}
-        onChange={onChange}
-        modules={modules}
-        formats={formats}
-        placeholder={placeholder}
-      />
+      <div ref={editorRef} />
     </div>
   );
-});
-
-RichTextEditor.displayName = 'RichTextEditor';
+};
 
 export default RichTextEditor; 

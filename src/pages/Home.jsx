@@ -16,7 +16,7 @@ import CaseStudiesSection from '../sections/CaseStudiesSection';
 import HeroContactSection from '../sections/HeroContactSection';
 
 import homeVideo from '../assets/home/video/home_rumo_digital_video.mp4';
-import homeVideoFallback from '../assets/home/video/video_fallback.jpg';
+import homeVideoFallback from '../assets/video/video_fallback.jpg';
 import bgSectionImg from '../assets/home/14.jpg';
 
 const Home = () => {

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './contexts/AuthContext';
+import { ServicesProvider } from './contexts/ServicesContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Layout from './components/admin/Layout';
 import Login from './pages/admin/Login';
@@ -59,7 +60,7 @@ function App() {
 
   const fetchPages = async () => {
     try {
-      const data = await pageService.getAll();
+      const data = await pageService.getPublishedPages();
       setPages(data);
     } catch (error) {
       console.error('Error fetching pages:', error);
@@ -67,253 +68,248 @@ function App() {
   };
 
   return (
-    <HelmetProvider>
-      <AuthProvider>
-        <Router>
-          <div className="app">
-            <Routes>
-              {/* Public routes */}
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/blog" element={<Blog />} />
-              <Route path="/case-studies" element={<CaseStudies />} />
-              <Route path="/blog/:slug" element={<Article />} />
-              <Route path="/case-studies/:slug" element={<CaseStudy />} />
-              <Route path="/services/:slug" element={<Service />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/:slug" element={<Page />} />
-              <Route path="*" element={<NotFound />} />
+    <Router>
+      <HelmetProvider>
+        <div className="app">
+          <Routes>
+            {/* Public routes with ServicesProvider */}
+            <Route
+              path="/*"
+              element={
+                <ServicesProvider>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/despre-noi" element={<About />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/blog" element={<Blog />} />
+                    <Route path="/studii-de-caz" element={<CaseStudies />} />
+                    <Route path="/blog/:slug" element={<Article />} />
+                    <Route path="/servicii/:slug" element={<Service />} />
+                    <Route path="/echipa" element={<Team />} />
+                    <Route path="/studii-de-caz/:slug" element={<CaseStudy />} />
+                    {pages.map((page) => (
+                      page.slug && (
+                        <Route
+                          key={page.slug}
+                          path={`/${page.slug}`}
+                          element={<Page />}
+                        />
+                      )
+                    ))}
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </ServicesProvider>
+              }
+            />
 
-              {/* Dynamic page routes */}
-              {pages.map((page) => (
-                page.slug && (
-                  <Route
-                    key={page.slug}
-                    path={`/${page.slug}`}
-                    element={<Page />}
-                  />
-                )
-              ))}
-
-              {/* Admin routes */}
-              <Route path="/internal-admin-portalv1.0.1/login" element={<Login />} />
-              <Route path="/internal-admin-portalv1.0.1" element={<Navigate to="/internal-admin-portalv1.0.1/dashboard" replace />} />
-              <Route
-                path="/internal-admin-portalv1.0.1/dashboard"
-                element={
-                  <ProtectedRoute roles={['admin', 'editor']}>
-                    <Layout>
-                      <Dashboard />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/internal-admin-portalv1.0.1/blog"
-                element={
-                  <ProtectedRoute roles={['admin', 'editor']}>
-                    <Layout>
-                      <BlogList />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/internal-admin-portalv1.0.1/blog/new"
-                element={
-                  <ProtectedRoute roles={['admin', 'editor']}>
-                    <Layout>
-                      <BlogForm />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/internal-admin-portalv1.0.1/blog/:id"
-                element={
-                  <ProtectedRoute roles={['admin', 'editor']}>
-                    <Layout>
-                      <BlogForm />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/internal-admin-portalv1.0.1/users"
-                element={
-                  <ProtectedRoute roles={['admin']}>
-                    <Layout>
-                      <UserList />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/internal-admin-portalv1.0.1/users/new"
-                element={
-                  <ProtectedRoute roles={['admin']}>
-                    <Layout>
-                      <UserForm />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/internal-admin-portalv1.0.1/users/:id"
-                element={
-                  <ProtectedRoute roles={['admin']}>
-                    <Layout>
-                      <UserForm />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/internal-admin-portalv1.0.1/case-studies"
-                element={
-                  <ProtectedRoute roles={['admin', 'editor']}>
-                    <Layout>
-                      <CaseStudyList />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/internal-admin-portalv1.0.1/case-studies/new"
-                element={
-                  <ProtectedRoute roles={['admin', 'editor']}>
-                    <Layout>
-                      <CaseStudyForm />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/internal-admin-portalv1.0.1/case-studies/:id"
-                element={
-                  <ProtectedRoute roles={['admin', 'editor']}>
-                    <Layout>
-                      <CaseStudyForm />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/internal-admin-portalv1.0.1/team"
-                element={
-                  <ProtectedRoute roles={['admin']}>
-                    <Layout>
-                      <TeamMembersList />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/internal-admin-portalv1.0.1/team/new"
-                element={
-                  <ProtectedRoute roles={['admin']}>
-                    <Layout>
-                      <TeamMemberForm />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/internal-admin-portalv1.0.1/team/:id"
-                element={
-                  <ProtectedRoute roles={['admin']}>
-                    <Layout>
-                      <TeamMemberForm />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/internal-admin-portalv1.0.1/services"
-                element={
-                  <ProtectedRoute roles={['admin']}>
-                    <Layout>
-                      <ServiceList />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/internal-admin-portalv1.0.1/services/new"
-                element={
-                  <ProtectedRoute roles={['admin']}>
-                    <Layout>
-                      <ServiceForm />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-              
-              <Route
-                path="/internal-admin-portalv1.0.1/services/:id"
-                element={
-                  <ProtectedRoute roles={['admin']}>
-                    <Layout>
-                      <ServiceForm />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/internal-admin-portalv1.0.1/pages/:id"
-                element={
-                  <ProtectedRoute roles={['admin']}>
-                    <Layout>
-                      <PageForm />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/internal-admin-portalv1.0.1/pages/new"
-                element={
-                  <ProtectedRoute roles={['admin']}>
-                    <Layout>
-                      <PageForm />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-
-              <Route
-                path="/internal-admin-portalv1.0.1/contact-submissions"
-                element={
-                  <ProtectedRoute roles={['admin']}>
-                    <Layout>
-                      <ContactSubmissions />
-                    </Layout>
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-            {hasMouse && <Cursor />}
-            <BackToTop />
-          </div>
-        </Router>
-      </AuthProvider>
-    </HelmetProvider>
+            {/* Admin routes with AuthProvider */}
+            <Route
+              path="/internal-admin-portalv1.0.1/*"
+              element={
+                <AuthProvider>
+                  <Routes>
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/" element={<Navigate to="/internal-admin-portalv1.0.1/dashboard" replace />} />
+                    <Route
+                      path="/dashboard"
+                      element={
+                        <ProtectedRoute roles={['admin', 'editor']}>
+                          <Layout>
+                            <Dashboard />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/blog"
+                      element={
+                        <ProtectedRoute roles={['admin', 'editor']}>
+                          <Layout>
+                            <BlogList />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/blog/new"
+                      element={
+                        <ProtectedRoute roles={['admin', 'editor']}>
+                          <Layout>
+                            <BlogForm />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/blog/:id"
+                      element={
+                        <ProtectedRoute roles={['admin', 'editor']}>
+                          <Layout>
+                            <BlogForm />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/users"
+                      element={
+                        <ProtectedRoute roles={['admin']}>
+                          <Layout>
+                            <UserList />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/users/new"
+                      element={
+                        <ProtectedRoute roles={['admin']}>
+                          <Layout>
+                            <UserForm />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/users/:id"
+                      element={
+                        <ProtectedRoute roles={['admin']}>
+                          <Layout>
+                            <UserForm />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/case-studies"
+                      element={
+                        <ProtectedRoute roles={['admin', 'editor']}>
+                          <Layout>
+                            <CaseStudyList />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/case-studies/new"
+                      element={
+                        <ProtectedRoute roles={['admin', 'editor']}>
+                          <Layout>
+                            <CaseStudyForm />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/case-studies/:id"
+                      element={
+                        <ProtectedRoute roles={['admin', 'editor']}>
+                          <Layout>
+                            <CaseStudyForm />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/team"
+                      element={
+                        <ProtectedRoute roles={['admin', 'editor']}>
+                          <Layout>
+                            <TeamMembersList />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/team/new"
+                      element={
+                        <ProtectedRoute roles={['admin', 'editor']}>
+                          <Layout>
+                            <TeamMemberForm />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/team/:id"
+                      element={
+                        <ProtectedRoute roles={['admin']}>
+                          <Layout>
+                            <TeamMemberForm />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/services"
+                      element={
+                        <ProtectedRoute roles={['admin', 'editor']}>
+                          <Layout>
+                            <ServiceList />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/services/new"
+                      element={
+                        <ProtectedRoute roles={['admin', 'editor']}>
+                          <Layout>
+                            <ServiceForm />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/services/:id"
+                      element={
+                        <ProtectedRoute roles={['admin']}>
+                          <Layout>
+                            <ServiceForm />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/pages/:id"
+                      element={
+                        <ProtectedRoute roles={['admin', 'editor']}>
+                          <Layout>
+                            <PageForm />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/pages/new"
+                      element={
+                        <ProtectedRoute roles={['admin', 'editor']}>
+                          <Layout>
+                            <PageForm isNew={true} />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                    <Route
+                      path="/contact-submissions"
+                      element={
+                        <ProtectedRoute roles={['admin']}>
+                          <Layout>
+                            <ContactSubmissions />
+                          </Layout>
+                        </ProtectedRoute>
+                      }
+                    />
+                  </Routes>
+                </AuthProvider>
+              }
+            />
+          </Routes>
+          {hasMouse && <Cursor />}
+          <BackToTop />
+        </div>
+      </HelmetProvider>
+    </Router>
   );
 }
 

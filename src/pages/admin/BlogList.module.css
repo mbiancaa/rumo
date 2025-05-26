@@ -144,8 +144,13 @@
   transition: background-color 0.2s;
 }
 
-.deleteButton:hover {
-  background-color: #cc0000;
+.deleteButton:hover:not(.disabledButton) {
+  background: #cc0000;
+}
+
+.deleteButton.disabledButton {
+  cursor: not-allowed;
+  opacity: 0.25;
 }
 
 .deleteIcon {

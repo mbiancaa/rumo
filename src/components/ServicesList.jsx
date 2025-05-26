@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { servicesService } from '../services/api';
-
+import { getImageUrl } from '../utils/imageHelpers';
 const ServicesList = () => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -11,13 +11,10 @@ const ServicesList = () => {
         const fetchServices = async () => {
             try {
                 setLoading(true);
-                const data = await servicesService.getAll();
-                // Filter out sub-services (those with parent_service_id)
-                const topLevelServices = data.filter(service => !service.parent_service_id);
-                setServices(topLevelServices || []);
+                const response = await servicesService.getAll();
+                setServices(response);
                 setError(null);
             } catch (err) {
-                console.error('Error fetching services:', err);
                 setError('Nu s-au putut prelua serviciile');
             } finally {
                 setLoading(false);
@@ -41,23 +38,16 @@ const ServicesList = () => {
 
     return (
         <div className="serviceList">
-            {services.map((service, index) => {
-                const imageUrl = service.image 
-                    ? (service.image.startsWith('http') 
-                        ? service.image 
-                        : `${process.env.REACT_APP_URL || 'http://localhost:5002'}${service.image}`)
-                    : null;
-                
+            {services.map((service, index) => {                
                 const serviceNumber = String(index + 1).padStart(2, '0');
-                
                 return (
-                    <div className="serviceCard" key={service._id}>
+                    <div className="serviceCard" key={service.slug}>
                         <span className="serviceNumber">{serviceNumber}</span>
                         <NavLink to={`/servicii/${service.slug}`} className="serviceTitle">{service.title}</NavLink>
                         <span className="serviceText">{service.excerpt}</span>
                         <img 
                             className="serviceImg" 
-                            src={imageUrl} 
+                            src={getImageUrl(service.image)} 
                             alt={service.title} 
                             loading="lazy"
                             decoding="async"

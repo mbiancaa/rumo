@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { BarLoader } from 'react-spinners';
 import { blogService } from '../services/api';
 import ArticleLayout from "../components/ArticleLayout";
 import Header from '../components/Header';
@@ -33,21 +34,33 @@ const Article = () => {
         fetchPost();
     }, [slug, navigate]);
 
-    if (!post) {
-        return <div>Loading...</div>;
-    }
-
     return (
         <>
             <SEO 
-                title={post.metaTitle || post.title}
-                description={post.metaDescription || post.excerpt}
+                title={post?.metaTitle || post?.title || 'RUMO - Your Digital Path'}
+                description={post?.metaDescription || post?.excerpt || 'Articol de blog'}
             />
+            {loading && (
+                <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 9999
+                }}>
+                    <BarLoader
+                        color="#26b3ff"
+                        width="100%"
+                        height={4}
+                        loading={loading}
+                    />
+                </div>
+            )}
             <Header />
             {loading ? (
                 <section className="whitebg layout">
                     <div className={`container`} style={{ paddingTop: 20 }}>
-                        Articolul se incarca...
+                        Articolul se încarcă...
                     </div>
                 </section>
             ) : (
@@ -55,7 +68,7 @@ const Article = () => {
                     title={post.title}
                     category={post.categories}
                     type="blog"
-                    date={new Date(post.createdAt).toLocaleDateString('ro-RO', {
+                    date={new Date(post.created_at).toLocaleDateString('ro-RO', {
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric'

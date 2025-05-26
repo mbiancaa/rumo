@@ -1,25 +1,20 @@
 import { Link } from 'react-router-dom';
+import { getImageUrl } from '../utils/imageHelpers';
 
 const CaseStudyBox = ({ post }) => {
 
-    const formattedDate = new Date(post.date).toLocaleDateString('ro-RO', {
+    const formattedDate = new Date(post.created_at).toLocaleDateString('ro-RO', {
         day: 'numeric',
         month: 'short',
         year: 'numeric'
     });
-   
-    const imageUrl = post.featuredImage ? (
-        post.featuredImage.startsWith('http') || post.featuredImage.startsWith('data:') ?
-            post.featuredImage :
-            `${process.env.REACT_APP_URL || 'http://localhost:5002'}${post.featuredImage}`
-    ) : null;
     
 
     return (
         <Link to={`/studii-de-caz/${post.slug}`} className="caseStudy-box">
             <article>
                 <img 
-                    src={imageUrl} 
+                    src={getImageUrl(post.featuredImage)} 
                     alt={post.title} 
                     loading="lazy"
                     decoding="async"

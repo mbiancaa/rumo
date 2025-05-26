@@ -19,8 +19,8 @@ const BlogSection = () => {
                 setPosts(response.blogs);
                 setError(null);
             } catch (err) {
-                console.error('Error fetching posts:', err);
-                setError('Nu s-a putut încărca articolele de blog');
+                console.error('Eroare la încărcarea postărilor:', err);
+                setError('Nu s-au putut încărca articolele de blog');
             } finally {
                 setLoading(false);
             }

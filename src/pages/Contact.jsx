@@ -1,6 +1,7 @@
 import '../styles/Home.css';
 import '../styles/About.css';
 import { useState, useEffect } from 'react';
+import { BarLoader } from 'react-spinners';
 import { pageService } from '../services/api';
 
 import Header from '../components/Header';
@@ -40,9 +41,25 @@ const Contact = () => {
     return (
         <>
             <SEO 
-                title={pageContent?.metaTitle || pageContent?.name || "Contact RUMO"}
+                title={pageContent?.metaTitle || pageContent?.name || "Contact | RUMO - Your Digital Path"}
                 description={pageContent?.metaDescription || "Contactează echipa RUMO pentru soluții personalizate de marketing digital. Suntem aici să te ajutăm să-ți crești afacerea."}
             />
+            {loading && (
+                <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 9999
+                }}>
+                    <BarLoader
+                        color="#26b3ff"
+                        width="100%"
+                        height={4}
+                        loading={loading}
+                    />
+                </div>
+            )}
             <Header />
             <HeroSection>
                 <div className="layout eq-columns">

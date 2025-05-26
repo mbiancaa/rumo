@@ -3,6 +3,8 @@ import '../styles/About.css';
 import style from '../styles/modules/Team.module.css';
 import { useState, useEffect } from 'react';
 import { teamMemberService, pageService } from '../services/api';
+import { getImageUrl } from '../utils/imageHelpers';
+import { BarLoader } from 'react-spinners';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -24,41 +26,52 @@ const Team = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
+            
             try {
-                setLoading(true);
-                const [members, pageData] = await Promise.all([
-                    teamMemberService.getAll(),
-                    pageService.getBySlug('echipa')
-                ]);
+                const members = await teamMemberService.getAll();
                 setTeamMembers(members);
-                setPageContent(pageData);
-                setError(null);
             } catch (err) {
-                console.error('Error fetching data:', err);
-                setError('Failed to load data');
-            } finally {
-                setLoading(false);
+                console.error('Error fetching team members:', err);
+                setTeamMembers([]);
             }
+
+            try {
+                const pageData = await pageService.getBySlug('echipa');
+                setPageContent(pageData);
+            } catch (err) {
+                console.error('Error fetching page content:', err);
+                setError("Eroare la încărcarea conținutului paginii. Reîncercați mai târziu.");
+            }
+
+            setLoading(false);
         };
 
         fetchData();
     }, []);
 
-    // Helper function to get the full image URL
-    const getImageUrl = (imagePath) => {
-        if (!imagePath) return '';
-        if (imagePath.startsWith('http') || imagePath.startsWith('data:')) {
-            return imagePath;
-        }
-        return `${process.env.REACT_APP_URL || 'http://localhost:5002'}${imagePath}`;
-    };
-
     return (
         <>
             <SEO 
-                title={pageContent?.metaTitle || pageContent?.name || "Echipa RUMO"}
-                description={pageContent?.metaDescription || "Cunoaște echipa RUMO - profesioniști dedicați care transformă ideile tale în strategii de succes pentru afacerea ta."}
+                title={pageContent?.metaTitle || pageContent?.name || "Echipa | RUMO - Your Digital Path"}
+                description={pageContent?.metaDescription || "Reunim experți din cele mai solicitate servicii de marketing online pentru a oferi afacerii tale o creștere predictibilă și constantă."}
             />
+            {loading && (
+                <div style={{
+                    position: 'fixed',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    zIndex: 9999
+                }}>
+                    <BarLoader
+                        color="#26b3ff"
+                        width="100%"
+                        height={4}
+                        loading={loading}
+                    />
+                </div>
+            )}
             <Header />
             <HeroSection>
                 <div className="layout eq-columns">
@@ -84,12 +97,12 @@ const Team = () => {
                     {loading ? (
                         <div>Se încarcă...</div>
                     ) : error ? (
-                        <div>Eroare: {error}</div>
+                        <div>{error}</div>
                     ) : teamMembers.length === 0 ? (
                         <div>Nu există membri în echipă</div>
                     ) : (
                         teamMembers.map((member, index) => (
-                            <div key={member._id} className={style.teamMember}>
+                            <div key={member.id} className={style.teamMember}>
                                 <div className={`text-content-container ${style.textContent}`}>
                                     <h3>{member.name} <span className={style.category}>{member.keyword}</span></h3>
                                     <span className={style.textContentSpan}>{member.title}</span>

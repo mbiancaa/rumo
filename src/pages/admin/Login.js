@@ -68,15 +68,21 @@ const Login = () => {
 
     setIsLoading(true);
     try {
-      const response = await authService.login({
-        email: formData.email,
-        password: formData.password
-      });
-      login(response.user, response.token);
-      const from = location.state?.from?.pathname || '/admin';
-      navigate(from, { replace: true });
+      const response = await authService.login(formData.email, formData.password);
+      
+      if (response && response.token && response.user) {
+        await login(response.user, response.token);
+        const from = location.state?.from?.pathname || '/internal-admin-portalv1.0.1/dashboard';
+        navigate(from, { replace: true });
+      } else {
+        setApiError('Eroare la autentificare. Vă rugăm să încercați din nou.');
+      }
     } catch (error) {
-      setApiError(error.response?.data?.message || 'Nume de utilizator sau parolă incorecte');
+      if (error.response?.status === 401) {
+        setApiError('Nume de utilizator sau parolă incorecte');
+      } else {
+        setApiError(error.response?.data?.message || 'A apărut o eroare. Vă rugăm să încercați din nou.');
+      }
     } finally {
       setIsLoading(false);
     }

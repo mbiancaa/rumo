@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { servicesService } from '../../services/api';
 import { useAuth } from '../../contexts/AuthContext';
 import styles from './BlogList.module.css';
-import '../../styles/Pagination.css';
-import Pagination from '../../components/Pagination';
+import { getImageUrl } from '../../utils/imageHelpers';
 
 const ServiceList = () => {
   const { user } = useAuth();
@@ -12,39 +11,43 @@ const ServiceList = () => {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
 
-  const fetchServices = useCallback(async () => {
+  const fetchServices = async () => {
     try {
       setLoading(true);
-      const data = await servicesService.getHierarchy();
-      setServices(data || []);
-      setError(null);
+      const response = await servicesService.getHierarchy();
+      setServices(response || []);
     } catch (err) {
-      setError('Nu s-au putut prelua serviciile');
+      console.error('Error fetching services:', err);
+      setError('Nu s-au putut încărca serviciile. Vă rugăm să încercați din nou.');
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     fetchServices();
-  }, [fetchServices]);
+  }, []);
 
   const handleDelete = async (id) => {
-    if (window.confirm('Sunteți sigur că doriți să ștergeți acest serviciu?')) {
-      try {
-        await servicesService.delete(id);
-        fetchServices();
-      } catch (err) {
-        setError('Nu s-a putut șterge serviciul');
-      }
+    if (!window.confirm('Sigur doriți să ștergeți acest serviciu?')) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await servicesService.delete(id);
+      await fetchServices();
+    } catch (err) {
+      console.error('Error deleting service:', err);
+      setError('Nu s-a putut șterge serviciul. Vă rugăm să încercați din nou.');
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleAddSubService = (parentId) => {
-    navigate(`/admin/services/new?parent_id=${parentId}`);
+    navigate(`/internal-admin-portalv1.0.1/services/new?parent_id=${parentId}`);
   };
 
   const renderServiceRow = (service, level = 0) => {
@@ -53,13 +56,13 @@ const ServiceList = () => {
     };
 
     return (
-      <React.Fragment key={service._id}>
+      <React.Fragment key={service.id}>
         <tr className={level > 0 ? styles.subServiceRow : ''}>
           <td style={indentStyle}>
             {service.image && (
               <div className={styles.imagePreview}>
                 <img 
-                  src={service.image.startsWith('http') ? service.image : `${process.env.REACT_APP_URL || 'http://localhost:5002'}${service.image}`} 
+                  src={getImageUrl(service.image)} 
                   alt={service.title} 
                 />
               </div>
@@ -73,14 +76,14 @@ const ServiceList = () => {
           </td>
           <td>
             <span className={`${styles.status} ${styles[service.status]}`}>
-              {service.status === 'published' ? 'Publicat' : 'Ciornă'}
+              {service.status === 'published' ? 'Publicat' : 'Draft'}
             </span>
           </td>
           <td>
             <div className={styles.actions}>
               {level === 0 && (
                 <button 
-                  onClick={() => handleAddSubService(service._id)} 
+                  onClick={() => handleAddSubService(service.id)} 
                   className={styles.addSubServiceButton}
                   title="Adaugă sub-serviciu"
                 >
@@ -89,7 +92,7 @@ const ServiceList = () => {
                   </svg>
                 </button>
               )}
-              <Link to={`/admin/services/${service._id}`} className={styles.editButton}>
+              <Link to={`/internal-admin-portalv1.0.1/services/${service.id}`} className={styles.editButton}>
                 <svg className={styles.editIcon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                   <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
@@ -97,7 +100,7 @@ const ServiceList = () => {
               </Link>
               {user?.role === 'admin' && (
                 <button 
-                  onClick={() => handleDelete(service._id)} 
+                  onClick={() => handleDelete(service.id)} 
                   className={styles.deleteButton}
                 >
                   <svg className={styles.deleteIcon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -138,7 +141,7 @@ const ServiceList = () => {
       <div className={styles.header}>
         <h1 className={styles.title}>Servicii</h1>
         {services.length > 0 && (
-          <Link to="/admin/services/new" className={styles.addButton}>
+          <Link to="/internal-admin-portalv1.0.1/services/new" className={styles.addButton}>
             Adaugă un serviciu nou
           </Link>
         )}
@@ -147,7 +150,7 @@ const ServiceList = () => {
       {services.length === 0 ? (
         <div className={styles.emptyState}>
           <p>Nu există niciun serviciu. Creează unul</p>
-          <Link to="/admin/services/new" className={styles.addButton}>
+          <Link to="/internal-admin-portalv1.0.1/services/new" className={styles.addButton}>
             Crează un serviciu
           </Link>
         </div>

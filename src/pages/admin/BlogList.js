@@ -36,7 +36,7 @@ const BlogList = () => {
     if (window.confirm('Sunteți sigur că doriți să ștergeți acest articol?')) {
       try {
         await blogService.delete(id);
-        setPosts(posts.filter(post => post._id !== id));
+        fetchPosts();
       } catch (err) {
         setError('Nu s-a putut șterge articolul');
       }
@@ -67,7 +67,7 @@ const BlogList = () => {
       <div className={styles.header}>
         <h1 className={styles.title}>Articole de blog</h1>
         {posts.length > 0 && (
-          <Link to="/admin/blog/new" className={styles.addButton}>
+          <Link to="/internal-admin-portalv1.0.1/blog/new" className={styles.addButton}>
             Adaugă un articol nou
           </Link>
         )}
@@ -76,7 +76,7 @@ const BlogList = () => {
       {posts.length === 0 ? (
         <div className={styles.emptyState}>
           <p>Nu exista niciun articol pe blog. Creează unul</p>
-          <Link to="/admin/blog/new" className={styles.addButton}>
+          <Link to="/internal-admin-portalv1.0.1/blog/new" className={styles.addButton}>
             Crează un articol
           </Link>
         </div>
@@ -94,22 +94,22 @@ const BlogList = () => {
               </thead>
               <tbody>
                 {posts.map((post) => (
-                  <tr key={post._id}>
+                  <tr key={post.id}>
                     <td style={{fontWeight: 500, color: 'var(--blue)' }}>{post.title}</td>
                     <td>
-                      {post.createdAt 
-                          ? new Date(post.createdAt).toLocaleDateString('ro-RO')
+                      {post.created_at 
+                          ? new Date(post.created_at).toLocaleDateString('ro-RO')
                           : '-'
                       }
                     </td>
                     <td>
                       <span className={`${styles.status} ${styles[post.status]}`}>
-                        {post.status === 'published' ? 'Publicat' : 'Ciornă'}
+                        {post.status === 'published' ? 'Publicat' : 'Draft'}
                       </span>
                     </td>
                     <td>
                       <div className={styles.actions}>
-                        <Link to={`/admin/blog/${post._id}`} className={styles.editButton}>
+                        <Link to={`/internal-admin-portalv1.0.1/blog/${post.id}`} className={styles.editButton}>
                           <svg className={styles.editIcon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
@@ -117,7 +117,7 @@ const BlogList = () => {
                         </Link>
                         {user?.role === 'admin' && (
                           <button 
-                            onClick={() => handleDelete(post._id)} 
+                            onClick={() => handleDelete(post.id)} 
                             className={styles.deleteButton}
                           >
                             <svg className={styles.deleteIcon} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
