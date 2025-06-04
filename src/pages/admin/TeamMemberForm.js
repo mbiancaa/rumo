@@ -36,7 +36,7 @@ const TeamMemberForm = () => {
             description: member.description || ''
           });
         } catch (err) {
-          setError('Failed to load team member');
+          setError('Eroare la încărcarea membrului echipei');
         } finally {
           setLoading(false);
         }
@@ -172,7 +172,7 @@ const TeamMemberForm = () => {
 
       navigate('/internal-admin-portalv1.0.1/team');
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to save team member');
+      setError(err.response?.data?.message || 'Eroare la salvarea membrului echipei');
       console.error('Save team member error:', err);
     } finally {
       setLoading(false);

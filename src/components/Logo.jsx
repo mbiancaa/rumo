@@ -1,8 +1,14 @@
-import { ReactComponent as LogoImage } from '../assets/logo.svg';
 import { NavLink } from 'react-router-dom';
+import { ReactComponent as LogoImage } from '../assets/logo.svg';
+import { closeBurgerMenu } from './BurgerMenu';
+
 const Logo = () => {
+    const handleClick = () => {
+        closeBurgerMenu();
+    };
+
     return (
-        <NavLink to="/">
+        <NavLink to="/" onClick={handleClick}>
             <LogoImage
                 alt="Rumo - Your Digital Path Logo"
                 width="140"

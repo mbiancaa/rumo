@@ -45,8 +45,8 @@ section.hero {
 }
 
 .customers .flexRow:nth-child(1) {
-    max-width: 180px;
-    min-width: 180px;
+    max-width: 210px;
+    min-width: 210px;
 }
 
 .customers .flexRow:nth-child(2) {
@@ -62,8 +62,8 @@ section.hero {
 }
 
 .customers p {
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 18px;
+    line-height: 22px;
     color: var(--light-grey);
     font-weight: 500;
     letter-spacing: -0.5px;
@@ -106,7 +106,7 @@ section.hero {
 
 .barContainer.show {
     width: 100%;
-    transition: .8s ease-in-out;
+    transition: 2s ease-in-out;
 }
 
 .barText {
@@ -475,7 +475,7 @@ section.hero {
     font-family: 'Kanit', sans-serif;
     line-height: 24px;
     margin-bottom: 20px;
-    font-weight: 300;
+    font-weight: 400;
     letter-spacing: 0.6px;
 }
 
@@ -524,7 +524,7 @@ section.hero {
 
 .serviceText {
     font-family: 'Kanit';
-    font-weight: 300;
+    font-weight: 400;
     max-width: 500px;
     width: calc(100% - 750px);
     /* min-width: 450px; */
@@ -807,6 +807,7 @@ section.hero {
 .caseStudyItem .right {
     background: var(--green);
 }
+
 .blue.caseStudyItem .right {
     background: var(--blue);
 }

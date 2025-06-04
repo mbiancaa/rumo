@@ -55,7 +55,7 @@ const Service = () => {
 
     return (
         <>
-            <SEO 
+            <SEO
                 title={service?.metaTitle || service?.title || 'RUMO - Your Digital Path'}
                 description={service?.metaDescription || service?.excerpt || 'Serviciu'}
             />
@@ -93,24 +93,24 @@ const Service = () => {
                     </div>
                 </div>
             </HeroSection>
-            <section 
-                style={{ 
+            <section
+                style={{
                     padding: '50px 0',
                     minHeight: 400,
                     backgroundImage: service?.image ? `url(${getImageUrl(service?.image)})` : 'none',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center'
-                }} 
+                }}
                 className="darkbg layout darkbg-sm-img imgEffect"
             >
                 <h2 style={{ margin: 'auto', textAlign: 'center' }}>{service?.heading}</h2>
             </section>
             <section className="whitebg layout">
-                <div className="container text-content-container" style={{ paddingTop: 20 }}>
+                <div className="container text-content-container patternImgSection" style={{ paddingTop: 20 }}>
                     <div dangerouslySetInnerHTML={{ __html: service?.content }} />
                     {service?.faqs && service?.faqs.length > 0 && (
                         <>
-                            <h2 className="faqHeadline" style={{ marginBottom: -10, marginTop: 80 }}>Întrebări frecvente despre {service.title}</h2>
+                            <h2 className="faqHeadline" style={{ marginBottom: -10, marginTop: 80, color: 'var(--green)' }}>Întrebări frecvente despre {service.title}</h2>
                             {service?.faqs.map((faq, index) => (
                                 <FAQItem
                                     key={index}

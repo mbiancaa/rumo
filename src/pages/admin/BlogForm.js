@@ -46,7 +46,7 @@ const BlogForm = () => {
             categories: post.categories || []
           });
         } catch (err) {
-          setError('Failed to load post');
+          setError('Eroare la încărcarea articolului');
         } finally {
           setLoading(false);
         }
@@ -226,7 +226,7 @@ const BlogForm = () => {
       if (err.response?.data?.message?.includes('duplicate slug')) {
         setError('Acest slug este deja folosit. Vă rugăm să alegeți altul.');
       } else {
-        setError(err.response?.data?.message || 'Failed to save post');
+        setError(err.response?.data?.message || 'Eroare la salvarea articolului');
       }
       console.error('Save post error:', err);
     } finally {

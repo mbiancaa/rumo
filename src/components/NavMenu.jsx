@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { caseStudyService } from "../services/api";
 import { useServices } from "../contexts/ServicesContext";
+import { closeBurgerMenu } from "./BurgerMenu"; // Import closeBurgerMenu
 
 const NavMenu = () => {
     const [hoveredItem, setHoveredItem] = useState(null);
@@ -16,10 +17,7 @@ const NavMenu = () => {
         };
 
         window.addEventListener("resize", handleResize);
-
-        return () => {
-            window.removeEventListener("resize", handleResize);
-        };
+        return () => window.removeEventListener("resize", handleResize);
     }, []);
 
     useEffect(() => {
@@ -32,19 +30,19 @@ const NavMenu = () => {
                 setCaseStudies([]);
             }
         };
-
         fetchCaseStudies();
     }, []);
 
-    const handleMouseEnter = (item) => {
-        setHoveredItem(item);
-    };
-
-    const handleMouseLeave = () => {
-        setHoveredItem(null);
-    };
+    const handleMouseEnter = (item) => setHoveredItem(item);
+    const handleMouseLeave = () => setHoveredItem(null);
 
     const isPageActive = (path) => location.pathname === path;
+
+    const handleClick = (path) => {
+        if (isPageActive(path)) {
+            closeBurgerMenu();
+        }
+    };
 
     return (
         <nav className={`c-menu ${hoveredItem ? "open--" : ""}`}>
@@ -54,7 +52,7 @@ const NavMenu = () => {
                     onMouseEnter={() => handleMouseEnter("Despre noi")}
                     onMouseLeave={handleMouseLeave}
                 >
-                    <NavLink to="/despre-noi">
+                    <NavLink to="/despre-noi" onClick={() => handleClick("/despre-noi")}>
                         <span className="menu-item-txt">Despre noi</span>
                         {!isPageActive("/despre-noi") && <span className="arrow"></span>}
                     </NavLink>
@@ -71,7 +69,7 @@ const NavMenu = () => {
                     <ul className="sub-menu">
                         {services.map(service => (
                             <li key={service.slug}>
-                                <NavLink to={`/servicii/${service.slug}`}>
+                                <NavLink to={`/servicii/${service.slug}`} onClick={() => handleClick(`/servicii/${service.slug}`)}>
                                     <span className="menu-item-txt">{service.title}</span>
                                 </NavLink>
                             </li>
@@ -83,46 +81,34 @@ const NavMenu = () => {
                     onMouseEnter={() => handleMouseEnter("Studii de caz")}
                     onMouseLeave={handleMouseLeave}
                 >
-                    <NavLink to="/studii-de-caz">
+                    <NavLink to="/studii-de-caz" onClick={() => handleClick("/studii-de-caz")}>
                         <span className="menu-item-txt">Studii de caz</span>
                         <span className="arrow"></span>
                     </NavLink>
                     <ul className="sub-menu">
                         {caseStudies.map(caseStudy => (
                             <li key={caseStudy.slug}>
-                                <NavLink to={`/studii-de-caz/${caseStudy.slug}`}>
+                                <NavLink to={`/studii-de-caz/${caseStudy.slug}`} onClick={() => handleClick(`/studii-de-caz/${caseStudy.slug}`)}>
                                     <span className="menu-item-txt">{caseStudy.title}</span>
                                 </NavLink>
                             </li>
                         ))}
                     </ul>
                 </li>
-                <li
-                    className={`menu-item ${hoveredItem === "Blog" ? "hover--" : ""} menu-item-has-children`}
-                    onMouseEnter={() => handleMouseEnter("Blog")}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    <NavLink to="/blog">
+                <li className={`menu-item ${hoveredItem === "Blog" ? "hover--" : ""}`}>
+                    <NavLink to="/blog" onClick={() => handleClick("/blog")}>
                         <span className="menu-item-txt">Blog</span>
                         {!isPageActive("/blog") && <span className="arrow"></span>}
                     </NavLink>
                 </li>
-                <li
-                    className={`menu-item ${hoveredItem === "Contact" ? "hover--" : ""} menu-item-has-children`}
-                    onMouseEnter={() => handleMouseEnter("Contact")}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    <NavLink to="/contact">
+                <li className={`menu-item ${hoveredItem === "Contact" ? "hover--" : ""}`}>
+                    <NavLink to="/contact" onClick={() => handleClick("/contact")}>
                         <span className="menu-item-txt">Contact</span>
                         {!isPageActive("/contact") && <span className="arrow"></span>}
                     </NavLink>
                 </li>
-                <li
-                    className={`menu-item ${hoveredItem === "Echipa" ? "hover--" : ""} menu-item-has-children`}
-                    onMouseEnter={() => handleMouseEnter("Echipa")}
-                    onMouseLeave={handleMouseLeave}
-                >
-                    <NavLink to="/echipa">
+                <li className={`menu-item ${hoveredItem === "Echipa" ? "hover--" : ""}`}>
+                    <NavLink to="/echipa" onClick={() => handleClick("/echipa")}>
                         <span className="menu-item-txt">Echipa</span>
                         {!isPageActive("/echipa") && <span className="arrow"></span>}
                     </NavLink>

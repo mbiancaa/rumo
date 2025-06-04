@@ -6,10 +6,10 @@ import style from '../styles/modules/BlogArticle.module.css';
 const ArticleLayout = ({ children, title, date, type, image, category, services }) => {
     // For blog posts, category is an array of categories
     // For case studies, category is a single string
-    const articleCategory = type === 'blog' 
-        ? Array.isArray(category) 
-            ? category 
-            : category 
+    const articleCategory = type === 'blog'
+        ? Array.isArray(category)
+            ? category
+            : category
         : `Industrie: ${category}`;
 
     const imageUrl = getImageUrl(image);
@@ -19,7 +19,7 @@ const ArticleLayout = ({ children, title, date, type, image, category, services 
             <section
                 style={{
                     backgroundImage: imageUrl ? `url(${imageUrl})` : 'none',
-                    // backgroundSize: 'contain',
+                    // backgroundSize: 'cover',
                     backgroundPosition: 'top',
                 }}
                 className={`darkbg layout ${style.bgImg} imgEffect`}

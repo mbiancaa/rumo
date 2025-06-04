@@ -1,6 +1,6 @@
 import '../styles/Home.css';
 import '../styles/Home2.css';
-import styles from'../styles/modules/HomeEndTextSection.module.css';
+import styles from '../styles/modules/HomeEndTextSection.module.css';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Services from '../components/Services';
@@ -20,10 +20,10 @@ import homeVideoFallback from '../assets/video/video_fallback.jpg';
 import bgSectionImg from '../assets/home/14.jpg';
 
 const Home = () => {
-    
+
     return (
         <div className="Homepage">
-            <SEO 
+            <SEO
                 title="RUMO - Your Digital Path"
                 description="Agenție de marketing digital dedicată creșterii afacerilor mici și mijlocii. Oferim servicii de SEO, PPC, branding, social media și creare website-uri."
             />
@@ -55,7 +55,7 @@ const Home = () => {
                 <WorkProcess />
                 <Services />
             </section>
-            <section className="darkbg layout darkbg-sm-img imgEffect" style={{ backgroundImage: `url(${bgSectionImg})` }}>
+            <section className="darkbg layout darkbg-sm-img imgEffect" style={{ backgroundImage: `url(${bgSectionImg})`, backgroundSize: 'cover' }}>
                 <h2>Cu RUMO,<br /> afacerea ta <br /> prinde avânt!</h2>
             </section>
             <CaseStudiesSection />
@@ -85,7 +85,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-            
+
             <Footer />
         </div>
     );

@@ -13,8 +13,8 @@
     height: 40px;
     border: 1px solid #999;
     transform: translate(-50%, -50%);
-    left: -16px;
-    top: -16px;
+    left: -20px;
+    top: -20px;
     -webkit-transition: 0.3s;
     transition: 0.2s;
 }
@@ -24,8 +24,8 @@
     height: 8px;
     background-color: #000;
     transform: translate(-50%, -50%);
-    left: 0px;
-    top: 0px;
+    left: -4px;
+    top: -4px;
     -webkit-transition: 0.2s;
     transition: 0.1s;
 }

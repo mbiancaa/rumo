@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+
+let externalCloseMenu = () => { }; // Exported function reference
+
 const BurgerMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const location = useLocation();
@@ -18,6 +21,11 @@ const BurgerMenu = () => {
         setIsOpen(false);
         updateBodyStyles(false);
     };
+
+    // Set external function to allow NavMenu to close the menu
+    useEffect(() => {
+        externalCloseMenu = closeMenu;
+    }, []);
 
     const updateBodyStyles = (menuState) => {
         const appElement = document.querySelector(".app");
@@ -44,6 +52,11 @@ const BurgerMenu = () => {
             <span className="close"></span>
         </button>
     );
+};
+
+// Export the closeMenu function for use in NavMenu
+export const closeBurgerMenu = () => {
+    externalCloseMenu();
 };
 
 export default BurgerMenu;

@@ -25,7 +25,7 @@ export const ServicesProvider = ({ children }) => {
                 setError(null);
             } catch (error) {
                 console.error('Error fetching services:', error);
-                setError('Failed to load services');
+                setError('Eroare la încărcarea serviciilor');
             } finally {
                 setLoading(false);
             }

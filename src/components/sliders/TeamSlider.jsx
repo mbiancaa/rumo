@@ -4,11 +4,13 @@ import Slider from "react-slick";
 import { useState, useEffect } from 'react';
 import { teamMemberService } from '../../services/api';
 import { getImageUrl } from '../../utils/imageHelpers';
+import { useRef } from "react";
 
 const TeamSlider = () => {
     const [teamMembers, setTeamMembers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const sliderRef = useRef(null);
 
     useEffect(() => {
         const fetchTeamMembers = async () => {
@@ -19,7 +21,7 @@ const TeamSlider = () => {
                 setError(null);
             } catch (err) {
                 console.error('Error fetching team members:', err);
-                setError('Failed to load team members');
+                setError('Eroare la încărcarea membrilor echipei');
             } finally {
                 setLoading(false);
             }
@@ -41,6 +43,18 @@ const TeamSlider = () => {
         pauseOnFocus: false,
     };
 
+    const goToPrevSlide = () => {
+        if (sliderRef.current) {
+            sliderRef.current.slickPrev();
+        }
+    };
+
+    const goToNextSlide = () => {
+        if (sliderRef.current) {
+            sliderRef.current.slickNext();
+        }
+    };
+
     if (loading) {
         return <div>Se încarcă membrii echipei...</div>;
     }
@@ -55,13 +69,13 @@ const TeamSlider = () => {
 
     return (
         <div className="teamContainer">
-            <Slider {...settings}>
+            <Slider ref={(slider) => (sliderRef.current = slider)} {...settings}>
                 {teamMembers.map((member) => (
                     <div key={member.id} className="teamMemberContainer">
                         <div className="teamMemberImgContainer">
-                            <img 
-                                src={getImageUrl(member.image)} 
-                                alt={member.name} 
+                            <img
+                                src={getImageUrl(member.image)}
+                                alt={member.name}
                                 loading="lazy"
                                 decoding="async"
                             />
@@ -71,6 +85,24 @@ const TeamSlider = () => {
                     </div>
                 ))}
             </Slider>
+            {teamMembers.length > 2 && (
+                <div className="testimonialNavigation" style={{ marginTop: 10 }}>
+                    <button
+                        className="testimonial_button_prev"
+                        onClick={goToPrevSlide}
+                        aria-label="Testimonial anterior"
+                    >
+                        <span className="arrow"></span>
+                    </button>
+                    <button
+                        className={`testimonial_button_next`}
+                        onClick={goToNextSlide}
+                        aria-label="Testimonial următor"
+                    >
+                        <span className="arrow"></span>
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

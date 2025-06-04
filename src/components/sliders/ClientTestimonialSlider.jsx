@@ -14,7 +14,7 @@ const ClientTestimonialSlider = () => {
         dots: false,
         arrows: false,
         autoplay: true,
-        autoplaySpeed: 6000,
+        autoplaySpeed: 20000,
         speed: 2000,
         pauseOnHover: false,
         pauseOnFocus: false
@@ -58,8 +58,8 @@ const ClientTestimonialSlider = () => {
                     ))}
                 </Slider>
                 <div className="testimonialNavigation">
-                    <button 
-                        className="testimonial_button_prev" 
+                    <button
+                        className="testimonial_button_prev"
                         onClick={goToPrevSlide}
                         aria-label="Testimonial anterior"
                     >

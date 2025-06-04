@@ -40,7 +40,7 @@ const PageForm = ({ isNew = false }) => {
           });
         } catch (error) {
           console.error('Error fetching page:', error);
-          setApiError('Failed to load page data');
+          setApiError('Eroare la încărcarea datelor paginii');
         } finally {
           setIsLoading(false);
         }
@@ -143,7 +143,7 @@ const PageForm = ({ isNew = false }) => {
       window.dispatchEvent(new CustomEvent('pagesUpdated'));
       navigate('/internal-admin-portalv1.0.1/dashboard');
     } catch (err) {
-      setApiError(err.response?.data?.message || 'Failed to save page');
+      setApiError(err.response?.data?.message || 'Eroare la salvarea paginii');
       console.error('Save page error:', err);
     } finally {
       setIsLoading(false);
@@ -159,7 +159,7 @@ const PageForm = ({ isNew = false }) => {
         window.dispatchEvent(new CustomEvent('pagesUpdated'));
         navigate('/internal-admin-portalv1.0.1/dashboard');
       } catch (error) {
-        setApiError(error.response?.data?.message || 'Failed to delete page');
+        setApiError(error.response?.data?.message || 'Eroare la ștergerea paginii');
         console.error('Error deleting page:', error);
       } finally {
         setIsDeleting(false);

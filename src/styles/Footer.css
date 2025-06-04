@@ -135,7 +135,7 @@
 
 .main-service {
     font-weight: 500;
-    
+
 }
 
 @media (min-width: 850px) {
@@ -296,4 +296,54 @@
     }
 
 
+}
+
+.contact-call-animation {
+    animation: pulseShadow 3.5s ease-in-out infinite;
+    color: var(--green) !important;
+    display: inline-block;
+    will-change: transform, text-shadow;
+}
+
+@keyframes pulseShadow {
+    0% {
+        text-shadow: 0 0 0 rgba(40, 199, 111, 0);
+        transform: scale(1);
+    }
+
+    15% {
+        text-shadow:
+            0 0 6px rgba(40, 199, 111, 0.2),
+            0 0 12px rgba(40, 199, 111, 0.1);
+        transform: scale(1.015);
+    }
+
+    30% {
+        text-shadow:
+            0 0 10px rgba(40, 199, 111, 0.4),
+            0 0 20px rgba(40, 199, 111, 0.3);
+        transform: scale(1.025);
+    }
+
+    40% {
+        text-shadow:
+            0 0 6px rgba(40, 199, 111, 0.2),
+            0 0 12px rgba(40, 199, 111, 0.1);
+        transform: scale(1.015);
+    }
+
+    50% {
+        text-shadow: 0 0 0 rgba(40, 199, 111, 0);
+        transform: scale(1);
+    }
+
+    70% {
+        text-shadow: 0 0 0 rgba(40, 199, 111, 0);
+        transform: scale(1);
+    }
+
+    100% {
+        text-shadow: 0 0 0 rgba(40, 199, 111, 0);
+        transform: scale(1);
+    }
 }

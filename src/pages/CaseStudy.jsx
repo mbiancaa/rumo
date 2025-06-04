@@ -38,15 +38,15 @@ const CaseStudy = () => {
     }, [slug, navigate]);
 
     const getServices = (services) => {
-        const servicesArray = typeof services === 'string' 
-                    ? services.split(',').map(service => service.trim()) 
-                    : services || [];
+        const servicesArray = typeof services === 'string'
+            ? services.split(',').map(service => service.trim())
+            : services || [];
         return servicesArray;
     }
 
     return (
         <>
-            <SEO 
+            <SEO
                 title={caseStudy?.metaTitle || caseStudy?.title || 'RUMO - Your Digital Path'}
                 description={caseStudy?.metaDescription || caseStudy?.excerpt || 'Studiu de caz'}
             />
@@ -83,7 +83,7 @@ const CaseStudy = () => {
                     image={getImageUrl(caseStudy.featuredImage)}
                     company={caseStudy.client || ""}
                 >
-                    <div className="text-content-container" dangerouslySetInnerHTML={{ __html: caseStudy.content }} />
+                    <div className="text-content-container patternImgSection" dangerouslySetInnerHTML={{ __html: caseStudy.content }} />
                 </ArticleLayout>
             )}
             <Footer />

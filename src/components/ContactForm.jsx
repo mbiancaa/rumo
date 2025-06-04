@@ -60,6 +60,39 @@ const FloatingLabelInput = ({ label, field, meta }) => {
     );
 };
 
+const FloatingLabelTextarea = ({ label, field, meta }) => {
+    const [focused, setFocused] = useState(false);
+    const hasError = meta.touched && meta.error;
+    const isFilled = field.value.length > 0;
+    const textareaId = `contact-${field.name}`;
+    const remainingChars = Math.max(0, 255 - (field.value?.length || 0));
+
+    return (
+        <div className={`input-group ${focused ? "focused" : ""} ${isFilled ? "filled" : ""} ${hasError ? "error" : ""}`}>
+            <label className="input-label" htmlFor={textareaId}>{label}</label>
+            <textarea
+                {...field}
+                id={textareaId}
+                className="textarea-field"
+                onFocus={() => setFocused(true)}
+                onBlur={() => setFocused(false)}
+                aria-label={label}
+                aria-invalid={hasError}
+                aria-describedby={hasError ? `${textareaId}-error` : undefined}
+            />
+            <div className="char-counter">
+                {remainingChars} caractere rămase
+            </div>
+            {hasError && (
+                <div id={`${textareaId}-error`} className="error-message" role="alert">
+                    {meta.error}
+                </div>
+            )}
+        </div>
+    );
+};
+
+
 const ContactForm = () => {
     const [submitStatus, setSubmitStatus] = useState({ type: null, message: '' });
 
@@ -67,18 +100,18 @@ const ContactForm = () => {
         try {
             setSubmitStatus({ type: null, message: '' });
             await contactService.create(values);
-            setSubmitStatus({ 
-                type: 'success', 
-                message: 'Mesajul a fost trimis cu succes! Vă vom contacta în curând.' 
+            setSubmitStatus({
+                type: 'success',
+                message: 'Mesajul a fost trimis cu succes! Vă vom contacta în curând.'
             });
             resetForm();
             setTimeout(() => {
                 setSubmitStatus({ type: null, message: '' });
             }, 2000);
         } catch (error) {
-            setSubmitStatus({ 
-                type: 'error', 
-                message: 'A apărut o eroare la trimiterea mesajului. Vă rugăm să încercați din nou.' 
+            setSubmitStatus({
+                type: 'error',
+                message: 'A apărut o eroare la trimiterea mesajului. Vă rugăm să încercați din nou.'
             });
             setTimeout(() => {
                 setSubmitStatus({ type: null, message: '' });
@@ -101,14 +134,14 @@ const ContactForm = () => {
                         display: 'block',
                         fontWeight: 800
                     }}>Î<img
-                    src={LogoImage}
-                    className="logo-image-sm"
-                    alt="Logo RUMO Digital Path - Calea ta digitală"
-                    width="auto"
-                    height="70"
-                    loading="lazy"
-                    aria-label="Rumo Logo"
-                />preună</span>
+                            src={LogoImage}
+                            className="logo-image-sm"
+                            alt="Logo RUMO Digital Path - Calea ta digitală"
+                            width="auto"
+                            height="70"
+                            loading="lazy"
+                            aria-label="Rumo Logo"
+                        />preună</span>
                     <span style={{
                         marginLeft: 150,
                         fontWeight: 700
@@ -150,38 +183,14 @@ const ContactForm = () => {
                         </Field>
                         <div className="d-flex">
                             <Field name="mesaj">
-                                {({ field, meta }) => {
-                                    const textareaId = 'contact-mesaj';
-                                    const hasError = meta.touched && meta.error;
-                                    const remainingChars = Math.max(0, 255 - (field.value?.length || 0));
-                                    const isFilled = field.value.length > 0;
-                                    return (
-                                        <div className={`input-group ${hasError ? "error" : ""} ${isFilled ? "filled" : ""}`}>
-                                            <label className="input-label" htmlFor={textareaId}>Mesaj</label>
-                                            <textarea 
-                                                {...field} 
-                                                id={textareaId}
-                                                className="textarea-field" 
-                                                aria-label="Mesaj"
-                                                aria-invalid={hasError}
-                                                aria-describedby={hasError ? `${textareaId}-error` : undefined}
-                                            />
-                                            <div className="char-counter">
-                                                {remainingChars} caractere rămase
-                                            </div>
-                                            {hasError && (
-                                                <div id={`${textareaId}-error`} className="error-message" role="alert">
-                                                    {meta.error}
-                                                </div>
-                                            )}
-                                        </div>
-                                    );
-                                }}
+                                {({ field, meta }) => (
+                                    <FloatingLabelTextarea label="Mesaj" field={field} meta={meta} />
+                                )}
                             </Field>
-                            <button 
-                                type="submit" 
-                                className="send-button" 
-                                disabled={isSubmitting} 
+                            <button
+                                type="submit"
+                                className="send-button"
+                                disabled={isSubmitting}
                                 aria-label="Trimite mesajul"
                                 aria-busy={isSubmitting}
                             >
@@ -189,10 +198,10 @@ const ContactForm = () => {
                             </button>
                         </div>
                         {submitStatus.type && (
-                            <p 
+                            <p
                                 role="alert"
                                 aria-live="polite"
-                                style={{ 
+                                style={{
                                     color: submitStatus.type === 'success' ? 'green' : 'red',
                                     marginTop: '10px'
                                 }}

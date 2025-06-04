@@ -2,6 +2,21 @@
   overflow-x: hidden;
 }
 
+a,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+li,
+ol,
+span {
+  z-index: 5;
+}
+
 .layout {
   padding: 35px 70px;
   min-height: 900px;
@@ -132,6 +147,10 @@ header ul li:before {
   cursor: pointer;
   overflow: hidden;
   pointer-events: all;
+  z-index: 99999;
+}
+
+.headerLogo {
   z-index: 99999;
 }
 
@@ -370,7 +389,7 @@ header ul li:before {
   top: 150px;
   left: 420px;
   padding-left: 100px;
-  width: 400px;
+  width: 60dvw;
   transform: translateY(-130%);
   opacity: 0;
   z-index: 1;
@@ -416,6 +435,7 @@ header ul li:before {
 
 .c-menu__list .sub-menu li a {
   font-size: 20px;
+  line-height: 22px;
   letter-spacing: -1px;
 }
 
@@ -483,7 +503,9 @@ header ul li:before {
     top: 50%;
     left: calc(40dvw);
     padding-left: 100px;
-    width: 400px;
+    min-width: 400px;
+    max-width: 50dvw;
+    width: auto;
   }
 
   .c-menu__list>li.hover-- .sub-menu {
@@ -653,7 +675,7 @@ header ul li:before {
 .text-content-container ol li::marker {
   color: var(--green);
   font-weight: 700;
-  font-size: 20px;
+  font-size: 16px;
 }
 
 .text-content-container ol li {
@@ -715,6 +737,12 @@ header ul li:before {
   font-weight: 200
 }
 
+.default-16-p {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
 .kanit-18 {
   font-size: 18px;
   font-family: 'Kanit';
@@ -733,6 +761,26 @@ header ul li:before {
   height: 700px;
   width: 100dvw;
   opacity: .15;
+}
+
+.patternImgSection {
+  position: relative;
+}
+
+.patternImgSection:before {
+  content: '';
+  background-image: url('./assets/backgroundPattern.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  left: -30px;
+  height: 100%;
+  width: calc(100dvw + 30px);
+  opacity: .10;
+  background-attachment: fixed;
+  z-index: 4;
 }
 
 @media (max-width: 850px) {
@@ -780,7 +828,7 @@ header ul li:before {
   }
 
   .text-content-container ol li::marker {
-    font-size: 17px;
+    font-size: 15px;
   }
 
   .text-content-container ol li {
@@ -829,6 +877,10 @@ header ul li:before {
     font-size: 14px;
   }
 
+  .default-16-p {
+    font-size: 14px;
+  }
+
   .kanit-18 {
     font-size: 16px;
   }
@@ -869,6 +921,7 @@ header ul li:before {
     margin-top: calc(15dvh + 210px);
     margin-bottom: auto;
   }
+
   .Homepage .hero-text {
     margin-top: 15dvh;
   }
@@ -881,20 +934,25 @@ header ul li:before {
     padding: 30px 15px 30px 0px;
     margin: auto;
   }
+
   .c-menu__list>li {
     font-size: 18px;
     margin-bottom: 15px;
   }
+
   .c-menu__list>li a {
     line-height: 38px;
   }
+
   .menu-item .arrow {
     transform: scale(.7);
     margin-left: 10px;
   }
+
   .c-menu__list>li.menu-item-has-children {
     flex-wrap: wrap;
   }
+
   .c-menu__list>li.hover-- .sub-menu {
     position: relative;
     transform: translate(0);
@@ -904,9 +962,11 @@ header ul li:before {
     width: 100%;
     padding: 0;
   }
-  .c-menu__list .sub-menu:before{
+
+  .c-menu__list .sub-menu:before {
     display: none;
   }
+
   .c-menu__list .sub-menu li a {
     font-size: 16px;
     letter-spacing: -1px;

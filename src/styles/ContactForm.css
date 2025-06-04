@@ -12,8 +12,11 @@
     bottom: -15px;
 }
 
-.input-group.filled .input-label{
-    display: none;
+.input-group.filled .input-label,
+.input-group.focused .input-label {
+    /* display: none; */
+    top: 5px !important;
+    bottom: unset !important;
 }
 
 .char-counter {
@@ -74,15 +77,17 @@
     outline: none;
     width: 100%;
     background: transparent;
+    font-family: 'Roboto';
 }
 
 .textarea-field {
     resize: none;
     resize: none;
     min-height: 30px;
-    max-height: 120px;
+    max-height: 58px;
     overflow-y: auto;
     white-space: normal;
+    margin-top: 20px !important;
 }
 
 .input-group.focused .input-label,

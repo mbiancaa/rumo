@@ -36,7 +36,7 @@ const Article = () => {
 
     return (
         <>
-            <SEO 
+            <SEO
                 title={post?.metaTitle || post?.title || 'RUMO - Your Digital Path'}
                 description={post?.metaDescription || post?.excerpt || 'Articol de blog'}
             />
@@ -75,7 +75,7 @@ const Article = () => {
                     })}
                     image={post.featuredImage}
                 >
-                    <div className={`text-content-container`}>
+                    <div className={`text-content-container patternImgSection`}>
                         <div dangerouslySetInnerHTML={{ __html: post.content }} />
                     </div>
                 </ArticleLayout>

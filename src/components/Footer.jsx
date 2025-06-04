@@ -60,9 +60,9 @@ const Footer = () => {
                         </div>
                         <div className="links-container" aria-labelledby="Informații de contact">
                             <ul>
-                                <li>
-                                    <span className="links-contact-text">Sună-ne:</span>
-                                    <a className="links-contact-call" href="tel:+40740344156">+40 740 344 156</a>
+                                <li className="contact-call-animation">
+                                    <span className="links-contact-text" style={{ color: 'var(--green)' }}>Sună-ne:</span>
+                                    <a className="links-contact-call" style={{ color: 'var(--green)' }} href="tel:+40740344156">+40 740 344 156</a>
                                 </li>
                                 <li>
                                     <span className="links-contact-text">Solicitări informații generale:</span>

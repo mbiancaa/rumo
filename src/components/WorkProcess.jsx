@@ -81,6 +81,7 @@ const WorkProcess = () => {
                         <p>În aceste cazuri, putem reorienta bugetele, testa noi campanii, noi servicii sau adopta noi canale de promovare pentru a menține competitivitatea și eficiența campaniilor.</p>
                     </div>
                 </div>
+                <a style={{ color: 'var(--green)', textDecoration: 'none', fontWeight: 'bold', marginTop: 0, textAlign: 'center', marginLeft: 'auto', marginRight: 'auto', display: 'block' }} href="tel:+40740344156" className="bigParagraph">Vrei să vorbești direct cu noi? <u>Contactează-ne aici!</u></a>
                 <div ref={imageColumnRef3} className={`imageRevealEffect imageRevealEffectBackwards ${imageColumnInView3 ? "show" : ""} ${styles.imageBlock} ${styles.imageBlock3}`}>
                     <img src={image3} className={styles.image3} alt="Proces de lucru - Monitorizare și optimizare" />
                 </div>
